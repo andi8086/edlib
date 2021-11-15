@@ -1,0 +1,25 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Error text for all allocation libraries.
+;-------------------------------------------------------------------------------
+; Destroys:     N/A
+;-------------------------------------------------------------------------------
+; Requirements: These datas are necessary when using the allocation libraries.
+;-------------------------------------------------------------------------------
+; Parameters:   N/A
+;-------------------------------------------------------------------------------
+; Returns:      N/A
+;-------------------------------------------------------------------------------
+; Comments:     None.
+;-------------------------------------------------------------------------------
+SetError7       db      'Allocation error: '
+                db      'Memory control blocks destroyed.'
+                db      13,10,'$'
+SetError8       db      'Allocation error: '
+                db      'Insufficient memory.'
+                db      13,10,'$'
+SetError9       db      'Allocation error: '
+                db      'Invalid memory block adress.'
+                db      13,10,'$'
+
+SetUnknown      db      'Unknown allocation error.'
+                db      13,10,'$'

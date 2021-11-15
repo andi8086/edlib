@@ -1,0 +1,39 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Frees allocated memory that was allocated with function 48h.
+;-------------------------------------------------------------------------------
+; Destroys:     Probably all registers, including the stack.
+;-------------------------------------------------------------------------------
+; Requirements: Include ALLOERR.LIB in data segment.
+;-------------------------------------------------------------------------------
+; Parameters:   ES = Segment adress of memory to be released.
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     None.
+;-------------------------------------------------------------------------------
+DeAllocate      proc
+                mov     ah,49h
+		int	21h
+                jc      DeAlloError
+                ret
+DeAlloError:
+                push    ax
+                mov     ax,0003h
+                int     10h
+                pop     ax
+
+                cmp     ax,7
+                jz      DeA10
+                cmp     ax,9
+                jz      DeA20
+                lea     dx,SetUnknown
+                jmp     short DeAlloPrint
+DeA10:          lea     dx,SetError7
+                jmp     short DeAlloPrint
+DeA20:          lea     dx,SetError9
+
+DeAlloPrint:    mov     ah,9
+     		int	21h
+                mov     ax,4c00h
+                int     21h
+                endp

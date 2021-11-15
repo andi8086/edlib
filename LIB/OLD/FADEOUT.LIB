@@ -1,0 +1,36 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Fades out palette according to vertical retrace speed.
+;-------------------------------------------------------------------------------
+; Destroys:     Most registers, including ES. It also uses the stack a lot.
+;-------------------------------------------------------------------------------
+; Requirements: Library routines VERTICAL & PALETTE must be present elsewhere.
+;-------------------------------------------------------------------------------
+; Parameters:   DI = Offset to palette tabel (768 bytes).
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     Using the PALETTE library means that it also works on fast PC's
+;               with slow VGA cards. Vertical retrace sets a nice overall speed
+;               making this routine suitable for exitting demos and the like.
+;-------------------------------------------------------------------------------
+Fadeout         proc
+                cld
+                push    ds
+                pop     es
+                mov     si,40h
+Fade10:
+                xor     al,al
+                mov     cx,768
+Fade20:         rep     scasb
+                jcxz    Fade30
+                dec     byte ptr [di-1]
+                jmp     short Fade20
+Fade30:
+                call    vertical
+                sub     di,768
+                call    palette
+                sub     di,768
+                dec     si
+                jne     Fade10
+                ret
+                endp

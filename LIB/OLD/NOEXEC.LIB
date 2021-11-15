@@ -1,0 +1,73 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Load a subprogram but don't execute it.
+;-------------------------------------------------------------------------------
+; Destroys:     Probably all registers, including stack and DS register.
+;-------------------------------------------------------------------------------
+; Requirements: Include EXECERR.LIB in data segment.
+;-------------------------------------------------------------------------------
+; Parameters:   DX = Offset to load path/name.
+;               BX = Offset to segment info.
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     Stackregisters are saved, otherwise the stack fucks up.
+;-------------------------------------------------------------------------------
+NoExec          proc
+                push    es
+		mov	[oldsp],sp
+		mov	[oldss],ss
+                mov     ax,@data
+		mov	es,ax
+
+                mov	ax,4b03h
+		int	21h
+
+                mov     dx,@data
+                mov     ds,dx
+                mov     sp,[oldsp]
+		mov	ss,[oldss]
+                pop     es
+
+                jc      NoExecError
+                ret
+NoExecError:
+                push    ax              ;Load error
+		mov	ax,0003h
+		int	10h
+		pop	ax
+		
+		cmp	ax,1 		;Clumsy code, I know but who cares!
+                jz      NoE1
+		cmp	ax,2
+                jz      NoE2
+		cmp	ax,3
+                jz      NoE3
+		cmp	ax,5
+                jz      NoE5
+		cmp	ax,8
+                jz      NoE8
+		cmp	ax,10
+                jz      NoE10
+                cmp     ax,11
+                jz      NoE11
+                lea     dx,ExecUnknown
+                jmp     short NoExecPrint
+NoE1:           lea     dx,ExecError1
+                jmp     short NoExecPrint
+NoE2:           lea     dx,ExecError2
+                jmp     short NoExecPrint
+NoE3:           lea     dx,ExecError3
+                jmp     short NoExecPrint
+NoE5:           lea     dx,ExecError5
+                jmp     short NoExecPrint
+NoE8:           lea     dx,ExecError8
+                jmp     short NoExecPrint
+NoE10:          lea     dx,ExecError10
+                jmp     short NoExecPrint
+NoE11:          lea     dx,ExecError11
+
+NoExecPrint:    mov     ah,9
+                int     21h
+                mov     ax,4c00h
+                int     21h
+                endp

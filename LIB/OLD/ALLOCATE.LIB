@@ -1,0 +1,41 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Allocates a slice of memory. Use SETBLOCK first!
+;-------------------------------------------------------------------------------
+; Destroys:     Probably all registers, including the stack.
+;-------------------------------------------------------------------------------
+; Requirements: Include ALLOERR.LIB in data segment.
+;-------------------------------------------------------------------------------
+; Parameters:   BX = Block size, in paragraphs.
+;-------------------------------------------------------------------------------
+; Returns:      AX = Segment address of allocated memory.
+;               BX = Size of largest available block (If CF set).
+;-------------------------------------------------------------------------------
+; Comments:     Use SETBLOCK first to lower the allocated room for the running
+;               program, otherwise the entire memory is reserved for the running
+;               code ALONE!
+;-------------------------------------------------------------------------------
+Allocate:
+                mov     ah,48h
+		int	21h
+                jc      AllocateError
+                ret
+AllocateError:
+                push    ax
+                mov     ax,0003h
+                int     10h
+                pop     ax
+
+                cmp     ax,7
+                jz      Allo10
+		cmp	ax,8
+                jz      Allo20
+                lea     dx,[SetUnknown]
+                jmp     short AllocatePrint
+Allo10:         lea     dx,[SetError7]
+                jmp     short AllocatePrint
+Allo20:         lea     dx,[SetError8]
+
+AllocatePrint:  mov     ah,9
+     		int	21h
+                mov     ax,4c00h
+                int     21h

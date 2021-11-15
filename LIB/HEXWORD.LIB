@@ -1,0 +1,46 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Converts WORD value to hexadecimal readout on text screen.
+;-------------------------------------------------------------------------------
+; Destroys:     AX, DI.
+;-------------------------------------------------------------------------------
+; Requirements: HEXV in data segment.
+;-------------------------------------------------------------------------------
+; Parameters:   AX = Byte value
+;               DI = Position on screen.
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     None.
+;-------------------------------------------------------------------------------
+HexWord         proc
+                push    es dx cx bx ax
+                mov     bx,0b800h
+                mov     es,bx
+                sub     bh,bh
+                and     al,0fh
+                mov     bl,al
+                mov     dl,[hexv+bx]
+                mov     es:[di+6],dl
+                pop     ax
+                push    ax
+                and     al,0f0h
+                mov     cl,4
+                shr     al,cl
+                mov     bl,al
+                mov     dl,[hexv+bx]
+                mov     es:[di+4],dl
+                and     ah,0fh
+                mov     bl,ah
+                mov     dl,[hexv+bx]
+                mov     es:[di+2],dl
+                pop     ax
+                push    ax
+                and     ah, 0f0h
+                mov     cl,4
+                shr     ah,cl
+                mov     bl,ah
+                mov     dl,[hexv+bx]
+                mov     es:[di],dl
+                pop     ax bx cx dx es
+                ret
+                endp

@@ -1,0 +1,24 @@
+
+
+;Fixes 16 colors modes.
+
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+FixColors:                                      ;Fix colors 0-15.
+                mov     dx,3dah
+                in      al,dx
+                nop
+                xor     ax,ax
+                mov     dx,3c0h
+@@100:
+                out     dx,al
+                out     dx,al
+                inc     ax
+                cmp     ax,10h
+                jne     @@100
+
+                mov     al,20h
+                out     dx,al
+
+                ret
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴

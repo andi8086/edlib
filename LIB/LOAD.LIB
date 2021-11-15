@@ -1,0 +1,117 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³;"Load"  ..................... LIBRARY ROUTINE v01.01, by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³;This load routine will load more than 65536 bytes if need be - it simply     ³
+³;loads until the file has ended. Note that this can be dangerous if you       ³
+³;haven't allocated enough space for a big file. Open mode not used.           ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³;PARAMETERS:   BX = Address of segment to load into.                          ³
+³;              DX = Offset to load path/name.                                 ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³;RETURNS:      CF Set: Screen cleared and error message printed - Abort Main. ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SEGMENT         Data    PUBLIC 'Data'
+
+LoadMessage     db      'LOAD: $'
+
+LoadText        dw      0
+                dw      LoadError1
+                dw      LoadError2
+                dw      LoadError3
+                dw      LoadError4
+                dw      LoadError5
+                dw      LoadError6
+                dw      0         
+                dw      0         
+                dw      0         
+                dw      0         
+                dw      0         
+                dw      LoadError12
+
+LoadError1      db      'Invalid mode code.',10,13,'$'
+LoadError2      db      'File not found.',10,13,'$'
+LoadError3      db      'Path not found.',10,13,'$'
+LoadError4      db      'No handle available.',10,13,'$'
+LoadError5      db      'Access denied.',10,13,'$'
+LoadError6      db      'Invalid Handle.',10,13,'$'
+LoadError12     db      'Open mode invalid.',10,13,'$'
+
+LoadHandle      dw      0
+LoadSegment     dw      0
+
+ENDS
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SEGMENT         Code    PUBLIC 'Code'
+
+Load:
+                push    ax bx cx dx si di bp ds es
+
+                mov     ax,Data
+                mov     ds,ax
+
+                mov     [LoadSegment],bx
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                mov     ax,3d00h                ;OPEN.
+                int     21h                     ;
+                jc      LoadError               ;AL    = Open mode, not used.
+                mov     [LoadHandle],ax         ;
+                                                ;
+                                                ;DX    = Offset to load name.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                mov     bx,ax                   ;LSEEK.
+                xor     cx,cx                   ;
+                mov     dx,cx                   ;AL    = Mode code 0=Beginning
+                mov     al,dl                   ;                  1=Current
+                mov     ah,42h                  ;                  2=End of file
+                int     21h                     ;BX    = File handle.
+                jc      LoadError               ;CX:DX = Signed offset pointer.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                mov     bx,[LoadHandle]         ;READ.
+                mov     cx,-1                   ;
+                mov     ds,[LoadSegment]        ;BX    = File handle.
+                xor     dx,dx                   ;CX    = Number of bytes.
+loa10:                                          ;DS:DX = Address of buffer.
+                mov     ah,3fh                  ;
+                int     21h                     ;
+                jc      LoadError               ;
+
+                cmp     ax,-1
+                jne     loa30
+
+                mov     ax,ds
+                add     ax,1000h
+                mov     ds,ax
+                jmp     short loa10
+loa30:
+                mov     ax,Data
+                mov     ds,ax
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+                mov     bx,[LoadHandle]         ;CLOSE.
+                mov     ah,3eh                  ;
+                int     21h                     ;BX    = File handle.
+                jnc     LoadExit                ;
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+LoadError:                                      ;Print error message and exit.
+                shl     ax,1
+                mov     si,ax
+                mov     ax,0003h                ;Clear screen.
+                int     10h
+                mov     ax,Data
+                mov     ds,ax
+                lea     dx,[LoadMessage]
+                mov     ah,9
+                int     21h
+                mov     dx,[LoadText+si]
+                int     21h
+                stc
+LoadExit:
+                pop     es ds bp di si dx cx bx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ENDS

@@ -1,0 +1,84 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³;MEMORY ..................... LIBRARY ROUTINE rev 001, by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³;Memory management routines, like ALLOCATE, DEALLOCATE and SETBLOCK. Refer to ³
+³;each routine for additional information.                                     ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³;RETURNS:      CF Set: Screen cleared and error message printed - Abort Main. ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SEGMENT         Data    PUBLIC 'Data'
+
+MemMessage      db      'MEMORY: $'
+
+MemText         dw      0
+                dw      0
+                dw      0
+                dw      0
+                dw      0
+                dw      0
+                dw      0
+                dw      MemError7
+                dw      MemError8
+                dw      MemError9
+
+MemError7       db      'Memory control blocks destroyed.',10,13,'$'
+MemError8       db      'Insufficient memory.',10,13,'$'
+MemError9       db      'Invalid memory block address.',10,13,'$'
+
+ENDS
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SEGMENT         Code    PUBLIC 'Code'
+
+SetBlock:                                       ;Set size of main program.
+
+                mov     ah,4ah                  ;BX = Block size, in paragraphs.
+                int     21h                     ;ES = Segment of main program.
+                jc      MemError
+                ret                             ;RETURNS:
+                                                ;
+                                                ;BX = Size of largest block
+                                                ;     if CF is set.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Allocate:                                       ;Allocate memory.
+
+                mov     ah,48h                  ;BX = Block size, in paragraphs.
+		int	21h
+                jc      MemError
+                ret                             ;RETURNS:
+                                                ;
+                                                ;AX = Segment of allocated RAM.
+                                                ;BX = Size of largest block
+                                                ;     if CF is set.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+DeAllocate:                                     ;Deallocate memory.
+
+                mov     ah,49h                  ;ES = Segment to be released.
+		int	21h
+                jc      MemError
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+MemError:                                       ;Print error message and exit.
+                push    ax bx dx si
+
+                shl     ax,1
+                mov     si,ax
+                mov     ax,0003h                ;Clear screen.
+                int     10h
+                mov     ax,Data
+                mov     ds,ax
+                lea     dx,[MemMessage]
+                mov     ah,9
+                int     21h
+                mov     dx,[MemText+si]
+                int     21h
+                stc
+
+                pop     si dx bx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ENDS

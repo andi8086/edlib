@@ -1,0 +1,41 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Converts WORD value to true decimal readout on text screen.
+;-------------------------------------------------------------------------------
+; Destroys:     AX, DI.
+;-------------------------------------------------------------------------------
+; Requirements: DECI db 6 dup (0) in data segment.
+;-------------------------------------------------------------------------------
+; Parameters:   AX = Word value to be output in decimal on screen.
+;               DI = Position on screen.
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     Slightly modified routine found in a typical 8086 tutor book.
+;-------------------------------------------------------------------------------
+decimal         proc
+                push    es dx cx bx ax si
+                mov     dx,0b800h
+                mov     es,dx
+                mov     si,4
+dec10:          xor     dx,dx
+                mov     cx,10
+                div     cx
+                mov     [deci+si],dl
+                dec     si
+                jns     dec10
+                mov     cx,5
+dec20:          inc     si
+                cmp     [deci+si],0
+                jne     dec40
+                loop    dec20
+                inc     cx
+dec30:          inc     si
+dec40:          mov     dl,[deci+si]
+                add     dl,30h
+                mov     es:[di],dl
+                inc     di
+                inc     di
+                loop    dec30
+                pop     si ax bx cx dx es
+                ret
+                endp

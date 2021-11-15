@@ -1,0 +1,100 @@
+;ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+;³ "Save64"....................LIBRARY ROUTINE v01.00, by Jens-Christian Huus. ³
+;ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+;³ Saves up to 65536 bytes on disk, using any file attribute possible.         ³
+;³                                                                             ³
+;ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+;³ PARAMETERS:  AX = File attribute; 0=Normal, 1=Read-only, 2=Hidden, 4=System.³
+;³              BX = Address of segment to save from.                          ³
+;³              CX = Length of file to be saved.                               ³
+;³              DX = Offset to save path/name.                                 ³
+;ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+;³ RETURNS:     CF Set: Screen cleared and error message printed - Abort Main. ³
+;ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+Data            segment public 'Data'
+
+SaveMessage     db      'SAVE64: $'
+
+SaveText        dw      0
+                dw      SaveError1
+                dw      0
+                dw      SaveError3
+                dw      SaveError4
+                dw      SaveError5
+                dw      SaveError6
+
+SaveError1      db      'Invalid mode code.',10,13,'$'
+SaveError3      db      'Path not found.',10,13,'$'
+SaveError4      db      'No handle available.',10,13,'$'
+SaveError5      db      'Access denied.',10,13,'$'
+SaveError6      db      'Invalid handle.',10,13,'$'
+
+SaveHandle      dw      0
+SaveSegment     dw      0
+SaveLength      dw      0
+
+                ends
+;-------------------------------------------------------------------------------
+Code            segment public 'Code'
+
+Save64          proc
+                push    ax bx cx dx si di bp ds es ax
+
+                mov     ax,Data
+                mov     ds,ax
+
+                mov     [SaveSegment],bx
+                mov     [SaveLength],cx
+;-------------------------------------------------------------------------------
+                pop     cx                      ;CREATEFILE.
+                mov     ah,3ch                  ;
+                int     21h                     ;CX    = Attribute 0=Normal
+                jc      SaveError               ;                  1=Read-only
+                mov     [SaveHandle],ax         ;                  2=Hidden
+                                                ;                  4=System
+                                                ;DX    = Offset to save name.
+;-------------------------------------------------------------------------------
+                mov     bx,ax                   ;LSEEK.
+                xor     al,al                   ;
+                xor     cx,cx                   ;AL    = Mode code 0=Beginning
+                xor     dx,dx                   ;                  1=Current
+                mov     ah,42h                  ;                  2=End of file
+                int     21h                     ;BX    = File handle.
+                jc      SaveError               ;CX:DX = Signed offset pointer.
+;-------------------------------------------------------------------------------
+                mov     bx,[SaveHandle]         ;WRITE.
+                mov     cx,[SaveLength]         ;
+                mov     ds,[SaveSegment]        ;BX    = File handle.
+                xor     dx,dx                   ;CX    = Number of bytes.
+                mov     ah,40h                  ;DS:DX = Address of buffer.
+                int     21h                     ;
+                jc      SaveError               ;
+                                                ;
+                mov     ax,Data                 ;
+                mov     ds,ax                   ;
+;-------------------------------------------------------------------------------
+                mov     bx,[SaveHandle]         ;CLOSE.
+                mov     ah,3eh                  ;
+                int     21h                     ;BX    = File handle.
+                jnc     SaveExit                ;
+                endp                            ;
+;-------------------------------------------------------------------------------
+SaveError       proc                            ;Print error message and exit.
+                shl     ax,1
+                mov     si,ax
+                mov     ax,0003h                ;Clear screen.
+                int     10h
+                mov     ax,Data
+                mov     ds,ax
+                lea     dx,SaveMessage
+                mov     ah,9
+                int     21h
+                mov     dx,[SaveText+si]
+                int     21h
+                stc
+SaveExit:
+                pop     es ds bp di si dx cx bx ax
+                ret
+                endp
+;-------------------------------------------------------------------------------
+                ends

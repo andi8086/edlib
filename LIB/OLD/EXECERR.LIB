@@ -1,0 +1,40 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Error text and variables for EXEC libraries.
+;-------------------------------------------------------------------------------
+; Destroys:     N/A
+;-------------------------------------------------------------------------------
+; Requirements: These datas are necessary when using the EXEC libraries.
+;-------------------------------------------------------------------------------
+; Parameters:   N/A
+;-------------------------------------------------------------------------------
+; Returns:      N/A
+;-------------------------------------------------------------------------------
+; Comments:     None.
+;-------------------------------------------------------------------------------
+Oldsp           dw      0
+Oldss           dw      0
+
+ExecError1      db      'Loading error: '
+                db      'Invalid function number.'
+                db      13,10,'$'
+ExecError2      db      'Loading error: '
+                db      'File not found.'
+                db      13,10,'$'
+ExecError3      db      'Loading error: '
+                db      'Path not found.'
+                db      13,10,'$'
+ExecError5      db      'Loading error: '
+                db      'Access denied.'
+                db      13,10,'$'
+ExecError8      db      'Loading error: '
+                db      'Insufficient memory.'
+                db      13,10,'$'
+ExecError10     db      'Loading error: '
+                db      'Invalid environment.'
+                db      13,10,'$'
+ExecError11     db      'Loading error: '
+                db      'Invalid format.'
+                db      13,10,'$'
+
+ExecUnknown     db      'Unknown load error.'
+                db      13,10,'$'

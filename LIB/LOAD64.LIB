@@ -1,0 +1,106 @@
+;ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+;³ "Load64"....................LIBRARY ROUTINE v01.00, by Jens-Christian Huus. ³
+;ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+;³ Loads up to 65536 bytes from disk, defined by the user. Open mode not used. ³
+;³                                                                             ³
+;ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+;³ PARAMETERS:  BX = Address of segment to load into.                          ³
+;³              CX = How many bytes to read from the file.                     ³
+;³              DX = Offset to load path/name.                                 ³
+;ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+;³ RETURNS:     CF Set: Screen cleared and error message printed - Abort Main. ³
+;ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+Data            segment public 'Data'
+
+LoadMessage     db      'LOAD64: $'
+
+LoadText        dw      0
+                dw      LoadError1
+                dw      LoadError2
+                dw      LoadError3
+                dw      LoadError4
+                dw      LoadError5
+                dw      LoadError6
+                dw      0         
+                dw      0         
+                dw      0         
+                dw      0         
+                dw      0         
+                dw      LoadError12
+
+LoadError1      db      'Invalid mode code.',10,13,'$'
+LoadError2      db      'File not found.',10,13,'$'
+LoadError3      db      'Path not found.',10,13,'$'
+LoadError4      db      'No handle available.',10,13,'$'
+LoadError5      db      'Access denied.',10,13,'$'
+LoadError6      db      'Invalid Handle.',10,13,'$'
+LoadError12     db      'Open mode invalid.',10,13,'$'
+
+LoadHandle      dw      0
+LoadSegment     dw      0
+LoadLength      dw      0
+
+                ends
+;-------------------------------------------------------------------------------
+Code            segment public 'Code'
+
+Load64          proc
+                push    ax bx cx dx si di bp ds es
+
+                mov     ax,Data
+                mov     ds,ax
+
+                mov     [LoadSegment],bx
+                mov     [LoadLength],cx
+;-------------------------------------------------------------------------------
+                mov     ax,3d00h                ;OPEN.
+                int     21h                     ;
+                jc      LoadError               ;AL    = Open mode, not used.
+                mov     [LoadHandle],ax         ;
+                                                ;
+                                                ;DX    = Offset to load name.
+;-------------------------------------------------------------------------------
+                mov     bx,ax                   ;LSEEK.
+                xor     al,al                   ;
+                xor     cx,cx                   ;AL    = Mode code 0=Beginning
+                xor     dx,dx                   ;                  1=Current
+                mov     ah,42h                  ;                  2=End of file
+                int     21h                     ;BX    = File handle.
+                jc      LoadError               ;CX:DX = Signed offset pointer.
+;-------------------------------------------------------------------------------
+                mov     bx,[LoadHandle]         ;READ.
+                mov     cx,[LoadLength]         ;
+                mov     ds,[LoadSegment]        ;BX    = File handle.
+                xor     dx,dx                   ;CX    = Number of bytes.
+                mov     ah,3fh                  ;DS:DX = Address of buffer.
+                int     21h                     ;
+                jc      LoadError               ;
+                                                ;
+                mov     ax,Data                 ;
+                mov     ds,ax                   ;
+;-------------------------------------------------------------------------------
+                mov     bx,[LoadHandle]         ;CLOSE.
+                mov     ah,3eh                  ;
+                int     21h                     ;BX    = File handle.
+                jnc     LoadExit                ;
+                endp                            ;
+;-------------------------------------------------------------------------------
+LoadError       proc                            ;Print error message and exit.
+                shl     ax,1
+                mov     si,ax
+                mov     ax,0003h                ;Clear screen.
+                int     10h
+                mov     ax,Data
+                mov     ds,ax
+                lea     dx,LoadMessage
+                mov     ah,9
+                int     21h
+                mov     dx,[LoadText+si]
+                int     21h
+                stc
+LoadExit:
+                pop     es ds bp di si dx cx bx ax
+                ret
+                endp
+;-------------------------------------------------------------------------------
+                ends

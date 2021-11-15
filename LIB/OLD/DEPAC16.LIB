@@ -1,0 +1,71 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Depacks a 16 color LBM picture, old DPaint with no palette.
+;-------------------------------------------------------------------------------
+; Destroys:     Most registers, including BP.
+;-------------------------------------------------------------------------------
+; Requirements: None.
+;-------------------------------------------------------------------------------
+; Parameters:   DS:SI = Start of picture in memory.
+;               ES:DI = Start of the first plane.
+;               CX    = Height of the picture.
+;               BP    = Width of the picture.
+;               BX    = Modulo.
+;               DX    = Number of bitplanes.
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     This routine requires that the picture to be depacked has been
+;               modified in such a way that the palette has been removed. Use
+;               f.ex. the command BODY.EXE to achieve this. The palette is set
+;               up elsewhere, and has nothing to do with this routine. The
+;               routine depacks Byte-Run-1 packed EGA pictures in 16 colors.
+;               This is an original routine written by a TRSI member (1991).
+;-------------------------------------------------------------------------------
+Depac16         proc
+
+Depackl1:
+        PUSH CX
+        MOV  AX,0102H
+        MOV  CX,DX
+Planes:
+        PUSH CX
+        PUSH AX
+        PUSH DX
+        MOV  DX,964
+        OUT  DX,AX
+        POP  DX
+        PUSH DI
+        PUSH BP
+NotherOne:
+        XOR  CX,CX
+        MOV  CL,DS:[SI]
+        INC  SI
+        CMP  CL,127
+        JA   CrunchyNut
+        INC  CX
+        SUB  BP,CX
+        REP  MOVSB
+        JMP  LineOk
+CrunchyNut:
+        SUB  CX,257
+        NEG  CX
+        SUB  BP,CX
+        MOV  AL,DS:[SI]
+        INC  SI
+        REP  STOSB
+LineOk:
+        CMP  BP,0
+        JNE  NotherOne
+        POP  BP
+        POP  DI
+
+        POP  AX
+        SHL  AH,1
+        POP  CX
+        LOOP Planes
+        ADD  DI,BP
+        ADD  DI,BX
+        POP  CX
+        LOOP Depackl1
+        RET
+        ENDP

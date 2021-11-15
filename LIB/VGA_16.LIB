@@ -1,0 +1,188 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³;VGA_16 ..................... LIBRARY ROUTINE rev 001, by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³;General video routines used globally like SETCOLOR, RASTER, VERTICAL, BLANK, ³
+³;PALETTE, FADEOUT and HORIZONTAL. Use in 16 colors mode only.                 ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SEGMENT         Data    PUBLIC 'Data'
+
+PalCount        db      0,1,2,3,4,5,20,7,56,57,58,59,60,61,62,63
+
+PalValues       dw      48 dup (?)
+
+PalDivs         dw      48 dup (?)
+
+PalDec          dw      0
+
+ENDS
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SEGMENT         Code    PUBLIC 'Code'
+
+Blank:                                          ;Toggle the display ON or OFF.
+                push    ax dx
+
+                mov     dx,3c4h
+                mov     al,1
+                out     dx,al
+                inc     dx
+                in      al,dx
+                xor     al,00100000b
+                out     dx,al
+
+                pop     dx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Raster:                                         ;Set new OVERSCAN color.
+                push    ax dx
+
+                mov     dx,3dah
+                in      al,dx
+                nop
+                mov     dx,3c0h
+                in      al,dx
+                mov     al,31h
+                nop
+                out     dx,al
+                mov     al,bl
+                nop
+                out     dx,al
+
+                pop     dx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+SetColor:                                       ;Set color register's new RGB.
+                push    ax dx
+
+                mov     dx,3c8h                 ;AL = Color register to set.
+                out     dx,al                   ;AH = Red.
+                inc     dx                      ;BL = Green.
+                nop                             ;BH = Blue.
+                mov     al,ah
+                out     dx,al
+                nop
+                nop
+                mov     al,bl
+                out     dx,al
+                nop
+                nop
+                mov     al,bh
+                out     dx,al
+
+                pop     dx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Palette:                                        ;Set all 16 colors in a palette.
+                push    ax bx cx si di
+
+                xor     si,si
+                mov     cx,16                   ;DI = Offset to palette table.
+@@p10:          mov     ah,[di]
+                mov     bx,[di+1]
+                mov     al,[PalCount+si]
+                call    SetColor
+                inc     di
+                inc     di
+                inc     di
+                inc     si
+                loop    @@p10
+
+                pop     di si cx bx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+FadeOut:                                        ;Fade all 16 colors to zero.
+                pushf
+                push    ax bx cx dx si di bp ds es
+
+                cld                             ;BX = Fade speed in frames.
+                mov     ax,ds                   ;DI = Offset to palette table.
+                mov     es,ax
+
+                push    di
+
+                or      bx,bx                   ;Don't divide by zero.
+                jne     @@f10
+                inc     bx
+@@f10:
+                mov     [PalDec],bx
+
+                xor     bp,bp
+                mov     si,di
+                lea     di,[PalValues]
+                mov     cx,48
+@@f11:          lodsb                           ;Get word values and divides.
+                mov     ah,al
+                xor     al,al
+                shl     ah,1
+                shl     ah,1
+                stosw
+                xor     dx,dx
+                div     bx
+                mov     [PalDivs+bp],ax         
+                inc     bp
+                inc     bp
+                loop    @@f11
+
+                pop     di
+                mov     bp,di
+@@f12:
+                lea     di,[PalValues]
+                lea     bx,[PalDivs]
+                mov     cx,49
+@@f20:          rep     scasw
+                jcxz    @@f30
+                mov     ax,[di-2]               ;Use dividing by frame method.
+                mov     si,di
+                sub     si,offset PalValues
+                sub     ax,[bx+si-2]
+                mov     [di-2],ax
+                shr     ah,1
+                shr     ah,1
+                shr     si,1
+                dec     si
+                mov     [ds:bp+si],ah
+                jmp     short @@f20
+@@f30:
+                call    Vertical
+                mov     di,bp
+                call    Palette
+                dec     [PalDec]
+                jne     short @@f12
+@@f40:
+                pop     es ds bp di si dx cx bx ax
+                popf
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Vertical:                                       ;Wait for vertical retrace.
+                push    ax dx
+
+                mov     dx,3dah
+@@v10:          in      al,dx
+                test    al,8
+                jz      @@v10
+                cli
+@@v20:          in      al,dx
+                test    al,8
+                jnz     @@v20
+                sti
+
+                pop     dx ax
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Horizontal:                                     ;Wait for horizontal retrace.
+                cli
+                mov     dx,3dah
+@@h10:          in      al,dx
+                test    al,1                    ;PUSH/POP not used, for speed.
+                jz      @@h10
+@@h20:          in      al,dx
+                test    al,1
+                jnz     @@h20
+                sti
+                ret
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ENDS

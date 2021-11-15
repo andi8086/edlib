@@ -1,0 +1,28 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Set all 256 color register in the palette (768 bytes).
+;-------------------------------------------------------------------------------
+; Destroys:     AX, BX, CX, DI - plus DX in SETCOLOR as well.
+;-------------------------------------------------------------------------------
+; Requirements: The SETCOLOR library must be present in your listing.
+;-------------------------------------------------------------------------------
+; Parameters:   DI = Offset to palette tabel (768 bytes).
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     This routine is better than using function 1012h in INT 10h,
+;               the BIOS routine is not too reliable with slow VGA cards on fast
+;               PC's, which is exactly what I have!
+;-------------------------------------------------------------------------------
+Palette         proc
+                mov     cx,256
+pal10:          mov     ah,[di]
+                mov     bx,[di+1]
+                mov     al,cl
+                neg     al
+                call    setcolor
+                inc     di
+                inc     di
+                inc     di
+                loop    pal10
+                ret
+                endp

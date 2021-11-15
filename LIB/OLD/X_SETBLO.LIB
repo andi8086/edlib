@@ -1,0 +1,46 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Sets the size for the main program before using allocations.
+;-------------------------------------------------------------------------------
+; Destroys:     Probably all registers, including the stack.
+;-------------------------------------------------------------------------------
+; Requirements: Include ALLOERR.LIB in data segment.
+;-------------------------------------------------------------------------------
+; Parameters:   BX = New block size, in paragraphs.
+;               ES = Segment adress of block to be modified, NOT NEEDED...(!?)
+;-------------------------------------------------------------------------------
+; Returns:      BX = Size of largest available block (If CF set).
+;-------------------------------------------------------------------------------
+; Comments:     When used in the very beginning of a program, the ES register
+;               doesn't need to be set. Remember that this call is NOT used to
+;               reserve large memory areas, but to set the main programs size!
+;-------------------------------------------------------------------------------
+SetBlock        proc
+                mov     ah,4ah
+		int	21h
+                jc      SetBlockError
+                ret
+SetBlockError:
+                push    ax
+                mov     ax,0003h
+                int     10h
+                pop     ax
+
+                cmp     ax,7
+                jz      Set10
+		cmp	ax,8
+                jz      Set20
+                cmp     ax,9
+                jz      Set30
+                lea     dx,SetUnknown
+                jmp     short SetBlockPrint
+Set10:          lea     dx,SetError7
+                jmp     short SetBlockPrint
+Set20:          lea     dx,SetError8
+                jmp     short SetBlockPrint
+Set30:          lea     dx,SetError9
+
+SetBlockPrint:  mov     ah,9
+     		int	21h
+                mov     ax,4c00h
+                int     21h
+                endp

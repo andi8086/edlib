@@ -1,0 +1,143 @@
+;-------------------------------------------------------------------------------
+; Purpose:      Depacks a 256 color LBM picture, old DPaint with no palette.
+;-------------------------------------------------------------------------------
+; Destroys:     Most registers, including BP.
+;-------------------------------------------------------------------------------
+; Requirements: None.
+;-------------------------------------------------------------------------------
+; Parameters:   DS:SI = Start of picture in memory.             MCGA 256 color:
+;               ES:DI = Where to depack the picture to.
+;               CX    = Height of the picture.                  (200)
+;               BP    = Width of the picture.                   (320)
+;               BX    = Modulo.                                 (0)
+;               DX    = Number of bitplanes.                    (8)
+;               AL    = 'Startplane'.                           (0)
+;-------------------------------------------------------------------------------
+; Returns:      None.
+;-------------------------------------------------------------------------------
+; Comments:     This routine requires that the picture to be depacked has been
+;               modified in such a way that the palette has been removed. Use
+;               f.ex. the command BODY.EXE to achieve this. The palette is set
+;               up elsewhere, and has nothing to do with this routine. The
+;               routine depacks Byte-Run-1 packed MCGA pictures in 256 colors.
+;               This is an original routine written by a TRSI member (1991).
+;-------------------------------------------------------------------------------
+Depac256        proc
+        PUSH AX
+        MOV  AX,BP
+        AND  AX,7
+        SHR  BP,1
+        SHR  BP,1
+        SHR  BP,1
+        CMP  AX,0
+        JE   ax_0
+        MOV  AX,1
+ax_0:
+        ADD  BP,AX
+        SHR  BX,1
+        SHR  BX,1
+        SHR  BX,1
+        POP  AX
+        push cx
+        mov  cl,al
+        mov  al,1
+        shl  al,cl
+        MOV  AH,AL
+        NOT  AH
+        pop  cx
+Depackl1:
+        PUSH CX
+        PUSH AX
+        MOV  CX,DX
+Planes:
+        PUSH CX
+;        PUSH AX
+;        PUSH DX
+;        MOV  DX,964
+;        OUT  DX,AX
+;        POP  DX
+        PUSH DI
+        PUSH BP
+NotherOne:
+        XOR  CX,CX
+        MOV  CL,DS:[SI]
+        INC  SI
+        CMP  CL,127
+        JA   CrunchyNut
+        INC  CX
+        SUB  BP,CX
+        push bx
+PutByte:
+        mov  bl,ds:[si]
+        inc  si
+        push cx
+        mov  cx,8
+orpixel:
+        rcl  bl,1
+        jc   carry_set
+        and  es:[di],ah
+        jmp  set_done
+carry_set:
+        or   es:[di],al
+set_done:
+        inc  di
+        loop orpixel
+        pop  cx
+        LOOP PutByte
+        pop  bx
+
+        JMP  LineOk
+CrunchyNut:
+        SUB  CX,257
+        NEG  CX
+        SUB  BP,CX
+        push bx
+        mov  bl,ds:[si]
+        mov  bh,bl
+        inc  si
+PutByte2:
+        push cx
+        mov  cx,8
+orpixel2:
+        rcl  bl,1
+        jc   carry_set2
+        and  es:[di],ah
+        jmp  set_done2
+carry_set2:
+        or   es:[di],al
+set_done2:
+        inc  di
+        loop orpixel2
+        mov  bl,bh
+        pop  cx
+        LOOP PutByte2
+        pop  bx
+LineOk:
+        CMP  BP,0
+        JNE  NotherOne
+        POP  BP
+        POP  DI
+
+;        POP  AX
+;        SHL  AH,1
+        POP  CX
+        SHL  AL,1
+        STC
+        RCL  AH,1
+        LOOP Planes
+        push bp
+        push bx
+        push cx
+        mov  cl,3
+        shl  bp,cl
+        shl  bx,cl
+        pop  cx
+        ADD  DI,BP
+        ADD  DI,BX
+        pop  bx
+        pop  bp
+        POP  AX
+        POP  CX
+        LOOP Depackl1
+        RET
+        ENDP

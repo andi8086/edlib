@@ -1,0 +1,99 @@
+;-------------------------------------------------------------------------------
+; Command macros for MDATA. Player v01.12 or higher required.
+;-------------------------------------------------------------------------------
+c               macro trn,dval
+                dw      dval*100h+(00h+(trn*12))
+                endm
+
+cz              macro trn,dval
+                dw      dval*100h+(01h+(trn*12))
+                endm
+
+d               macro trn,dval
+                dw      dval*100h+(02h+(trn*12))
+                endm
+
+dz              macro trn,dval
+                dw      dval*100h+(03h+(trn*12))
+                endm
+
+e               macro trn,dval
+                dw      dval*100h+(04h+(trn*12))
+                endm
+
+f               macro trn,dval
+                dw      dval*100h+(05h+(trn*12))
+                endm
+
+fz              macro trn,dval
+                dw      dval*100h+(06h+(trn*12))
+                endm
+
+g               macro trn,dval
+                dw      dval*100h+(07h+(trn*12))
+                endm
+
+gz              macro trn,dval
+                dw      dval*100h+(08h+(trn*12))
+                endm
+
+a               macro trn,dval
+                dw      dval*100h+(09h+(trn*12))
+                endm
+
+az              macro trn,dval
+                dw      dval*100h+(0ah+(trn*12))
+                endm
+
+b               macro trn,dval
+                dw      dval*100h+(0bh+(trn*12))
+                endm
+;-------------------------------------------------------------------------------
+twrap           macro wrap
+                dw      0ffffh,wrap
+                endm
+
+tstop           macro
+                dw      0fffeh
+                endm
+
+seqend          macro
+                dw      0ffffh
+                endm
+
+rest            macro dval
+                dw      dval*100h
+                endm
+
+cont            macro dval
+                dw      dval*100h+7eh
+                endm
+
+cut             macro cval
+                dw      6000h+cval
+                endm
+
+lvl             macro lval
+                dw      9000h+lval
+                endm
+
+snd             macro ival
+                dw      0c000h+ival
+                endm
+
+up              macro uval
+                dw      0d000h+uval
+                endm
+
+down            macro doval
+                dw      0e000h+doval
+                endm
+
+lc              macro lcval,dval
+                dw      dval*100h+(lcval+80h)
+                endm
+
+vib             macro vval
+                dw      7000h+vval
+                endm
+;-------------------------------------------------------------------------------

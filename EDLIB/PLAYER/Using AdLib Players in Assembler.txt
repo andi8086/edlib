@@ -1,0 +1,173 @@
+Using JCH's AdLib Players in Assembler
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+This is a revised version of a similar document that was released back in Octo-
+ber 1993. I have a sneaky feeling it won't be overwhelmingly useful today, but
+it's here in case someone still needs information about how to call and control
+the old AdLib players. Note that I haven't tried to upgrade neither the players
+nor the documentation here for more modern programming languages. If you want
+to call it through anything else than assembler, you're on your own.
+
+The document here will describe how to call and control AdLib music packed in
+the .D00 and .D01 formats. These types of files can be downloaded directly from
+our web site at http://vibrants.dk/adlib.htm. You can also find a package with
+the old Play-Driver v2.02 at http://chordian.dk/files.htm?olddos. I strongly
+recommend that you download this package, as the document will refer to it.
+
+
+The Files Required
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+As soon as you run the Play-Driver with a music filename following it, you will
+see a screen with information about the player and the music being played. Note
+the type of player and the version number. This will help you determine what
+files you will need from the PLAYERS and SAMPLES folders.
+
+Examples: Run the command PLAY ROLLING.D00. The information tells you that this
+is an AdLib type of player, and the version is 02.01. So the player you need in
+the PLAYERS folder is ADL-0201.P00. If you PLAY CROONER.D01, you can see that
+this is a Sound Blaster player with samples in a tenth channel, and that the
+version is v01.03. Use SBL-0103.P01 in PLAYERS and CROONER.S01 in SAMPLES.
+
+Now everything you need to do is to load the blocks into your program (two for
+a normal AdLib tune and three if samples are included). The player always needs
+to be located at offset 0000h in a segment, but the music data can be located
+anywhere in the memory. The sample block must be put at a clean offset 0000h as
+well. Some of the older players for samples also requires that the sample block
+is placed at a clean segment adress, e.g. 6000:0000, because of limitations in
+the DMA controller.
+
+
+Accessing the Player
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+The player is called using a DOS-like call to segment offset 0000h and supports
+multivoiced sound-effects as well as music in the background. If you are using
+a tune with samples, you will also have to supply information about this.
+
+
+MAIN RESET
+¯¯¯¯¯¯¯¯¯¯
+This is a call you must activate once in your initialization code. It is vital
+that you always remember it, as it clears the soundcard and sets some overall
+internal registers. When calling the MAIN RESET function, you must precede it
+with a BX value containing the segment adress of the music data the player
+should read, plus a CX value with an offset value to the data in that segment.
+
+        MOV     AH,0 (MAIN RESET)
+        MOV     BX,(Seqment adress of music data)
+        MOV     CX,(Offset in segment)
+      [ MOV     DX,(Segment adress of sample block) ]
+        CALL    PLAYER
+      [ JC      RESET_ERROR ]
+
+If the player uses a sample block (i.e. a Sound Blaster player), you will need
+to specify the segment adress of this block in the DX register as well.
+
+The MAIN RESET routine will set the CARRY if an error occurred. This could be
+caused by problems accessing the I/O ports or a missing soundcard. NOTE: The
+CARRY function is not available in AdLib players v00.10 and v01.14.
+
+
+RESET
+¯¯¯¯¯
+Sometimes it will be handy to clear and stop not only the player but also the
+entire soundcard, like when quitting to DOS. This is exactly what this function
+has been designed to do.
+
+        MOV     AH,1 (RESET)
+        CALL    PLAYER
+
+In fact, this function does exactly the same as MAIN RESET, except from setting
+the BX:CX (and DX) registers.
+
+START
+¯¯¯¯¯
+After calling the MAIN RESET function, you can send the sound output number by
+loading BX with the sound number. For example, if you want to call music number
+5 (which could be a hiscore tune) simply write:
+
+        MOV     AH,2 (START)
+        MOV     BX,0005h
+        CALL    PLAYER
+
+NOTE: This always starts with 00h - meaning that FIVE tunes in a player should
+be called from 00h to 04h in BX. The function is used both for calling music as
+well as sound effects.
+
+
+PLAY
+¯¯¯¯
+This is the call you must use in the runcode part of your program. In the Play-
+Driver you can see how many times a second the tune should be called. Usually,
+the timer interrupt is used for this purpose.
+
+        MOV     AH,3 (PLAY)
+        CALL    PLAYER
+
+
+TOGGLE
+¯¯¯¯¯¯
+While calling the player in your program it can sometimes be handy to pause the
+output, e.g. when pressing a PAUSE button. Using the same BX value as used when
+calling START you can pause any part of the sound output currently playing.
+
+Calling TOGGLE again with the same BX value will continue the sound output from
+the point where you last paused it.
+
+As an example, suppose you are playing a tune in the background with BX=2 and
+you are calling a descending sound effect with BX=3.
+
+        MOV     AH,4 (TOGGLE)
+        MOV     BX,0003h
+        CALL    PLAYER
+
+This will pause the sound effect but still keep the tune playing. Repeating the
+above code again will continue the sound effect from where you stopped it, but
+still without affecting the background tune. NOTE: Some player versions cannot
+continue with the effects before triggering the next note in the music data.
+
+
+MAINVOL
+¯¯¯¯¯¯¯
+The main volume is the same as the volume that can be controlled in the Play-
+Driver. This volume function has first priority, meaning that any other volume
+commands occuring inside the player will keep beneath this volume. This makes
+it suitable for fading, e.g. when changing screens in your program. The main
+volume can be set with 00h-3Fh in BL, with 00h being loudest.
+
+        MOV     AH,5 (MAINVOL)
+        MOV     BL,10h
+        CALL    PLAYER
+
+Using this call you can fade all sound output up or down using your own simple
+BX loops, like when leaving the title screen page in a game. NOTE: When calling
+the RESET function the main volume will always be reset to 00h (loudest).
+
+
+SCAN
+¯¯¯¯
+This is a simple detection function you can call to check if the soundcard re-
+quired is actually present. The function returns the CARRY set if no card was
+detected for the player to use.
+
+        MOV     AH,6 (SCAN)
+        CALL    PLAYER
+        JC      NO_CARD_PRESENT
+
+You can use this function even before using the MAIN RESET function - it does
+not need any data from other blocks. The Play-Driver always calls this function
+before starting any module. NOTE: The old AdLib player v00.10 does not support
+this function.
+
+
+Important
+¯¯¯¯¯¯¯¯¯
+The music player has been programmed to make minimum use of the stack. However,
+it does use a few calls inside the program apart from saving the DS and ES seg-
+ment registers on the stack as well.
+
+Visible register usage by calls: AX, BX, CX, DX, DI, SI and BP.
+
+The player does not use the stack registers SS and SP directly.
+
+All calls returns by using the RETF commands, to ensure that your code segment
+value is safe. This means that you MUST call the player with a FAR label. If
+you try to call it with a NEAR label, your program will crash.

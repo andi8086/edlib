@@ -1,0 +1,1608 @@
+
+
+;-------------------------------------------------------------------------------
+tk1:
+dw 0006h
+dw 8008h,000dh,000eh,0001h,0002h,0001h,0002h,001bh
+dw 001bh,8006h,001bh,001bh,8008h,0001h,0002h,0001h
+dw 0036h,0028h,0028h,0028h,0002h,0028h,0002h,001bh
+dw 001bh,8006h,001bh,001bh,8008h,0028h,0028h
+twrap 0000h
+
+tk2:
+dw 0006h
+dw 8008h,000bh,000fh,0015h,0016h,0015h,0016h,001ch
+dw 001ch,8006h,001ch,001ch,8008h,0003h,0004h,0003h
+dw 0037h,0029h,0029h,0029h,0016h,0029h,0016h,001ch
+dw 001ch,8006h,001ch,001ch,8008h,0029h,0029h
+twrap 0000h
+
+tk3:
+dw 0006h
+dw 8008h,000ch,0010h,0017h,0018h,0017h,0018h,001dh
+dw 001dh,8006h,001dh,001dh,8008h,0005h,0006h,0005h
+dw 0038h,002ah,002ah,002ah,0018h,002ah,0018h,001dh
+dw 001dh,8006h,001dh,001dh,8008h,002ah,002ah
+twrap 0000h
+
+tk4:
+dw 0006h
+dw 8008h,0011h,0013h,0007h,0008h,0007h,0019h,8104h
+dw 001eh,0020h,8106h,001eh,0020h,8008h,0022h,0023h
+dw 0039h,8014h,0026h,8008h,002bh,002bh,8110h,002dh
+dw 002fh,002dh,0031h,8104h,001eh,0020h,8106h,001eh
+dw 0020h,8008h,002bh,002bh
+twrap 0000h
+
+tk5:
+dw 0006h
+dw 8008h,0012h,0014h,0009h,000ah,0009h,001ah,8104h
+dw 001fh,0021h,8106h,001fh,0021h,8008h,0024h,0025h
+dw 003ah,8014h,0027h,8008h,002ch,002ch,8110h,002eh
+dw 0030h,002eh,0032h,8104h,001fh,0021h,8106h,001fh
+dw 0021h,8008h,002ch,002ch
+twrap 0000h
+
+tk6:
+dw 0006h
+tstop
+
+tk7:
+dw 0006h
+tstop
+
+tk8:
+dw 0006h
+tstop
+
+tk9:
+dw 0006h
+tstop
+;-------------------------------------------------------------------------------
+Tpoin dw tk1,tk2,tk3,tk4,tk5,00h,00h,00h,00h
+      db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-------------------------------------------------------------------------------
+Instrument db 0ffh,0ffh,3fh,20h,00h,0ffh,0ffh,3fh,20h,00h,00h
+           db 0,0,0,0,0                                         ;c000h
+
+           db 0ffh,04h,0ch,32h,01h,6fh,03h,18h,0d2h,01h,0ch
+           db 0,0,0,0,0                                         ;c001h
+
+           db 0ffh,02h,00h,01h,00h,6fh,06h,18h,02h,00h,06h
+           db 0,0,0,0,0                                         ;c002h
+
+           db 0ffh,03h,10h,48h,00h,9fh,03h,1ch,0ach,01h,0ch
+           db 0,0,0,0,0                                         ;c003h
+
+           db 0ffh,02h,02h,32h,01h,88h,01h,14h,71h,01h,04h
+           db 0,0,0,0,0                                         ;c004h
+
+           db 0ffh,04h,00h,02h,00h,0ffh,05h,4ch,0d1h,00h,00h
+           db 0,0,0,0,0                                         ;c005h
+
+           db 0fch,44h,04h,00h,00h,0ffh,00h,04h,04h,02h,0ah
+           db 0,0,0,0,0                                         ;c006h
+
+           db 0ffh,04h,0ah,31h,04h,6fh,06h,4ch,0a1h,00h,02h
+           db 0,0,0,0,0                                         ;c007h
+
+           db 0ffh,04h,1ch,5fh,01h,0ffh,01h,01h,0ch,0fh,0cch
+           db 0,0,0,0,0                                         ;c008h
+
+           db 0ffh,07h,1ch,5fh,01h,0ffh,01h,01h,0ch,0fh,0cch
+           db 0,0,0,0,0                                         ;c009h
+
+           db 0ffh,02h,00h,32h,00h,0ffh,04h,4ch,0d1h,00h,00h
+           db 0,0,0,0,0                                         ;c00ah
+
+           db 0ffh,01h,04h,30h,02h,0ffh,00h,1ch,0d1h,01h,04h
+           db 0,0,0,0,0                                         ;c00bh
+
+           db 0ffh,02h,02h,22h,00h,0ffh,22h,22h,22h,02h,02h
+           db 0,0,0,0,0                                         ;c00ch
+
+           db 0ffh,05h,10h,44h,04h,0ffh,04h,54h,08h,07h,08h
+           db 0,0,0,0,0                                         ;c00dh
+
+           db 0ffh,03h,0ah,30h,04h,0ffh,03h,4ch,0d0h,0d4h,0ch
+           db 0,0,0,0,0                                         ;c00eh
+
+           db 0ffh,05h,0ch,32h,04h,0ffh,07h,08h,82h,81h,04h
+           db 0,0,0,0,0                                         ;c00fh
+
+           db 0ffh,06h,08h,10h,05h,0ffh,01h,01h,04h,0ch,0cch
+           db 0,0,0,0,0                                         ;c010h
+
+           db 0ffh,05h,0ch,30h,07h,0ffh,01h,0ch,81h,81h,07h
+           db 0,0,0,0,0                                         ;c011h
+
+           db 0ffh,02h,10h,32h,00h,0ffh,02h,48h,0d1h,00h,0ch
+           db 0,0,0,0,0                                         ;c012h
+
+           db 0ffh,05h,0ch,30h,04h,0ffh,05h,0ch,81h,81h,07h
+           db 0,0,0,0,0                                         ;c013h
+
+           db 8fh,08h,0ch,31h,04h,0ffh,08h,20h,31h,04h,01h
+           db 0,0,0,0,0                                         ;c014h
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,50h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c015h
+
+           db 0ffh,05h,08h,48h,00h,0ffh,05h,4fh,48h,06h,0ch
+           db 0,0,0,0,0                                         ;c016h
+
+           db 0ffh,07h,0ch,48h,04h,9fh,06h,4fh,4ch,06h,0ch
+           db 0,0,0,0,0                                         ;c017h
+
+           db 0ffh,07h,00h,51h,00h,0ffh,07h,8ch,01h,0ch,01h
+           db 0,0,0,0,0                                         ;c018h
+
+           db 0ffh,05h,00h,41h,08h,8fh,70h,4ch,0d5h,00h,08h
+           db 0,0,0,0,0                                         ;c019h
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,52h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c01ah
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,53h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c01bh
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,54h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c01ch
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,55h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c01dh
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,56h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c01eh
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,57h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c01fh
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,58h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c020h
+
+           db 0ffh,05h,06h,41h,02h,0ffh,04h,59h,41h,04h,0ch
+           db 0,0,0,0,0                                         ;c021h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c022h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c023h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c024h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c025h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c026h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c027h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c028h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c029h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c02ah
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c02bh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c02ch
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c02dh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c02eh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c02fh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c030h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c031h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c032h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c033h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c034h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c035h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c036h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c037h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c038h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c039h
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c03ah
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c03bh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c03ch
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c03dh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c03eh
+
+           db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+           db 0,0,0,0,0                                         ;c03fh
+;-------------------------------------------------------------------------------
+LevelPuls: ;<- NOT COMPILED - Please DO NOT use this table !
+;-------------------------------------------------------------------------------
+SeqPointer dw s00,s01,s02,s03,s04,s05,s06,s07,s08,s09,s0a,s0b,s0c,s0d
+           dw s0e,s0f,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s1a,s1b
+           dw s1c,s1d,s1e,s1f,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29
+           dw s2a,s2b,s2c,s2d,s2e,s2f,s30,s31,s32,s33,s34,s35,s36,s37
+           dw s38,s39,s3a
+;-------------------------------------------------------------------------------
+s00:
+rest 0000h
+seqend
+
+s01:
+snd 0005h
+dw 000ch
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+snd 0005h
+dw 0018h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+seqend
+
+s02:
+snd 0005h
+dw 0007h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 000eh
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 000ch
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+seqend
+
+s03:
+snd 0014h
+dw 002bh,002ah,002bh
+rest 0000h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0002h
+snd 0014h
+dw 0034h,0033h,0034h
+rest 0000h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0001h
+snd 0014h
+dw 0037h,0036h,0037h
+rest 0000h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0002h
+snd 0014h
+dw 0035h,0034h,0035h
+rest 0000h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0001h
+seqend
+
+s04:
+snd 0014h
+dw 002fh,002eh,002fh
+rest 0000h
+snd 0007h
+dw 012fh
+rest 0001h
+dw 002fh
+rest 0002h
+snd 0014h
+dw 0035h,0034h,0035h
+rest 0000h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0001h
+snd 0014h
+dw 002fh,002eh,002fh
+rest 0000h
+snd 0007h
+dw 012fh
+rest 0001h
+dw 002fh
+rest 0002h
+snd 0014h
+dw 002bh,002ah,002bh
+rest 0000h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0001h
+seqend
+
+s05:
+snd 0014h
+dw 0034h,0033h,0034h
+rest 0000h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0002h
+snd 0014h
+dw 0037h,0036h,0037h
+rest 0000h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0001h
+snd 0014h
+dw 003ch,003bh,003ch
+rest 0000h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0002h
+snd 0014h
+dw 003bh,003ah,003bh
+rest 0000h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0001h
+seqend
+
+s06:
+snd 0014h
+dw 0035h,0034h,0035h
+rest 0000h
+snd 0007h
+dw 0135h
+rest 0001h
+dw 0035h
+rest 0002h
+snd 0014h
+dw 003bh,003ah,003bh
+rest 0000h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0001h
+snd 0014h
+dw 0037h,0036h,0037h
+rest 0000h
+snd 0007h
+dw 0135h
+rest 0001h
+dw 0035h
+rest 0002h
+snd 0014h
+dw 0034h,0033h,0034h
+rest 0000h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0001h
+seqend
+
+s07:
+snd 0004h
+dw 0328h,0328h,0127h,0128h,072bh,0128h,012bh,0330h
+dw 052fh,012bh,0a29h
+rest 0000h
+seqend
+
+s08:
+snd 0004h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 052fh,012bh,0a28h
+rest 0000h
+seqend
+
+s09:
+lvl 0000h
+rest 0000h
+snd 0004h
+rest 0000h
+lvl 0010h
+dw 0328h,0328h,0127h,0128h,072bh,0128h,012bh,0330h
+dw 052fh,012bh,0829h
+rest 0000h
+seqend
+
+s0a:
+rest 0001h
+lvl 0010h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 052fh,012bh,0828h
+rest 0000h
+seqend
+
+s0b:
+rest 0003h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0005h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0001h
+seqend
+
+s0c:
+rest 0003h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0005h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0001h
+seqend
+
+s0d:
+snd 0005h
+dw 000ch
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012ah
+rest 0001h
+snd 0005h
+dw 0018h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012ah
+rest 0001h
+seqend
+
+s0e:
+snd 0005h
+dw 000ch
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012ah
+rest 0001h
+snd 0005h
+dw 0018h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+seqend
+
+s0f:
+rest 0003h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0005h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0001h
+seqend
+
+s10:
+rest 0003h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0005h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0001h
+seqend
+
+s11:
+rest 0003h
+snd 0007h
+rest 0001h
+lvl 0018h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0006h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0006h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0000h
+seqend
+
+s12:
+snd 0007h
+rest 0005h
+lvl 0018h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0006h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0006h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0000h
+seqend
+
+s13:
+rest 0003h
+snd 0007h
+rest 0001h
+lvl 0018h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0006h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0006h
+dw 0030h
+rest 0002h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 002fh
+rest 0002h
+cut 0000h
+lvl 0000h
+rest 0000h
+seqend
+
+s14:
+snd 0007h
+rest 0005h
+lvl 0018h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0006h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0006h
+dw 0034h
+rest 0002h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0035h
+rest 0000h
+seqend
+
+s15:
+lvl 0000h
+rest 0003h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0005h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0001h
+seqend
+
+s16:
+rest 0003h
+snd 0007h
+dw 012fh
+rest 0001h
+dw 002fh
+rest 0006h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0005h
+snd 0007h
+dw 012fh
+rest 0001h
+dw 002fh
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0001h
+seqend
+
+s17:
+rest 0003h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0005h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0001h
+seqend
+
+s18:
+rest 0003h
+snd 0007h
+dw 0135h
+rest 0001h
+dw 0035h
+rest 0006h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0005h
+snd 0007h
+dw 0135h
+rest 0001h
+dw 0035h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0001h
+seqend
+
+s19:
+snd 0004h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 0332h,0333h,0234h
+rest 0004h
+snd 000ch
+dw 0328h
+seqend
+
+s1a:
+snd 0004h
+rest 0001h
+lvl 0010h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 0332h,0333h,0234h
+rest 0003h
+snd 000ch
+rest 0000h
+dw 0128h
+seqend
+
+s1b:
+snd 0005h
+dw 000dh
+rest 0002h
+snd 0007h
+dw 0125h
+rest 0001h
+dw 0025h
+rest 0002h
+snd 0005h
+dw 0014h
+rest 0002h
+snd 0007h
+dw 0025h
+rest 0002h
+dw 0125h
+rest 0001h
+snd 0005h
+dw 0018h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+seqend
+
+s1c:
+lvl 0000h
+rest 0003h
+snd 0007h
+dw 0129h
+rest 0001h
+dw 0029h
+rest 0006h
+snd 0007h
+dw 0029h
+rest 0002h
+dw 0129h
+rest 0005h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0001h
+seqend
+
+s1d:
+lvl 0000h
+rest 0003h
+snd 0007h
+dw 012ch
+rest 0001h
+dw 002ch
+rest 0006h
+snd 0007h
+dw 002ch
+rest 0002h
+dw 012ch
+rest 0005h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0001h
+seqend
+
+s1e:
+snd 000ch
+dw 0435h
+vib 0602h
+rest 0006h
+dw 0032h
+up 0004h
+cont 0000h
+dw 2233h
+rest 0002h
+dw 0231h
+rest 0000h
+dw 0033h
+up 0002h
+cont 0002h
+dw 2534h
+vib 0602h
+cont 0001h
+rest 000bh
+seqend
+
+s1f:
+snd 000ch
+cont 0001h
+lvl 0014h
+dw 0435h
+vib 0602h
+rest 0006h
+dw 0032h
+up 0004h
+cont 0000h
+dw 2233h
+rest 0002h
+dw 0231h
+rest 0000h
+dw 0033h
+up 0002h
+cont 0002h
+dw 2534h
+vib 0602h
+cont 0001h
+rest 0009h
+seqend
+
+s20:
+snd 000ch
+dw 0435h
+vib 0602h
+rest 0006h
+dw 0032h
+up 0004h
+cont 0000h
+dw 2233h
+rest 0002h
+dw 0238h
+rest 0000h
+dw 0033h
+up 0002h
+cont 0002h
+dw 2534h
+vib 0602h
+cont 0001h
+rest 000bh
+seqend
+
+s21:
+snd 000ch
+cont 0001h
+lvl 0014h
+dw 0435h
+vib 0602h
+rest 0006h
+dw 0032h
+up 0004h
+cont 0000h
+dw 2233h
+rest 0002h
+dw 0238h
+rest 0000h
+dw 0033h
+up 0002h
+cont 0002h
+dw 2534h
+vib 0602h
+cont 0001h
+rest 0008h
+lvl 0000h
+rest 0000h
+seqend
+
+s22:
+snd 0002h
+dw 0328h,0328h,0127h,0128h,072bh,0128h,012bh,0330h
+dw 052fh,012bh,0a29h
+rest 0000h
+seqend
+
+s23:
+snd 0002h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 052fh,012bh,0a28h
+rest 0000h
+seqend
+
+s24:
+lvl 0000h
+rest 0000h
+snd 0002h
+rest 0000h
+lvl 0010h
+dw 0328h,0328h,0127h,0128h,072bh,0128h,012bh,0330h
+dw 052fh,012bh,0829h
+rest 0000h
+seqend
+
+s25:
+rest 0001h
+lvl 0010h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 052fh,012bh,0828h
+rest 0000h
+seqend
+
+s26:
+snd 0002h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 032fh,032bh,0224h
+cut 0008h
+seqend
+
+s27:
+snd 0002h
+rest 0001h
+lvl 0010h
+dw 0329h,0329h,0128h,0129h,072fh,012eh,012fh,0330h
+dw 032fh,032bh,0224h
+cut 0005h
+lvl 0000h
+rest 0000h
+seqend
+
+s28:
+snd 0005h
+dw 000ch
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+snd 0005h
+dw 0018h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+seqend
+
+s29:
+rest 0003h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 0030h
+rest 0002h
+dw 0130h
+rest 0005h
+snd 0007h
+dw 0130h
+rest 0001h
+dw 0030h
+rest 0006h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0001h
+seqend
+
+s2a:
+rest 0003h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0034h
+rest 0002h
+dw 0134h
+rest 0005h
+snd 0007h
+dw 0134h
+rest 0001h
+dw 0034h
+rest 0006h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0001h
+seqend
+
+s2b:
+snd 0019h
+dw 002bh
+rest 0002h
+dw 0034h
+rest 0002h
+dw 003ch
+rest 0002h
+dw 0041h
+rest 0006h
+dw 002bh
+rest 0002h
+dw 0034h
+rest 0002h
+dw 003ch
+rest 0002h
+dw 0043h
+rest 0006h
+dw 003eh
+rest 0006h
+seqend
+
+s2c:
+snd 0019h
+rest 0001h
+dw 0030h
+rest 0002h
+dw 0037h
+rest 0002h
+dw 0040h
+rest 0004h
+dw 0040h
+rest 0004h
+dw 0030h
+rest 0002h
+dw 0037h
+rest 0002h
+dw 0040h
+rest 0004h
+dw 0041h
+rest 0006h
+dw 0041h
+rest 0002h
+seqend
+
+s2d:
+snd 0016h
+dw 0028h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 002bh
+rest 0006h
+dw 0028h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 002bh
+rest 0002h
+dw 0028h
+rest 0000h
+dw 002bh
+rest 0000h
+dw 0030h
+rest 0002h
+dw 002fh
+rest 0002h
+dw 002dh
+rest 0002h
+dw 002dh
+rest 0002h
+dw 002bh
+rest 0006h
+seqend
+
+s2e:
+lvl 0020h
+rest 0003h
+snd 0016h
+dw 0028h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 002bh
+rest 0006h
+dw 0028h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 002bh
+rest 0002h
+dw 0028h
+rest 0000h
+dw 002bh
+rest 0000h
+dw 0030h
+rest 0002h
+dw 002fh
+rest 0002h
+dw 002dh
+rest 0002h
+dw 002dh
+rest 0002h
+dw 002bh
+rest 0002h
+seqend
+
+s2f:
+snd 0016h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0006h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0002h
+dw 0026h
+rest 0000h
+dw 0029h
+rest 0000h
+dw 002fh
+rest 0000h
+dw 002dh
+rest 0000h
+dw 002bh
+rest 0002h
+dw 002fh
+rest 0002h
+dw 0030h
+rest 000ah
+seqend
+
+s30:
+snd 0016h
+rest 0003h
+lvl 0020h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0006h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0002h
+dw 0026h
+rest 0000h
+dw 0029h
+rest 0000h
+dw 002fh
+rest 0000h
+dw 002dh
+rest 0000h
+dw 002bh
+rest 0002h
+dw 002fh
+rest 0002h
+dw 0030h
+rest 0006h
+seqend
+
+s31:
+snd 0016h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0006h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0002h
+dw 0026h
+rest 0000h
+dw 0029h
+rest 0000h
+dw 002fh
+rest 0000h
+dw 002dh
+rest 0000h
+dw 002bh
+rest 0002h
+dw 002fh
+rest 0002h
+dw 0030h
+rest 0006h
+snd 000ch
+dw 0340h
+seqend
+
+s32:
+snd 0016h
+rest 0003h
+lvl 0020h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0006h
+dw 0026h
+rest 0000h
+dw 0028h
+rest 0000h
+dw 0029h
+rest 0002h
+dw 0026h
+rest 0000h
+dw 0029h
+rest 0000h
+dw 002fh
+rest 0000h
+dw 002dh
+rest 0000h
+dw 002bh
+rest 0002h
+dw 002fh
+rest 0002h
+dw 0030h
+rest 0003h
+snd 000ch
+rest 0000h
+lvl 0014h
+dw 0140h
+seqend
+
+s33:
+snd 0019h
+dw 002ah
+rest 0000h
+dw 001eh
+rest 0000h
+dw 002ah
+rest 0000h
+dw 002fh
+rest 0002h
+lvl 0010h
+dw 0023h
+rest 0000h
+lvl 0008h
+dw 002fh
+rest 0002h
+lvl 0014h
+dw 0023h
+rest 0000h
+lvl 0010h
+dw 002fh
+rest 0002h
+lvl 0018h
+dw 0023h
+rest 0000h
+lvl 0000h
+dw 002ch
+rest 0000h
+dw 0020h
+rest 0000h
+dw 002ch
+rest 0000h
+dw 002fh
+rest 0002h
+lvl 0010h
+dw 0023h
+rest 0000h
+lvl 0008h
+dw 002fh
+rest 0002h
+lvl 0014h
+dw 0023h
+rest 0000h
+lvl 0010h
+dw 002fh
+rest 0003h
+lvl 0000h
+rest 0000h
+seqend
+
+s34:
+rest 0000h
+seqend
+
+s35:
+rest 0000h
+seqend
+
+s36:
+snd 0005h
+dw 0007h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 000eh
+rest 0002h
+snd 0007h
+dw 002bh
+rest 0002h
+dw 012bh
+rest 0001h
+snd 0005h
+dw 0013h
+rest 0002h
+snd 0007h
+dw 012bh
+rest 0001h
+dw 002bh
+rest 0002h
+snd 0005h
+dw 000ch
+rest 0002h
+dw 0013h
+rest 0002h
+dw 0010h
+rest 0002h
+seqend
+
+s37:
+snd 0014h
+dw 002fh,002eh,002fh
+rest 0000h
+snd 0007h
+dw 012fh
+rest 0001h
+dw 002fh
+rest 0002h
+snd 0014h
+dw 0035h,0034h,0035h
+rest 0000h
+snd 0007h
+dw 002fh
+rest 0002h
+dw 012fh
+rest 0001h
+snd 0014h
+dw 002fh,002eh,002fh
+rest 0000h
+snd 0007h
+dw 012fh
+rest 0001h
+dw 002fh
+rest 0002h
+snd 0007h
+dw 0334h
+vib 0602h
+rest 0007h
+seqend
+
+s38:
+snd 0014h
+dw 0035h,0034h,0035h
+rest 0000h
+snd 0007h
+dw 0135h
+rest 0001h
+dw 0035h
+rest 0002h
+snd 0014h
+dw 003bh,003ah,003bh
+rest 0000h
+snd 0007h
+dw 0035h
+rest 0002h
+dw 0135h
+rest 0001h
+snd 0014h
+dw 0037h,0036h,0037h
+rest 0000h
+snd 0007h
+dw 0135h
+rest 0001h
+dw 0035h
+rest 0002h
+snd 0007h
+dw 0330h
+vib 0602h
+rest 0007h
+seqend
+
+s39:
+snd 0002h
+dw 0328h,0328h,0127h,0128h,072bh,0128h,012bh,0330h
+dw 032fh,0330h,0732h,0234h
+rest 0000h
+seqend
+
+s3a:
+lvl 0000h
+rest 0000h
+snd 0002h
+rest 0000h
+lvl 0010h
+dw 0328h,0328h,0127h,0128h,072bh,0128h,012bh,0330h
+dw 032fh,0330h,0732h,0034h
+rest 0000h
+seqend
+;-------------------------------------------------------------------------------

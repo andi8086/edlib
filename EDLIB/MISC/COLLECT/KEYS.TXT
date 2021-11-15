@@ -1,0 +1,390 @@
+
+
+³                                                                              ³
+³                                                                              ³
+³       KEYS                                                                   ³
+³       ÄÄÄÄ                                                                   ³
+³                                                                              ³
+³       Here is a list of all keys available in EdLib, some of them with       ³
+³       a deeper description than found in the HELP pages (Alt-F1).            ³
+³                                                                              ³
+³                                                                              ³
+³       F1              Play normally from StartPoint (SP) position.
+
+                        This key does not scroll the  music, useful when
+                        editing the music while it is playing.
+
+
+        F2              Stop all music activity.
+
+                        You can also use the ESCAPE key. If you're using
+                        a MIDI keyboard, you can also cut hanging voices
+                        with this key.
+
+
+        F3              FollowPlay from StartPoint position.
+
+                        The music scrolls as the music plays to show the
+                        current position being played. Use the CTRL keys
+                        as a fast forward function in this mode.
+
+
+        F4              Set new StartPoint position (SP).
+
+                        You can set the new position anywhere, no matter
+                        if you're halfway through a sequence or not. The
+                        hexadecimal stepcounter to the  left of the main
+                        editing area will turn dark blue below the point
+                        and light blue after it.
+
+
+        F5              Copy any sequence into the current sequence.
+
+                        Use this key to overwrite the  sequence you  are
+                        currently editing, with the contents of another.
+
+
+        F6              Decrease the tune speed.
+
+                        Hold CTRL to specifically define it.
+
+
+        F7              Increase the tune speed.
+
+                        Hold CTRL to specifically define it. The Spd box
+                        in the bottom right corner of the screen informs
+                        you of the current value.
+
+
+        F8              Define new SuperInsert size.
+
+
+        F9              Execute the SuperInsert in a sequence.
+
+                        When pressing this key you  will insert  as many
+                        events into the sequence as defined  with the F8
+                        key. The SpI counter  in the bottom right corner
+                        of the  screen informs you of the current value.
+                        Note that you can have no  more than 5Fh  events
+                        in a single sequence. If you want more than this
+                        you have to split it up into two sequences.
+
+
+        F10             Goto any stepcounter line.
+
+                        The hexadecimal stepcounter is the column to the
+                        far left of the editing area.
+
+
+        F11             Define new RhythmJump value.
+
+                        Sets the number of events the cursor jumps after
+                        pressing a note key in the sequence. The RtJ box
+                        in the bottom right corner of the screen informs
+                        you of the current value.
+
+
+        F12             Load music in EDL format.
+
+                        Brings up a  file requester  from which  you can
+                        choose an EDL file to load. You can also use the
+                        Ctrl-F3 key.
+
+
+        Shift F1        Clear all tracks and sequences.
+
+                        Leaves the instruments and SpFX tables intact. A
+                        useful function when  borrowing instruments from
+                        another song.
+
+
+        Shift F2        Clear instruments and SpFX tables.
+
+                        Leaves the tracks and sequences intact. May come
+                        in handy if you disliked all the instruments and
+                        want to start all over defining them again.
+
+
+        Shift F5        Copy any sequence into another sequence.
+
+                        As the F5 key, only it takes both a source and a
+                        destination input.
+
+
+        Shift F12       Save music in EDL format.
+
+                        Brings up a  file requester  from which  you can
+                        save your song. You can also use the Ctrl-F4 key
+                        instead.
+
+
+        Ctrl F1         Decrease the IRQ timer speed.
+
+        Ctrl F2         Increase the IRQ timer speed.
+
+                        The above keys changes the timer interrupt speed
+                        of the song. Be careful when using these! Better
+                        have a talk with the programmer using your music
+                        to make sure he accepts the  new value. Normally
+                        they are set to 46h (70) which matches the speed
+                        of the screen  update in 320x200 mode. This way,
+                        the music can be  used in a vertical retrace. In
+                        some situations you can make use of a fast timer
+                        interrupt to speed up the arpeggio in an instru-
+                        ment. If you only want to change  the speed of a
+                        song, use the F6/F7 keys instead. The Irq box in
+                        the bottom right corner of the screen keeps hold
+                        of the current timer interrupt speed.
+
+
+        Ctrl F3         Load music in EDL format.
+
+                        You can also use the F12 key.
+
+
+        Ctrl F4         Save music in EDL format.
+
+                        You can also use the Shift-F12 key.
+
+
+        Ctrl F5         Convert the music to D00 format and save it.
+
+                        This brings up a requester asking for a filename
+                        of the packed tune. After typing this, the music
+                        will be  packed and saved as a  D00 file - to be
+                        used in your own programs. The packed tune can't
+                        be loaded into the editor again, so  be sure you
+                        save your source with Shift-F12 or Ctrl-F4! Note
+                        that the  packer goes into  a 9-PASS process. It
+                        has been tested intensively with  no problems so
+                        far - however, should the packer ever lock up at
+                        any time, please  note the pass  number and mail
+                        me this number. My  address can be  found in the
+                        end of this file.
+
+
+        Ctrl F6         Define new tune speed.
+
+                        Input the speed. Use F6/F7 to decrease/increase.
+
+
+        Ctrl F7         Define new tune speed.
+
+                        Input the speed. Use F6/F7 to decrease/increase.
+
+
+        Ctrl F9         Input music name in top of screen.
+
+                        The input takes 20 characters as the name of the
+                        music. Remember to do this  before saving a tune
+                        to disk or  packing it! D00-files also  contains
+                        this string.
+
+
+        Ctrl F10        Input composer name in top of screen.
+
+                        Again takes 20 characters.  Remember to press it
+                        before saving or packing the tune! The D00-files
+                        also contains this string.
+
+
+        M               Enter instrument table.
+
+                        Will enter the instrument table at  the position
+                        you left it at last time. If the table window is
+                        not active, it will be made active first.
+
+
+        K               Enter SpFX table.
+
+                        Will enter the table at the position you left it
+                        at last time. If the table window is not active,
+                        it will be made active first.
+
+
+        L               Toggle between instrument and SpFX tables.
+
+                        Enters the other table. If you type it outside a
+                        table it will enter the other table than the one
+                        you edited last time. If the table window is not
+                        active, it will be made active first.
+
+
+        Alt Down        Change main volume byte below the current voice.
+
+                        Beneath each voice you'll find a value which can
+                        be edited with this key combination. The volumes
+                        controls the main volume for that voice, and has
+                        priority over volume commands in the sequence.
+
+
+        Alt Up          Change logical voice byte above the voice.
+
+                        Using "Alt-Up"  you can change the value above a
+                        voice. This value is the  physical  voice number
+                        attached to the voice.  Changing the values, you
+                        can  completely rearrange voices - you  can even
+                        make the same voice appear at several places! It
+                        may come in handy when some voices has something
+                        in common, like chords or double-voice drums.
+
+
+        Ctrl            Fast forward while in FollowPlay mode.
+
+                        Only works when in  FollowPlay mode. You  cannot
+                        use fast forward when playing with F1.
+
+
+        Alt 1-9         Toggles voices 1-9 ON or OFF.
+
+                        Note that the logical voice numbers above voices
+                        goes dark grey when a voice is OFF.
+
+
+        Alt Tab         Turn all voices OFF except the edited voice.
+
+
+        ,               Turn all voices ON.
+
+
+        .               Turn all voices OFF.
+
+
+        -               Toggle current voice ON or OFF.
+
+
+        Q2W3ER5...      Play in note column or instrument/SpFX tables.
+
+                        Use these keys to play with the instrument or to
+                        type notes in the right column of a sequence. As
+                        you type a key the instrument last edited in the
+                        main instrument table will play. Use the Ctrl-Up
+                        and Ctrl-Down keys to change the octave.
+
+
+        Spacebar        Erase sequence command or a REST in note column.
+
+                        In the sequence itself you can erase commands or
+                        notes by tapping space on them.  SPACE on a note
+                        enters a REST (---) event.
+
+
+        X/C/V           Put a HOLD (continue) in the note column.
+
+                        All 3 keys have the  exact same  meaning. I made
+                        this to make it easier  for you to edit blindly.
+                        As the key is pressed, a HOLD (+++) appears.
+
+
+        Z               HOLD to the previous note, REST to the next.
+
+                        A very useful command that should be used  when-
+                        ever possible instead of SPACE  and X/C/V. Press
+                        it to put HOLD (+++) up towards the note and put
+                        REST (---) down towards the next one. It ignores
+                        the presence  of old HOLD and REST. Also, it may
+                        be pressed in  the command column - which is not
+                        possible with the other HOLD/REST keys.
+
+
+        «               Toggle tienote ON or OFF.
+
+                        On my keyboard it is the key just below  the ESC
+                        and above the TAB key. When pressed  on an event
+                        in a sequence, it toggles the note white/yellow.
+                        When white, the note is changed in the music but
+                        the effects of the instrument is NOT restarted.
+
+
+        Enter           Jumps between track editing or sequence editing.
+
+                        Also used to edit names in the instrument table.
+
+                        This is probably the most used key when  editing
+                        notes as it jumps in and out of track values. In
+                        the instrument table you can edit the name of an
+                        instrument  with this key. This name may contain
+                        up to 16 characters.
+
+
+        Tab             Jump to the right voice.
+
+        Ctrl Tab        Jump to the left voice.
+
+                        Use the above keys  to switch between voices. As
+                        you enter a new voice the voice is "blown up" to
+                        show the entire voice (track, commands & notes).
+                        The other voices  will be shrinked, so that only
+                        the notes can be seen - the most essential part!
+                        You can spot the beginning  and end of sequences
+                        by observing the ">   <" signs around the notes.
+
+
+        Q               Enter the next unused sequence in the track.
+
+                        Another useful function. When editing a song and
+                        deleting/inserting  sequences, you  may at times
+                        forget which sequences  you have  used and which
+                        you have trashed. By pressing the key on a track
+                        number, the  editor will  automatically find the
+                        first unused sequence number and enter the value
+                        for you.
+
+
+        ///         Cursor keys, used globally in the editor.
+
+
+        Home/End        Used globally in the editor.
+
+
+        Delete          Delete in track or sequence mode.
+
+
+        Insert          Insert in track or sequence mode.
+
+                        Note that you can have no  more than 5Fh  events
+                        in a single sequence. If you want more than this
+                        you have to split it up into two sequences.
+
+
+        ESC             Exits modes, also stops the music.
+
+                        This is also used to remove the windows with the
+                        instrument and SpFX tables.
+
+
+        Page Up/Down    Used globally in the editor.
+
+
+        Ctrl Up         Increase the note octave.
+
+        Ctrl Down       Decrease the note octave.
+
+                        The above keys changes the octave available with
+                        "Q2W3ER5..." keys. The Oc? counter in the bottom
+                        right corner  of the screen  informs you of  the
+                        current value. Also Ctrl-Right may decrease.
+
+
+        Ctrl Pg Up      Home to the absolute top.
+
+
+        Ctrl Pg Down    Home to the absolute bottom.
+
+                        Does not yet work in the voice editing area.
+
+
+        S               Toggle CPU rastertime ON or OFF.
+
+                        The rastertime is shown as  a grey block in  the
+                        outscan border. May be useful for the programmer
+                        but keep in mind that the  music takes much more
+                        rastertime in the editor than when packed!
+
+
+        Ctrl Break      Exit to DOS.
+
+                        You can skip the palette fade with the /P switch
+                        on the commandline.
+
+

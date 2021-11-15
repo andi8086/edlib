@@ -1,0 +1,168 @@
+
+
+³									       ³
+³									       ³
+³	THE INSTRUMENT TABLE						       ³
+³	ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ						       ³
+³									       ³
+³	This is the table you enter when pressing "M".  You can also use       ³
+³	the "L" key to toggle between  this table and the SpFX table. If       ³
+³	the table window is not active, it will be made  active (pop-up)       ³
+³	before entering the table.					       ³
+³									       ³
+³	The instrument table  consists	of 400h (1024) instruments, each       ³
+³	of 16 bytes in size. The bytes mainly controls the hardware OPL2       ³
+³	registers on the card, but I have added a few of my own as well.       ³
+³       When an instrument has been defined, use the CXXX command in the       ³
+³       sequences to use it.                                                   ³
+³									       ³
+³       But first, lets have a look at the instrument itself:                  ³
+³									       ³
+³									       ³
+³		FFFF 3F 20 00  FFFF 3F 20 00  01 02 03 04 05 06
+	       ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		   Carrier	 Modulator
+
+
+	The parameters in both carrier and modulator uses the exact same
+	parameters, only the "modulator" part usually changes the  color
+	of the sound while the "carrier" changes the volume and pitch. I
+	said "usually", because this depends on the way the operators is
+	connected. More about this later.
+
+	The carrier and modulator parameters will be send to the OPL2 FM
+	chip directly, as they are hardware based. Lets  have a  look at
+	the parameters individually.
+
+
+	FFFF	This parameter controls the ADSR of the instrument. Some
+		of you already knows what this	means. If you  come from
+		the Commodore 64  and have been fiddling with ADSR here,
+		all you have to know is that is behaves upside-down - it
+		takes FF02 instead of 00FE! Otherwise it is very simple.
+		Each nibble ("F", a halfbyte), takes a parameter from 0h
+		to Fh, to define four parameters named the Attack, Decay
+		Sustain and Release. The attack defines the speed of the
+		volume to reach maximum level, Fh is fastest. As soon as
+		this level has been reached, the Decay value defines the
+		speed of the  volume to reach  the Sustain level. Again,
+		Fh is fastest. Sustain is a pseudo-volume level (volume)
+		where 0 is loudest. Release again  defines the	speed of
+		the volume to go from the Sustain level  to silence. All
+		in all, a diagram like this  can be drawn  to illustrate
+		the ADSR envelope:
+
+
+				/\
+			       /  \
+			      /    \
+			     /	    \________________
+			    /			     \
+			   /			      \
+			  /			       \
+
+
+			  ÀÄÄÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÙ
+			     A	  D	    S	      R
+
+
+		In the sequence itself, the ADS part of the ADSR will be
+		run as soon as the note is triggered, and maintained for
+		as long as the HOLD events (+++) are present. As soon as
+		the REST events is met (---), the note releases (R).
+
+		In the modulator, the ADSR works is a similar way - only
+		it affects the modulation instead of the volume.  Use it
+		to give "life" to the instrument.
+
+
+	3F	This parameter is split into bit 0-5 for the main volume
+		(level) and bit 6-7 for keyboard scaled level (KSL). The
+		level is 00h-3Fh, where 00h is loudest. Add  40h, 80h or
+		C0h for three rates of KSL. The KSL defines how much the
+		volume decreases  in volume as the notes climbs upwards.
+		In other words, the higher the note, the lower the level
+		of the note. This feature is not used very often.
+
+		In the modulator part, the level affects the  modulation
+		instead of the volume. 00h is full modulation (100%).
+
+
+	20	This is a multiple purpose register of the FM chip. Bits
+		0-3 defines the multiplier, which  works  like an octave
+		parameter only it steps in a rather absurd way. With it,
+		you can change the pitch without  editing the music - to
+		some degree! Bit 4 (add 10h)  sets the KSR - which means
+		keyboard scaled rate. It works like KSL only it  affects
+		the speed of which the ADSR is processed. The higher the
+		note, the faster the ADSR. Bit 5 (add 20h) selects  ADSR
+		or only ADR. Normally, you would set this to 1 (ADSR) or
+		the HOLD/REST in sequences will be ignored;  notes  will
+		release as soon as the note has been triggered. This may
+		come in handy at times though. Bit 6 (add 40h) enables a
+		hardware vibrato. This vibrato is quite  insufficient at
+		times to say the least, so I added my own vibrato to the
+		sequence commands (7XYY). Last, bit 7 (add 80h)  enables
+		the hardware tremolo. Tremolo vibrates the level - think
+		of it as the "Elvis Costello" bit! ;)
+
+
+        00      Only values  from 00 to 03  is used here (bits 0-1). All
+                other bits is ignored. This value  defines the  waveform
+                of the operator. If you come from the  Commodore 64 with
+                its marvellous SID-chip, you will be disappointed to see
+                what waveforms this chip has. They are  not  as flexible
+                as the SID-chip waveforms.  00 is a sine and is loudest.
+                I have also noticed that waveforms 02 and 03 seems to be
+                one octave higher than 00 and 01.
+
+
+        That concludes the five bytes in each operator, which constructs
+        the actual sound. The last 6 bytes in the instrument all behaves
+        globally to the instrument.
+
+
+        01      This is the last hardware register. In bit 0, you define
+                the connection of the two operators. Normally it  is set
+                to 0 (modulation), but if set to 1 (additive), the modu-
+                lator operator will behave exactly as the  carrier. This
+                is great for organ sounds! Bits 1-3 defines the feedback
+                of the modulation  (0,2,4...E), which is  the number  of
+                times the output is fed right back  into the  modulation
+                process, creating overtones. If you set it high (E or F)
+                you get so many of them that you get...noise! So this is
+                the parameter you use the make drums. Again, if you come
+                from the Commodore 64 you will be a little disappointed.
+                The noise is stuck at a high frequency, and cannot sound
+                as good as the noise on the SID-chip. :(
+
+
+        02      This is a software parameter. Use values  00-7F to fine-
+                tune the instrument - if you are using two voices on top
+                of each other, this may phase the two voices together in
+                order to produce a chorus effect.
+
+
+        03      Hard restart timer value. Defines  the  number of frames
+                BEFORE the next note, that the next value below is to be
+                processed. 00h turns this OFF. Frames is a  term for the
+                smallest timeunit a player can measure, which  of course
+                is the number of times the player is called. If the  IRQ
+                value is set to 46h, the frame corresponds to 1/70'th of
+                a second. Good values are 01-03.
+
+        04      Hard restart Sustain/Release value. When the timer is up
+                in the previous byte above, this value  is  put into the
+                Sustain/Release on the soundcard for that voice. This is
+                useful to "cut down" on a  long release  before the next
+                note in a sequence. ADSR usually continues on the Attack
+                from whatever point the Release from the last note might
+                have reached, but this is not always desirable.  You can
+                also use these parameters to make the music more funky.
+
+        05-06   These bytes are unused in player v04.01. Do  not put any
+                information into them as they may be used later on. Keep
+                them at 00h.
+
+
+

@@ -1,0 +1,398 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ How to use Player v04.00 ............................ by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³                                                                              ³
+³       INTRODUCTION                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       So you have finally managed to fumble you way  around the editor       ³
+³       and now you want to use the music in your demo or other piece of       ³
+³       programming not earning you any money (Because THAT's the deal)!       ³
+³       All right, in this directory you will find the OBJ player needed       ³
+³       to link onto your own program. This DOC  will tell you about the       ³
+³       functions and variables in the player plus the file formats.           ³
+³                                                                              ³
+³       After having done your tune in the editor - saving the source to       ³
+³       disk with Shift-F12 or Ctrl-F4 - you must convert it to a format       ³
+³       with the ".D00" extension. Do this by  pressing Ctrl-F5 while in       ³
+³       the editor. The music  will be packed to a fully playable format       ³
+³       which takes up little memory (typically 2-5 Kb). Now you can use       ³
+³       this file together with "MPLAYER.OBJ" in this directory.               ³
+³                                                                              ³
+³       NOTE: You cannot load ".D00" files into EdLib. Make sure you DID       ³
+³       save that masterpiece with Shift-F12 or Ctrl-F4 before packing!        ³
+³                                                                              ³
+³                                                                              ³
+³       THE TEST PROGRAM                                                       ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                       ³
+³                                                                              ³
+³       Before describing the functions in the player, have a look at my       ³
+³       example file "TEST.ASM" to see how I use the "STR_WISE.D00" file       ³
+³       by Drax. The source was assembled using Turbo Assembler v4.0 and       ³
+³       linked using Turbo Link v6.00, both from Borland. You can use my       ³
+³       makefile "-" to accomplish this, but check it out first - I have       ³
+³       used the 4DOS command "keystack 13" to  skip the annoying "Press       ³
+³       any key to continue" message before reentering my source editor.       ³
+³       I have also  used a "mode co80,50" to switch into 50 lines mode,       ³
+³       a mode I use a lot when programming.                                   ³
+³                                                                              ³
+³       The file "GLOBALS.INC" is included in the source. This file con-       ³
+³       tains most of the variables in  the player, but in the TEST file       ³
+³       I only use the "GLOBAL PLAYER:FAR" line to call the player. Some       ³
+³       of the other  variables will be discussed  later, as they can be       ³
+³       used to make scopes or the like in your own programs.                  ³
+³                                                                              ³
+³       The execution of the "TEST.ASM" file is simple - first it checks       ³
+³       if an OPL2 chip is present using a function in the player. If it       ³
+³       isn't, an error is printed and the program is aborted. Otherwise       ³
+³       the ".D00" is loaded, the player initialized and started. I have       ³
+³       used a standard timer interrupt routine to call the AdLib player       ³
+³       as many times as it was used in the  editor (this information is       ³
+³       saved into the ".D00" file). The source  code has been commented       ³
+³       all the way, so I guess I don't have to say more than that.            ³
+³                                                                              ³
+³                                                                              ³
+³       PLAYER FUNCTIONS                                                       ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                       ³
+³                                                                              ³
+³       Use the "CALL PLAYER" label prepared by "GLOBAL PLAYER:FAR" with       ³
+³       registers prepared to access all player functions. The player is       ³
+³       from my old school, so no registers are pushed I'm afraid. Do it       ³
+³       yourself. Here is a list of the functions currently available in       ³
+³       this version of the player.                                            ³
+³                                                                              ³
+³                                                                              ³
+³       MAIN RESET      AH      00h                                            ³
+³                       BX:CX   Segment:offset of ".D00" data #1               ³
+³                       ES:DI   Segment:offset of ".D00" data #2               ³
+³                                                                              ³
+³       Initializes the soundcard, clears variables and resets constants       ³
+³       as well as informing the player of the location of the tune. The       ³
+³       ES:DI pair is normally  not of any interest  to you. It was used       ³
+³       in games  such as "Lollypop" to split up musics and SFX into two       ³
+³       parts; one for general stuff and one for level-specific stuff.         ³
+³                                                                              ³
+³                                                                              ³
+³       RESET           AH      01h                                            ³
+³                                                                              ³
+³       Use this function whenever you want to stop the player. Eg, when       ³
+³       quitting to DOS and stuff like that. Clears all variables too.         ³
+³                                                                              ³
+³                                                                              ³
+³       START           AH      02h                                            ³
+³                       BX      Tune number (Usually 0000h)                    ³
+³                                                                              ³
+³       Actually starts the tune. In BX more than one piece of music can       ³
+³       be triggered, something that was useful in games. However, EdLib       ³
+³       does not know how to pack more than one tune at this moment - so       ³
+³       I guess you have to tap a 0000h there, no matter what.                 ³
+³                                                                              ³
+³                                                                              ³
+³       PLAY            AH      03h                                            ³
+³                                                                              ³
+³       This is the function that goes into the timer interrupt or maybe       ³
+³       the vertical retrace. Whatever. Just as long as you update it as       ³
+³       many times as  the 8th byte  in the ".D00" file is set to. EdLib       ³
+³       sets this byte to 70 (46h) as default.                                 ³
+³                                                                              ³
+³                                                                              ³
+³       TOGGLE          AH      04h                                            ³
+³                       BX      Tune number (Usually 0000h)                    ³
+³                                                                              ³
+³       Pauses the music instantly. This feature is very useful in games       ³
+³       when the pause button is pressed. Calling it once more continues       ³
+³       the music to the best of its abilities; notes falling in quickly       ³
+³       makes the continuation faultless. But if the notes were long...        ³
+³                                                                              ³
+³                                                                              ³
+³       MAINVOL         AH      05h                                            ³
+³                       BL      Main volume for part one                       ³
+³                       BH      Main volume for part two                       ³
+³                       CL      Dividing line                                  ³
+³                                                                              ³
+³       This main volume is a little more complicated than a normal main       ³
+³       volume routine. Using values of 00h-3Fh  in BL or/and BH you can       ³
+³       split the main volume up into certain voice parts. Knowing  that       ³
+³       AdLib has 9 voices, a value of 04h in CL splits up the two reg's       ³
+³       into  voices 0-3 and 4-8. In  games such  as "Lollypop" this was       ³
+³       very useful when seperating main volumes for music or SFX, since       ³
+³       the SFX used voices 0-3 and the music voices 4-8. NOTE: AdLib is       ³
+³       upside down concerning level (volume) values; use 3Fh as silent.       ³
+³                                                                              ³
+³                                                                              ³
+³       SCAN            AH      06h                                            ³
+³                                                                              ³
+³                       CF=0    If the card was detected                       ³
+³                                                                              ³
+³       Tries to detect the OPL2 chip (standard AdLib FM chip) using the       ³
+³       AdLib timer method. If it fails, the carry is set. NOTE: In some       ³
+³       occasions the detection will fail if there is both a GUS (Gravis       ³
+³       Ultrasound) and an OPL2 based soundcard in the computer at once.       ³
+³       It is recommended that you make it possible to override it. Make       ³
+³       a switch on the commandline or something like that.                    ³
+³                                                                              ³
+³                                                                              ³
+³       BREAK/CONTINUE  AH      07h                                            ³
+³                       BL=0    Break, otherwise (if BL<>0) continue           ³
+³                                                                              ³
+³       This is not a function I can imagine you're ever going to use. I       ³
+³       made it to make it possible to  break the tune, "remember" where       ³
+³       it came and start another tune (going into a sublevel). When the       ³
+³       sublevel was over, this function would then continue on the song       ³
+³       it "remembered". Since EdLib does not allow more  than one piece       ³
+³       of music in a ".D00" file, it is not of much use to you! :(            ³
+³                                                                              ³
+³                                                                              ³
+³       REQUEST         AH      08h                                            ³
+³                       BX      Tune number (Usually 0000h)                    ³
+³                                                                              ³
+³                       CF=1    If it is still running                         ³
+³                                                                              ³
+³       Simply checks if a tune or SFX ends. Needless to say it requires       ³
+³       that you use the "FFFExxxx" endmarks in all of the tracks! It is       ³
+³       not of much use to you, but in games it was worth every penny.         ³
+³                                                                              ³
+³                                                                              ³
+³       PLAYER HEADER VARIABLES                                                ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                ³
+³                                                                              ³
+³       From offset 0000h in the player I have put certain constants and       ³
+³       variables at places that will stay the same in every player that       ³
+³       may be developed for EdLib. These may come in handy if  creating       ³
+³       some sort of ".D00" shell which loads the player.                      ³
+³                                                                              ³
+³                                                                              ³
+³       Offset          Description                                            ³
+³       ÄÄÄÄÄÄ          ÄÄÄÄÄÄÄÄÄÄÄ                                            ³
+³                                                                              ³
+³       0000h-0002h     JMP to all functions which ends with RETF              ³
+³                                                                              ³
+³       0003h-0008h     Detection bytes ('JCH',26h,02h,66h)                    ³
+³                                                                              ³
+³       0009h-000ah     Current card player version (0400h)                    ³
+³                                                                              ³
+³       000bh           Indicates normal OPL2 player (00h)                     ³
+³                                                                              ³
+³       000ch           Number of voices supported (09h)                       ³
+³                                                                              ³
+³       000dh-002ch     32 bytes card name ('AdLib     ')                      ³
+³                                                                              ³
+³       002dh-002eh     Pointer to "Inst" variables                            ³
+³                                                                              ³
+³       002fh           Indicates that "Inst" is WORD-based (01h)              ³
+³                                                                              ³
+³       0030h-0031h     Pointer to "Dur" variables                             ³
+³                                                                              ³
+³       0032h           Indicates that "Dur" is WORD-based (01h)               ³
+³                                                                              ³
+³       0033h-0034h     Pointer to "SeqPoi" variables                          ³
+³                                                                              ³
+³       0035h           Indicates that "SeqPoi" is WORD-based (01h)            ³
+³                                                                              ³
+³       0036h-0037h     Pointer to "TrackPoi" variables                        ³
+³                                                                              ³
+³       0038h           Indicates that "TrackPoi" is WORD-based (01h)          ³
+³                                                                              ³
+³       0039h-003ah     Pointer to "Freq" variables                            ³
+³                                                                              ³
+³       003bh           Indicates that "Freq" is WORD-based (01h)              ³
+³                                                                              ³
+³       003ch-003dh     Pointer to "Spedr" variables                           ³
+³                                                                              ³
+³       003eh           Indicates that "Spedr" is BYTE-based (00h)             ³
+³                                                                              ³
+³       003fh-0040h     Pointer to "Gate" variables                            ³
+³                                                                              ³
+³       0041h           Indicates that "Gate" is BYTE-based (00h)              ³
+³                                                                              ³
+³       0042h-0043h     Pointer to "Nog" variables                             ³
+³                                                                              ³
+³       0044h           Indicates that "Nog" is BYTE-based (00h)               ³
+³                                                                              ³
+³       0045h-0046h     Pointer to "Note" variables                            ³
+³                                                                              ³
+³       0047h           Indicates that "Note" is BYTE-based (00h)              ³
+³                                                                              ³
+³       0048h-0067h     32 bytes reserved for future expansion                 ³
+³                                                                              ³
+³       0068h-0070h     ON/OFF flags for all 9 voices (00h=Off)                ³
+³                                                                              ³
+³       0071h-????h     Copyright string, and rest of player                   ³
+³                                                                              ³
+³                                                                              ³
+³       Some notes about the information above may be necessary.               ³
+³                                                                              ³
+³       The JMP at position 0000h makes it  possible to turn  the player       ³
+³       into a BIN-file and just call the player from offset 0000h.            ³
+³                                                                              ³
+³       You may wonder about the detection bytes. The 'JCH' is of course       ³
+³       my initials. 26h,02h,66h is my birthdate; 26th of february 1966.       ³
+³                                                                              ³
+³       Offset 000bh-002ch was made to identify this player from players       ³
+³       written for other soundcards. I soon burried this idea.                ³
+³                                                                              ³
+³       All the variables pointers each points to nine bytes or words in       ³
+³       which you may find valuable information for shell programs. Here       ³
+³       is a deeper explanation of these variables...                          ³
+³                                                                              ³
+³                                                                              ³
+³       "Inst"          9 WORDS         Current instrument played              ³
+³                                                                              ³
+³       "Dur"           9 WORDS         Realtime note duration counters        ³
+³                                                                              ³
+³       "SeqPoi"        9 WORDS         Realtime sequence position             ³
+³                                                                              ³
+³       "TrackPoi"      9 WORDS         Realtime track position                ³
+³                                                                              ³
+³       "Freq"          9 WORDS         Actual raw frequency played            ³
+³                                                                              ³
+³       "Spedr"         9 BYTES         Current speed of the tune              ³
+³                                                                              ³
+³       "Gate"          9 BYTES         Key ON/OFF flags (+++/---)             ³
+³                                                                              ³
+³       "Nog"           9 BYTES         Tienote indicator flags                ³
+³                                                                              ³
+³       "Note"          9 BYTES         Current note including transp.         ³
+³                                                                              ³
+³                                                                              ³
+³       Note that the variables offered in the header of the player will       ³
+³       also be available though the "GlOBALS.INC" file when linking. It       ³
+³       is recommended that you fetch the variables that way if you only       ³
+³       plan on LINKING with the player.                                       ³
+³                                                                              ³
+³       There are more variables in the "GLOBALS.INC" file, but since it       ³
+³       is beyond the scope of this DOC to describe them I will leave it       ³
+³       up to you if you want to figure them all out! ;)                       ³
+³                                                                              ³
+³                                                                              ³
+³       THE ".D00" FORMAT                                                      ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                      ³
+³                                                                              ³
+³       Here comes an extensive description of the ".D00" files. With it       ³
+³       you can make support for ".D00" files in your commandline player       ³
+³       if you're working on such a program.                                   ³
+³                                                                              ³
+³                                                                              ³
+³       Offset          Description                                            ³
+³       ÄÄÄÄÄÄ          ÄÄÄÄÄÄÄÄÄÄÄ                                            ³
+³                                                                              ³
+³       0000h-0005h     Detection bytes ('JCH',26h,02h,66h)                    ³
+³                                                                              ³
+³       0006h           Block type (00h for music data)                        ³
+³                                                                              ³
+³       0007h           Player version required (Usually 04h)                  ³
+³                                                                              ³
+³       0008h           Timer speed for the block (Usually 46h)                ³
+³                                                                              ³
+³       0009h           Number of music and SFX (Usually 01h)                  ³
+³                                                                              ³
+³       000ah           Soundcard (Usually 00h for AdLib)                      ³
+³                                                                              ³
+³       000bh-002ah     32 bytes name of the music                             ³
+³                                                                              ³
+³       002bh-004ah     32 bytes name of composer                              ³
+³                                                                              ³
+³       004bh-006ah     32 bytes reserved for future expansion                 ³
+³                                                                              ³
+³       006bh-006ch     Pointer to "Tpoin" tables                              ³
+³                                                                              ³
+³       006dh-006eh     Pointer to "SeqPointer" tables                         ³
+³                                                                              ³
+³       006fh-0070h     Pointer to "Instrument" tables                         ³
+³                                                                              ³
+³       0071h-0072h     Pointer to "DataInfo" text                             ³
+³                                                                              ³
+³       0073h-0074h     Pointer to "Special" tables (SpFX)                     ³
+³                                                                              ³
+³       0075h           Endmark (FFFFh)                                        ³
+³                                                                              ³
+³                                                                              ³
+³       Again, some notes about the information above may be necessary.        ³
+³                                                                              ³
+³       Offset 0006h is always 00h. It was made to tell music data apart       ³
+³       from sample data. EdLib of course always sets this to 00h.             ³
+³                                                                              ³
+³       Some years ago I spread some old ".D00" music files which I made       ³
+³       in old AdLib players (v02.00 and below). Some of  this music may       ³
+³       not sound too good in player v04.00. Check if this byte contains       ³
+³       04h. If it doesn't, you better avoid playing it.                       ³
+³                                                                              ³
+³       When using the AdLib player you should always check offset 0008h       ³
+³       to see how many times a second the player should be called.            ³
+³                                                                              ³
+³       EdLib always sets offset 0009h to 01h. You cannot make more than       ³
+³       one piece of music at a time in the editor.                            ³
+³                                                                              ³
+³       Offset 000ah is always set to 00h in EdLib. If you encounter any       ³
+³       strange ".D00" files containing any other value you better avoid       ³
+³       playing it.                                                            ³
+³                                                                              ³
+³       Even though the ".D00" format allows 32 bytes for both the music       ³
+³       name and the composer name, EdLib only accepts 20 characters.          ³
+³                                                                              ³
+³       The pointers to various tables is really  not of any interest to       ³
+³       you, except "DataInfo" which in old songs occasionally contained       ³
+³       additional text about the song. Tables  such as "Instrument" may       ³
+³       be useful to know in case you want to edit the ".D00" file! ;)         ³
+³                                                                              ³
+³                                                                              ³
+³       LAST WORDS                                                             ³
+³       ÄÄÄÄÄÄÄÄÄÄ                                                             ³
+³                                                                              ³
+³       You may wonder why it takes so much  time to play a pesky little       ³
+³       AdLib tune. After all, the player is not mixing like MOD players       ³
+³       so what the hell is going on here? Bad programming? No!! It is a       ³
+³       sad fact but true nonetheless; When outputting a value to the FM       ³
+³       chip like OPL2 I must wait 6 "IN" instructions after the reg has       ³
+³       been output, and 35 (!) "IN" instructions after the value itself       ³
+³       has been sent. If I try to decrease the  number of instructions,       ³
+³       some computers begins to play wrong; notes start falling out and       ³
+³       play false. There ARE alternatives to using the "IN" method, one       ³
+³       of the  best is to use the "timer tick" method - but there is an       ³
+³       even better method.                                                    ³
+³                                                                              ³
+³       One of my friends who is working on an editor for OPL3 (the four       ³
+³       operator chip on SB Pro II and SB 16 to mention a few) found out       ³
+³       that this chip has been optimized so much, that instead of 6 and       ³
+³       35 "IN's" it only requires 1 and 0 "IN's" !! I tried it on quite       ³
+³       a lot of computers, it actually works! If the OPL3 exists it may       ³
+³       play well in OPL2 mode with  a very small CPU usage. In fact, it       ³
+³       takes as little time as a native GUS player! :)                        ³
+³                                                                              ³
+³       Only one problem arises however. I have not made a detection for       ³
+³       the OPL3 chip. I haven't  even  tried to, but if I find a way to       ³
+³       do it, I may very well implement it in the next player update. I       ³
+³       need some response on this however. If you think AdLib sucks and       ³
+³       it doesn't make any difference, well - TUFF!                           ³
+³                                                                              ³
+³       If you want to contact me, look in the DOC file for EdLib itself       ³
+³       for a snail mail or FidoNet address.                                   ³
+³                                                                              ³
+³       This OBJ and the editor is freeware and may  be used in programs       ³
+³       that does not earn  you any money, for free. If you  are working       ³
+³       on one of those commandline players for MOD, S3M, MTM  (you name       ³
+³       it), why not  make  support for the ".D00" format?  After all, I       ³
+³       have done most of the work for you already! :)                         ³
+³                                                                              ³
+³                                                                              ³
+³       THE BORING STUFF                                                       ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                       ³
+³                                                                              ³
+³       All files in the archive should be distributed in their original       ³
+³       form - it is forbidden to modify anything. The player may not be       ³
+³       used commercially in any way without permission from the author.       ³
+³                                                                              ³
+³       The names Vibrants, the SirFace System and EdLib  are trademarks       ³
+³       of Jens-Christian Huus. Other product and  company names are the       ³
+³       trademarks of their respective owners.                                 ³
+³                                                                              ³
+³       All warranties are disclaimed, including damage to your hardware       ³
+³       and/or software from use of this product.  In no event will I be       ³
+³       liable to you for any damages - including any lost profits, lost       ³
+³       savings or other incidental or consequential damages arising out       ³
+³       of your use or inability to use the  program, or any other claim       ³
+³       by any other party.                                                    ³
+³                                                                              ³
+³                                                                              ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ

@@ -1,0 +1,1171 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ EdLib v1.05a rev 055 ................... AdLib editor by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³                                                                              ³
+³       INTRODUCTION                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       At last you can lay your hands on an editor which makes full use       ³
+³       of the OPL2 AdLib capabilities of your AdLib card or compatibles       ³
+³       such as the entire Sound Blaster series! The editor you now have       ³
+³       in your possession was in fact developed mainly in 1992-1993. In       ³
+³       1993 I enhanced it furthermore, this time mostly cosmetical only       ³
+³       but also a few userfriendly additions such as a filesystem which       ³
+³       packs the work tune on your harddisk to save space. Since 1993 I       ³
+³       hardly touched it - however, it was used a lot in games projects       ³
+³       such as LollyPop from Brain Bug (released by Rainbow Arts).            ³
+³                                                                              ³
+³       Actually it was my intention to keep the editor for ourselves in       ³
+³       order to support AdLib in games.  However, since the development       ³
+³       of the editor I have experienced a generel hostility towards the       ³
+³       old AdLib standard. People begun to actually hate FM sounds. The       ³
+³       arrival of GUS and AWE 32 made wavetable techniques very popular       ³
+³       and indeed it sounds very good, but there are some things in the       ³
+³       old FM standard that is unique. You can't fiddle with samples in       ³
+³       the same way  as you can with FM. I personally never quite liked       ³
+³       sampling, I find it downright boring. With a FM chip it  is like       ³
+³       on a C64; you have a few parameters and everything you do has to       ³
+³       be done within these parameters. These boundaries makes it funny       ³
+³       to make music, to see how far you can actually push AdLib. To do       ³
+³       sounds on FM requires expertice but if you're good at it, almost       ³
+³       any instrument can be reproduced properly, except perhaps drums.       ³
+³                                                                              ³
+³       This is the reason why I decided to release my editor. It uses a       ³
+³       system very similar to the ordinary tracker system, but has been       ³
+³       enhanced with individual sequences for each track. Each sequence       ³
+³       can  even vary in size. Because  of the natural way of designing       ³
+³       my system, I  find it vastly  superior to the tracker system. It       ³
+³       uses  much less memory and allows each sequence to be transposed       ³
+³       individually. This is the exact same system as I used on the C64       ³
+³       editor which was heavily used in that scene.                           ³
+³                                                                              ³
+³       Freaks from the good old C-64 with the editing system used there       ³
+³       should be able to use the editor right away. Just tap ALT-F1 and       ³
+³       a list of keys will appear. :)                                         ³
+³                                                                              ³
+³       As an extra bonus I have included a player with the instructions       ³
+³       on how to use the finished music in your own programs! Please go       ³
+³       to the "USE" directory and read the DOC file there for some more       ³
+³       information on this.                                                   ³
+³                                                                              ³
+³       All files in this archive is freeware - if you payed for it, you       ³
+³       have been cheated! However, I reserve the rights to maintain all       ³
+³       copyrights. Do NOT reverse engineer my code or else! :(                ³
+³                                                                              ³
+³       If you make some nice tunes in it, why not let it be "EDL-Ware"?       ³
+³       I would be very happy to hear what you can do with this! :)            ³
+³                                                                              ³
+³                                                                              ³
+³       FEATURES                                                               ³
+³       ÄÄÄÄÄÄÄÄ                                                               ³
+³                                                                              ³
+³       The archive contains both the  editor and loads of demo songs to       ³
+³       demonstrate the editor. Below is just some of the things you can       ³
+³       do with the editor...                                                  ³
+³                                                                              ³
+³                                                                              ³
+³       - Edit and play 9 voices of AdLib while viewing and editing 1024       ³
+³         instruments complete with a name for each instrument.                ³
+³                                                                              ³
+³       - Save all music and instruments in a work file of approximately       ³
+³         3 to 9 Kb size. These files will have the extension "EDL".           ³
+³                                                                              ³
+³       - Pack the music to a compressed format (around 1 - 6 Kb), which       ³
+³         is directly playable in your own programs. Extension is "D00".       ³
+³         Packed music also uses much less processor time.                     ³
+³                                                                              ³
+³       - Edit song name and composer name. This information also exists       ³
+³         in the compressed D00 format.                                        ³
+³                                                                              ³
+³       - Because EDL and D00 is not compatible, you can be sure the D00       ³
+³         cannot be ripped and edited. The editor does not load D00. You       ³
+³         may find this bad, but I actually see this as an advantage. Do       ³
+³         you like people to mess around in your source tune? ;)               ³
+³                                                                              ³
+³       - All AdLib parameters editable, with extra enhancements such as       ³
+³         hard restart, arpeggio, modulation programs and finetune.            ³
+³                                                                              ³
+³       - Both tune speed and  timer IRQ speed may be edited. The normal       ³
+³         tune speed uses a floating point  system to access more speeds       ³
+³         with a smaller granularity than normally possible.                   ³
+³                                                                              ³
+³       - Use "+++" to hold a note in sequences and "---" to release it.       ³
+³         This makes it easier to control the ADSR of an instrument.           ³
+³                                                                              ³
+³       - Play with instruments  using "QWERT..." - and if your keyboard       ³
+³         is connected via a  MPU-401 compatible MIDI interface, you can       ³
+³         even play  the AdLib instruments on it, complete with velocity       ³
+³         and aftertouch. And polyphonic too of course. I've tested this       ³
+³         on both the original  MPU-401 and the Sound Blaster 16. I only       ³
+³         use the UART mode on the interface.                                  ³
+³                                                                              ³
+³       - Very flexible track and sequence system taking less memory and       ³
+³         is much more efficient than the standard tracker system. Every       ³
+³         sequence is piled on top of each other to show you exactly how       ³
+³         the music is played.                                                 ³
+³                                                                              ³
+³       - Unique tienote command makes it possible to play notes without       ³
+³         restarting the effects set for the instruments.                      ³
+³                                                                              ³
+³       - Full delete, insert, copy and other similar editing facilities       ³
+³         available in both tracks and sequences.                              ³
+³                                                                              ³
+³       - Use "FollowPlay" to see the music scroll as it is being played       ³
+³         at the same time. You may even use fast forward in this mode.        ³
+³                                                                              ³
+³                                                                              ³
+³       REQUIREMENTS                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       The editor requires a PC with 80x50 text screen capabilities and       ³
+³       an AdLib card or  compatible. Anything  that is equipped with an       ³
+³       OPL2 chip or better. I wouldn't recommend using the SBOS program       ³
+³       for the GUS however - it doesn't emulate FM sounds 100% correct.       ³
+³                                                                              ³
+³       Enhanced keyboard is optional - F11 and F12 is used but has been       ³
+³       duplicated elsewhere to support all keyboards.                         ³
+³                                                                              ³
+³       If you have a MPU-401 interface (or compatible) you can use your       ³
+³       synthesizer to play with AdLib instruments through MIDI.               ³
+³                                                                              ³
+³                                                                              ³
+³       FILES                                                                  ³
+³       ÄÄÄÄÄ                                                                  ³
+³                                                                              ³
+³       The following files should be present in the archive. If they're       ³
+³       not, the archive has  been tampered  with and should be replaced       ³
+³       by a new copy. Remember to unzip with the "-d" switch.                 ³
+³                                                                              ³
+³                                                                              ³
+³          EDLIB.001              7382     Part of the main editor             ³
+³          EDLIB.002              7350     Part of the main editor             ³
+³          EDLIB.DOC             96022     This documentation                  ³
+³          EDLIB.EXE             19184     The main editor                     ³
+³          EDLIB.REV              1722     Revision update list                ³
+³                                                                              ³
+³          PLAYER\DATA.BIN         164     Initialized player data             ³
+³          PLAYER\INTERFAC.BIN     801     Combines player with editor         ³
+³          PLAYER\PLAYER.BIN      4576     AdLib player v04.01                 ³
+³                                                                              ³
+³          SONGS\DRX_BUS.EDL      3593     Drax - "Bus"                        ³
+³          SONGS\DRX_FLAS.EDL     4513     Drax - "Flash2"                     ³
+³          SONGS\DRX_HUMA.EDL     3962     Drax - "Human Nature"               ³
+³          SONGS\DRX_SAD.EDL      3253     Drax - "Sad"                        ³
+³          SONGS\DRX_STRE.EDL     3671     Drax - "Street Wise"                ³
+³                                                                              ³
+³          SONGS\JCH_INS8.EDL     2526     Jch - "Instrument Test #8"          ³
+³          SONGS\JCH_PH6.EDL      2383     Jch - "Phase" (TEST)                ³
+³                                                                              ³
+³          SONGS\MSK_FRSH.EDL     2782     Msk - "Fresh"                       ³
+³          SONGS\MSK_OBER.EDL     3086     Msk - "En lille test"               ³
+³                                                                              ³
+³          SONGS\MTL_ALTT.EDL     3173     Metal - "Alttoga"                   ³
+³          SONGS\MTL_HY11.EDL     4185     Metal - "Hybrid"                    ³
+³          SONGS\MTL_NM11.EDL     4212     Metal - "Soul Shock"                ³
+³          SONGS\MTL_SL12.EDL     3477     Metal - "Sulfo12"                   ³
+³          SONGS\MTL_SP13.EDL     4087     Metal - "Space13"                   ³
+³                                                                              ³
+³          SONGS\PJO_ARGH.EDL     2483     Jo - "Aaaaarggghhh"                 ³
+³          SONGS\PJO_DIP.EDL      2137     Jo - "Dip"                          ³
+³          SONGS\PJO_GALW.EDL     2549     Jo - "Like Galway"                  ³
+³          SONGS\PJO_HORR.EDL     2461     Jo - "Fly in Spiders Web!"          ³
+³          SONGS\PJO_KOER.EDL     2472     Jo - "Koere"                        ³
+³          SONGS\PJO_LAL.EDL      2707     Jo - "Drums are hard to do"         ³
+³          SONGS\PJO_MTHS.EDL     2748     Jo - "Submission to -X-"            ³
+³          SONGS\PJO_REGG.EDL     2293     Jo - "Reggae"                       ³
+³          SONGS\PJO_SUND.EDL     2513     Jo - "Boring Sunday"                ³
+³          SONGS\PJO_TRY2.EDL     2784     Jo - "Hard Guitar"                  ³
+³          SONGS\PJO_WAIT.EDL     2393     Jo - "1st Interstellar Jmp"         ³
+³                                                                              ³
+³          SONGS\VIB_FIS3.EDL     2812     Vibrants - "Fis3"                   ³
+³          SONGS\VIB_VOL3.EDL     2619     Vibrants - "Volly3"                 ³
+³                                                                              ³
+³          USE\-                   277     MakeFile for Borland "MAKE"         ³
+³          USE\GLOBALS.INC        2937     Labels used by the player           ³
+³          USE\MPLAYER.DOC       32636     Documentation on how to use         ³
+³          USE\MPLAYER.OBJ        5783     Player v04.00 OBJ link file         ³
+³          USE\STR_WISE.D00       3082     Drax - "Street Wise" tune           ³
+³          USE\TEST.ASM          12523     Example source code                 ³
+³          USE\TEST.EXE           5869     Run this to hear the music          ³
+³          USE\TEST.OBJ           1285     Test OBJ link file                  ³
+³                                                                              ³
+³          USE\DOS\THE_EGA.CPI    9805     New character set for DOS           ³
+³                                                                              ³
+³                                                                              ³
+³       CPI FILE                                                               ³
+³       ÄÄÄÄÄÄÄÄ                                                               ³
+³                                                                              ³
+³       I have included a file named "THE_EGA.CPI" which  you can use in       ³
+³       your AUTOEXEC.BAT instead of the old "EGA.CPI" file. It contains       ³
+³       a new 80x25 character set by Claus Marn›e (Banshee/Bonzai) and a       ³
+³       great new 80x50 character set by Niels Krogh Mortensen (Who made       ³
+³       the original Hugo TV character for SilverRock Productions). When       ³
+³       using EdLib the editor will look much better with this installed       ³
+³       in your AUTOEXEC.BAT. The editor redefines a few characters, but       ³
+³       still uses  the rest of the character set in DOS. If you live in       ³
+³       Denmark as I do, these lines will do the trick:                        ³
+³                                                                              ³
+³          C:\DOS\MODE CON CP PREP=((865) C:\DOS\THE_EGA.CPI)                  ³
+³          C:\DOS\MODE CON CP SELECT=865                                       ³
+³                                                                              ³
+³       Remember to copy the file in USE/DOS into your DOS directory and       ³
+³       you are off running with the new character set. Look in your DOS       ³
+³       manual for other contry codes specific for your country.               ³
+³                                                                              ³
+³                                                                              ³
+³       INSTRUCTIONS                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       In the following chapters I will try to  describe all the things       ³
+³       that you really need  to know. I will not go  into detail on how       ³
+³       to make music, enter notes and build up a tune  from scratch - I       ³
+³       leave that up to you to  figure that out. If you have previously       ³
+³       been using trackers, you should have no trouble using my editor.       ³
+³                                                                              ³
+³       During these chapters  I will discuss  the commands available in       ³
+³       the  tracks and  sequences, the instrument and SpFX tables, keys       ³
+³       available  in the entire editor - and the command line switches.       ³
+³       Other things global to the editor will be discussed here.              ³
+³                                                                              ³
+³       While editing tracks, sequences and tables  you can benefit from       ³
+³       the help window in the lower left corner of the screen. I advise       ³
+³       you to read this DOC at least once, however.                           ³
+³                                                                              ³
+³       All the three-letter box values in the lower right corner of the       ³
+³       screen will be discussed in the section over keys. The space you       ³
+³       see above the "Oc?" box (octave) will be ticked  whenever a tune       ³
+³       has been modified without saving. This way, you can always check       ³
+³       if it is time to save your tune. However, this version  of EdLib       ³
+³       does not check the box if you only alter the tables. This is due       ³
+³       to technical reasons; the table  routines have  been placed in a       ³
+³       seperate module - and frankly, I was too lazy to fix it! ;)            ³
+³                                                                              ³
+³       The version v04.01 of the player is displayed in the upper right       ³
+³       corner of the screen. In the subdirectory "PLAYER" you will find       ³
+³       the file "PLAYER.BIN" which is the actual player. It is possible       ³
+³       that later  versions of the editor only  requires this player to       ³
+³       be replaced - in case of player updates only. In the upper right       ³
+³       corner  you will also find a  tune clock. Useful if you  want to       ³
+³       measure the exact length of the song.                                  ³
+³                                                                              ³
+³       When using the load/save requester, all EDL files will be placed       ³
+³       in a subdirectory called "SONGS". Later I may enhance the editor       ³
+³       with diretories and path input, but until then you must save and       ³
+³       load all your songs in this directory. Note that when saving the       ³
+³       song you can type the new name at the input prompt in the bottom       ³
+³       of the requester. Songs with an EDL extension will be compressed       ³
+³       to save disk space.                                                    ³
+³                                                                              ³
+³       It is possible to predefine the contents of all sequences in the       ³
+³       editor before actually  using  them. Edit sequence #000 until it       ³
+³       has the appearance you want all sequences to have and then press       ³
+³       Shift-F1 to  fill all  other sequences with it.  Because this is       ³
+³       really happens when the song is cleared; sequence #000 is copied       ³
+³       into all the other sequences!                                          ³
+³                                                                              ³
+³                                                                              ³
+³       SEQUENCE COMMANDS                                                      ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                      ³
+³                                                                              ³
+³       The first column of two in the sequences may take any command of       ³
+³       four hexadecimal digits each. The commands in player v04.01 is:        ³
+³                                                                              ³
+³                                                                              ³
+³       6000            Cut/Stop the voice instantly. Instrument #000 in       ³
+³                       the instrument table is used to cut the voice.         ³
+³                                                                              ³
+³       7XYY            Vibrato - X defines the  speed (0-F), and YY the       ³
+³                       depth (00-FF) of the vibrato effect. This effect       ³
+³                       does NOT make use of the internal OPL2 vibrato.        ³
+³                                                                              ³
+³       90XX            New level - XX defines the  level (00-3F), where       ³
+³                       3F is silent. Level is another word for volume.        ³
+³                                                                              ³
+³       BXXX            Pointer to SpFX table. The SpFX table is the one       ³
+³                       you can access  with the  "K" key. Refer to this       ³
+³                       table for  more information. This  command works       ³
+³                       like an instrument, thus it overrides a CXXX. It       ³
+³                       may range from 000-7FF.                                ³
+³                                                                              ³
+³       CXXX            Instrument. XXX may range from 000 to 3FF. It is       ³
+³                       good practise to  leave #000  as a "no sound" as       ³
+³                       this instrument is in fact  used when typing the       ³
+³                       cut command (6000). The table may  be entered by       ³
+³                       pressing  the "M" key. Refer  to this  table for       ³
+³                       more information.                                      ³
+³                                                                              ³
+³       DXXX            Slide up. XXX defines the speed of sliding.            ³
+³                                                                              ³
+³       EXXX            Slide down. XXX defines the speed of sliding. It       ³
+³                       does not  automatically "tie unto" the next note       ³
+³                       like in other music  players. You must "tie" the       ³
+³                       next note yourself with the «-key and adjust the       ³
+³                       speed of sliding  until  it is perfect. This may       ³
+³                       sound awkward at first, but this way  of sliding       ³
+³                       is much more flexible.                                 ³
+³                                                                              ³
+³                                                                              ³
+³       TRACK COMMANDS                                                         ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                         ³
+³                                                                              ³
+³       The track consists of a DWORD in the editor, but the table is in       ³
+³       fact interpreted word for word internally.                             ³
+³                                                                              ³
+³                                                                              ³
+³       8XYY????        The 8000 command defines  the transposition of a       ³
+³                       sequence. X is the  direction, 0=Up.  YY defines       ³
+³                       the number of halftones to transpose. A value of       ³
+³                       810C transposes the sequence down one octave but       ³
+³                       does not change  the on-screen appearance of the       ³
+³                       notes in the  sequence. Using the  transposition       ³
+³                       feature  properly, you can  save a LOT of  space       ³
+³                       compared to the average tracker system! The word       ³
+³                       ???? defines the sequence number itself.               ³
+³                                                                              ³
+³       FFFFXXXX        When this DWORD  is met,  the voice will restart       ³
+³                       at the position defined in XXXX. It is important       ³
+³                       to know that it counts in WORD steps. This means       ³
+³                       that if you have ten  sequences in a row  with a       ³
+³                       FFFFXXXX in the end, use FFFF0006 to wrap to the       ³
+³                       fourth sequence - like this:                           ³
+³                                                                              ³
+³                               80000001      0 - 1      1st...                ³
+³                                                                              ³
+³                               80000003      2 - 3      2nd...                ³
+³                                                                              ³
+³                               80000001      4 - 5      3rd...                ³
+³                                                                              ³
+³                            Ú> 80000004      6          4th...                ³
+³                            ³                                                 ³
+³                            ³  80070001                 5th...                ³
+³                            ³                                                 ³
+³                            ³  80070003                 6th...                ³
+³                            ³                                                 ³
+³                            ³  80070001                 7th...                ³
+³                            ³                                                 ³
+³                            ³  80070005                 8th...                ³
+³                            ³                                                 ³
+³                            ³  80000002                 9th...                ³
+³                            ³                                                 ³
+³                            ³  80000006                 10th...               ³
+³                            ³                                                 ³
+³                            ÀÄ FFFF0006                 Wrap...               ³
+³                                                                              ³
+³                       The player  interpretes the  wraps independantly       ³
+³                       from voice to voice. This means that neither the       ³
+³                       wrap position nor the length of tracks has to be       ³
+³                       aligned.                                               ³
+³                                                                              ³
+³       FFFE????        This command stops the voice  entirely. The ????       ³
+³                       WORD will be ignored. Very useful for jingles!         ³
+³                                                                              ³
+³                                                                              ³
+³       THE INSTRUMENT TABLE                                                   ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                   ³
+³                                                                              ³
+³       This is the table you enter when pressing "M".  You can also use       ³
+³       the "L" key to toggle between  this table and the SpFX table. If       ³
+³       the table window is not active, it will be made  active (pop-up)       ³
+³       before entering the table.                                             ³
+³                                                                              ³
+³       The instrument table  consists  of 400h (1024) instruments, each       ³
+³       of 16 bytes in size. The bytes mainly controls the hardware OPL2       ³
+³       registers on the card, but I have added a few of my own as well.       ³
+³       When an instrument has been defined, use the CXXX command in the       ³
+³       sequences to use it.                                                   ³
+³                                                                              ³
+³       But first, lets have a look at the instrument itself:                  ³
+³                                                                              ³
+³                                                                              ³
+³               FFFF 3F 20 00  FFFF 3F 20 00  01 02 03 04 05 06                ³
+³              ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÙ                                  ³
+³                  Carrier       Modulator                                     ³
+³                                                                              ³
+³                                                                              ³
+³       The parameters in both carrier and modulator uses the exact same       ³
+³       parameters, only the "modulator" part usually changes the  color       ³
+³       of the sound while the "carrier" changes the volume and pitch. I       ³
+³       said "usually", because this depends on the way the operators is       ³
+³       connected. More about this later.                                      ³
+³                                                                              ³
+³       NOTE: It is wise to leave instrument #0000 at the values defined       ³
+³       in the example above since this instrument is in fact  used when       ³
+³       executing a CUT command (6000 in the command column).                  ³
+³                                                                              ³
+³       The carrier and modulator parameters will be send to the OPL2 FM       ³
+³       chip directly, as they are hardware based. Lets  have a  look at       ³
+³       the parameters individually.                                           ³
+³                                                                              ³
+³                                                                              ³
+³       FFFF    This parameter controls the ADSR of the instrument. Some       ³
+³               of you already knows what this  means. If you  come from       ³
+³               the Commodore 64  and have been fiddling with ADSR here,       ³
+³               all you have to know is that is behaves upside-down - it       ³
+³               takes FF02 instead of 00FE! Otherwise it is very simple.       ³
+³               Each nibble ("F", a halfbyte), takes a parameter from 0h       ³
+³               to Fh, to define four parameters named the Attack, Decay       ³
+³               Sustain and Release. The attack defines the speed of the       ³
+³               volume to reach maximum level, Fh is fastest. As soon as       ³
+³               this level has been reached, the Decay value defines the       ³
+³               speed of the  volume to reach  the Sustain level. Again,       ³
+³               Fh is fastest. Sustain is a pseudo-volume level (volume)       ³
+³               where 0 is loudest. Release again  defines the  speed of       ³
+³               the volume to go from the Sustain level  to silence. All       ³
+³               in all, a diagram like this  can be drawn  to illustrate       ³
+³               the ADSR envelope:                                             ³
+³                                                                              ³
+³                                                                              ³
+³                               /\                                             ³
+³                              /  \                                            ³
+³                             /    \                                           ³
+³                            /      \________________                          ³
+³                           /                        \                         ³
+³                          /                          \                        ³
+³                         /                            \                       ³
+³                                                                              ³
+³                                                                              ³
+³                         ÀÄÄÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÙ                      ³
+³                            A    D         S         R                        ³
+³                                                                              ³
+³                                                                              ³
+³               In the sequence itself, the ADS part of the ADSR will be       ³
+³               run as soon as the note is triggered, and maintained for       ³
+³               as long as the HOLD events (+++) are present. As soon as       ³
+³               the REST events is met (---), the  note releases (R). An       ³
+³               exception to this rule exists in the instrument however.       ³
+³               If bit 5 is set to 0 in the  4th/9th byte (the bytes set       ³
+³               to 20h above), the  Sustain is ignored  and only  an ADR       ³
+³               is executed. In other words, it ignores the HOLD (+++).        ³
+³                                                                              ³
+³               In the modulator, the ADSR works is a similar way - only       ³
+³               it affects the modulation instead of the volume.  Use it       ³
+³               to give "life" to the instrument.                              ³
+³                                                                              ³
+³                                                                              ³
+³       3F      This parameter is split into bit 0-5 for the main volume       ³
+³               (level) and bit 6-7 for keyboard scaled level (KSL). The       ³
+³               level is 00h-3Fh, where 00h is loudest. Add  40h, 80h or       ³
+³               C0h for three rates of KSL. The KSL defines how much the       ³
+³               volume decreases  in volume as the notes climbs upwards.       ³
+³               In other words, the higher the note, the lower the level       ³
+³               of the note. This feature is not used very often.              ³
+³                                                                              ³
+³               In the modulator part, the level affects the  modulation       ³
+³               instead of the volume. 00h is full modulation (100%).          ³
+³                                                                              ³
+³                                                                              ³
+³       20      This is a multiple purpose register of the FM chip. Bits       ³
+³               0-3 defines the multiplier, which  works  like an octave       ³
+³               parameter only it steps in a rather absurd way. With it,       ³
+³               you can change the pitch without  editing the music - to       ³
+³               some degree! Bit 4 (add 10h)  sets the KSR - which means       ³
+³               keyboard scaled rate. It works like KSL only it  affects       ³
+³               the speed of which the ADSR is processed. The higher the       ³
+³               note, the faster the ADSR. Bit 5 (add 20h) selects  ADSR       ³
+³               or only ADR. Normally, you would set this to 1 (ADSR) or       ³
+³               the HOLD/REST in sequences will be ignored;  notes  will       ³
+³               release as soon as the note has been triggered. This may       ³
+³               come in handy at times though. Bit 6 (add 40h) enables a       ³
+³               hardware vibrato. This vibrato is quite  insufficient at       ³
+³               times to say the least, so I added my own vibrato to the       ³
+³               sequence commands (7XYY). Last, bit 7 (add 80h)  enables       ³
+³               the hardware tremolo. Tremolo vibrates the level - think       ³
+³               of it as the "Elvis Costello" bit! ;)                          ³
+³                                                                              ³
+³                                                                              ³
+³       00      Only values  from 00 to 03  is used here (bits 0-1). All       ³
+³               other bits is ignored. This value  defines the  waveform       ³
+³               of the operator. If you come from the  Commodore 64 with       ³
+³               its marvellous SID-chip, you will be disappointed to see       ³
+³               what waveforms this chip has. They are  not  as flexible       ³
+³               as the SID-chip waveforms.  00 is a sine and is loudest.       ³
+³               I have also noticed that waveforms 02 and 03 seems to be       ³
+³               one octave higher than 00 and 01.  I will try my best to       ³
+³               draw the waveforms now using the terrible ASCII chars.         ³
+³                                                                              ³
+³                                                                              ³
+³                                   ÚÄÄ¿                                       ³
+³                                  ÚÙ  À¿                                      ³
+³                                  ³    ³                                      ³
+³                                 ÚÙ    À¿                                     ³
+³                                 ³      ³                                     ³
+³                                 ³      ³                                     ³
+³                          00  =  ÀÄÄÄÄÄÄÅÄÄÄÄÄÄ¿                              ³
+³                                        ³      ³                              ³
+³                                        ³      ³                              ³
+³                                        À¿    ÚÙ                              ³
+³                                         ³    ³                               ³
+³                                         À¿  ÚÙ                               ³
+³                                          ÀÄÄÙ                                ³
+³                                                                              ³
+³                                   ÚÄÄ¿                                       ³
+³                                  ÚÙ  À¿                                      ³
+³                                  ³    ³                                      ³
+³                                 ÚÙ    À¿                                     ³
+³                                 ³      ³                                     ³
+³                                 ³      ³                                     ³
+³                          01  =  ÀÄÄÄÄÄÄÁÄÄÄÄÄÄÄ                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                   ÚÄÄ¿   ÚÄÄ¿                                ³
+³                                  ÚÙ  À¿ ÚÙ  À¿                               ³
+³                                  ³    ³ ³    ³                               ³
+³                                 ÚÙ    ÀÂÙ    À¿                              ³
+³                                 ³      ³      ³                              ³
+³                                 ³      ³      ³                              ³
+³                          02  =  ÀÄÄÄÄÄÄÁÄÄÄÄÄÄÙ                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                   ÚÄ¿    ÚÄ¿                                 ³
+³                                  ÚÙ ³   ÚÙ ³                                 ³
+³                                  ³  ³   ³  ³                                 ³
+³                                 ÚÙ  ³  ÚÙ  ³                                 ³
+³                                 ³   ³  ³   ³                                 ³
+³                                 ³   ³  ³   ³                                 ³
+³                          03  =  ÀÄÄÄÁÄÄÁÄÄÄÁÄÄÄ                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³               This should give you an idea of what the waveforms looks       ³
+³               like. All waveforms are variations on the sine waveform.       ³
+³                                                                              ³
+³                                                                              ³
+³       That concludes the five bytes in each operator, which constructs       ³
+³       the actual sound. The last 6 bytes in the instrument all behaves       ³
+³       globally to the instrument.                                            ³
+³                                                                              ³
+³                                                                              ³
+³       01      This is the last hardware register. In bit 0, you define       ³
+³               the connection of the two operators. Normally it  is set       ³
+³               to 0 (modulation), but if set to 1 (additive), the modu-       ³
+³               lator operator will behave exactly as the  carrier. This       ³
+³               is great for organ sounds! Bits 1-3 defines the feedback       ³
+³               of the modulation  (0,2,4...E), which is  the number  of       ³
+³               times the output is fed right back  into the  modulation       ³
+³               process, creating overtones. If you set it high (E or F)       ³
+³               you get so many of them that you get...noise! So this is       ³
+³               the parameter you use the make drums. Again, if you come       ³
+³               from the Commodore 64 you will be a little disappointed.       ³
+³               The noise is stuck at a high frequency, and cannot sound       ³
+³               as good as the noise on the SID-chip. :(  Often drums on       ³
+³               AdLib can be improved by  using a second voice, in which       ³
+³               you create a bassdrum-like sine which is sliding down.         ³
+³                                                                              ³
+³                                                                              ³
+³       02      This is a software parameter. Use values  00-7F to fine-       ³
+³               tune the instrument - if you are using two voices on top       ³
+³               of each other, this may phase the two voices together in       ³
+³               order to produce a chorus effect.                              ³
+³                                                                              ³
+³                                                                              ³
+³       03      Hard restart timer value. Defines  the  number of frames       ³
+³               BEFORE the next note, that the next value below is to be       ³
+³               processed. 00h turns this OFF. Frames is a  term for the       ³
+³               smallest timeunit a player can measure, which  of course       ³
+³               is the number of times the player is called. If the  IRQ       ³
+³               value is set to 46h, the frame corresponds to 1/70'th of       ³
+³               a second. Good values are 01-03.                               ³
+³                                                                              ³
+³                                                                              ³
+³       04      Hard restart Sustain/Release value. When the timer is up       ³
+³               in the previous byte above, this value  is  put into the       ³
+³               Sustain/Release on the soundcard for that voice. This is       ³
+³               useful to "cut down" on a  long release  before the next       ³
+³               note in a sequence. ADSR usually continues on the Attack       ³
+³               from whatever point the Release from the last note might       ³
+³               have reached, but this is not always desirable.  You can       ³
+³               also use these parameters to make the music more funky.        ³
+³                                                                              ³
+³                                                                              ³
+³       05-06   These bytes are unused in player v04.01. Do  not put any       ³
+³               information into them as they may be used later on. Keep       ³
+³               them at 00h.                                                   ³
+³                                                                              ³
+³                                                                              ³
+³       THE SpFX TABLE                                                         ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                         ³
+³                                                                              ³
+³       This is the table you enter when pressing "K".  You can also use       ³
+³       the "L" key to jump between this table and the instrument table.       ³
+³       If the table window is not active, it will be made active before       ³
+³       entering the table.                                                    ³
+³                                                                              ³
+³       The SpFX (Special Effects) table consists of 800h (2048) effects       ³
+³       lines, of 8 bytes in size. When an SpFX has been defined you can       ³
+³       use the BXXX command in the sequences to point to it.                  ³
+³                                                                              ³
+³       A SpFX "set" may look like this:                                       ³
+³                                                                              ³
+³                                                                              ³
+³               0001 0C FF 10 20 0002                                          ³
+³                                                                              ³
+³                                                                              ³
+³       Let's have a look at these parameters individually.                    ³
+³                                                                              ³
+³                                                                              ³
+³       0001    This WORD defines the instrument to use for the set. Use       ³
+³               values 000-3FF. Add with 8000h to use locked frequencies       ³
+³               with the next byte below.                                      ³
+³                                                                              ³
+³                                                                              ³
+³       0C      Half note value, added to the actual note for as long as       ³
+³               this "set" lasts. Eg, if the note in the sequence is C-2       ³
+³               and this value is 02, the note will sound as D-2. If you       ³
+³               add the WORD value above with 8000h, the values will NOT       ³
+³               be added. Instead, the values will refer to raw notes as       ³
+³               if 00h equals C-0, 01 equals C#0 and so forth. When used       ³
+³               to add the note, the value is signed; 00-7F for positive       ³
+³               and FF-80 for negative (-01h - -80h). Locked frequencies       ³
+³               can often be useful for drums which should be unaffected       ³
+³               by tranpositions.                                              ³
+³                                                                              ³
+³                                                                              ³
+³       FF      New modulator level. The value overrides the 8th byte in       ³
+³               the instrument. If this value is FF, the 8th byte is NOT       ³
+³               replaced  and this value will be ignored.  Useful if you       ³
+³               want to add to the original value in the instrument.           ³
+³                                                                              ³
+³                                                                              ³
+³       10      Modulator level add. Added each frame to the 8th byte in       ³
+³               the instrument, as an alternative to the ADSR modulating       ³
+³               process. The value is a signed byte; 00-7F for  positive       ³
+³               and FF-80 for negative (-01h - -80h). Use the byte above       ³
+³               to set the start modulator level if needed.                    ³
+³                                                                              ³
+³                                                                              ³
+³       20      Duration. Defines the number of  frames (00-FF)  of this       ³
+³               set. 00h is ONE frame. When the counting is up, the next       ³
+³               WORD specifies the next SpFX line to interprete.               ³
+³                                                                              ³
+³                                                                              ³
+³       0002    Pointer to next SpFX line. After the duration counter in       ³
+³               the previous byte  above is up, this WORD  specifies the       ³
+³               next line to jump to. Values ranges from 0000h-07FFh.          ³
+³                                                                              ³
+³                                                                              ³
+³       This table is very useful if you want to make arpeggio or sounds       ³
+³       with more life than the normal ADSR modulation can give you. Now       ³
+³       I won't advise you to make arpeggio chords when you have as much       ³
+³       as 9 voices, but it could come in handy when improving drums. As       ³
+³       an example, here is the dreaded 0-3-7 arpeggio chord:                  ³
+³                                                                              ³
+³                                                                              ³
+³               0000: 0001 00 FF 00 0001                                       ³
+³               0001: 0001 03 FF 00 0002                                       ³
+³               0002: 0001 07 FF 00 0000                                       ³
+³                                                                              ³
+³                                                                              ³
+³       The above example uses instrument #0001 to produce a 0-3-7 chord       ³
+³       using arpeggio. The duration bytes  are all 00, meaning that the       ³
+³       arpeggio  will run at the fastest possible speed.  No modulation       ³
+³       adding is involved. Notice how the pointers makes the three sets       ³
+³       spin around in an endless loop! Use B000 in  the sequence to try       ³
+³       out this minor arpeggio chord.                                         ³
+³                                                                              ³
+³                                                                              ³
+³       KEYS                                                                   ³
+³       ÄÄÄÄ                                                                   ³
+³                                                                              ³
+³       Here is a list of all keys available in EdLib, some of them with       ³
+³       a deeper description than found in the HELP pages (Alt-F1).            ³
+³                                                                              ³
+³                                                                              ³
+³       F1              Play normally from StartPoint (SP) position.           ³
+³                                                                              ³
+³                       This key does not scroll the  music, useful when       ³
+³                       editing the music while it is playing.                 ³
+³                                                                              ³
+³                                                                              ³
+³       F2              Stop all music activity.                               ³
+³                                                                              ³
+³                       You can also use the ESCAPE key. If you're using       ³
+³                       a MIDI keyboard, you can also cut hanging voices       ³
+³                       with this key.                                         ³
+³                                                                              ³
+³                                                                              ³
+³       F3              FollowPlay from StartPoint position.                   ³
+³                                                                              ³
+³                       The music scrolls as the music plays to show the       ³
+³                       current position being played. Use the CTRL keys       ³
+³                       as a fast forward function in this mode. NOTE: I       ³
+³                       do not recommend using  disk cache software such       ³
+³                       as "SMARTDRV" as it disrupts the scrolling! :(         ³
+³                                                                              ³
+³                                                                              ³
+³       F4              Set new StartPoint position (SP).                      ³
+³                                                                              ³
+³                       You can set the new position anywhere, no matter       ³
+³                       if you're halfway through a sequence or not. The       ³
+³                       hexadecimal stepcounter to the  left of the main       ³
+³                       editing area will turn dark blue below the point       ³
+³                       and light blue after it.                               ³
+³                                                                              ³
+³                                                                              ³
+³       F5              Copy any sequence into the current sequence.           ³
+³                                                                              ³
+³                       Use this key to overwrite the  sequence you  are       ³
+³                       currently editing, with the contents of another.       ³
+³                                                                              ³
+³                                                                              ³
+³       F6              Decrease the tune speed.                               ³
+³                                                                              ³
+³                       Hold CTRL to specifically define it.                   ³
+³                                                                              ³
+³                                                                              ³
+³       F7              Increase the tune speed.                               ³
+³                                                                              ³
+³                       Hold CTRL to specifically define it. The Spd box       ³
+³                       in the bottom right corner of the screen informs       ³
+³                       you of the current value.                              ³
+³                                                                              ³
+³                                                                              ³
+³       F8              Define new SuperInsert size.                           ³
+³                                                                              ³
+³                                                                              ³
+³       F9              Execute the SuperInsert in a sequence.                 ³
+³                                                                              ³
+³                       When pressing this key you  will insert  as many       ³
+³                       events into the sequence as defined  with the F8       ³
+³                       key. The SpI counter  in the bottom right corner       ³
+³                       of the  screen informs you of the current value.       ³
+³                       Note that you can have no  more than 5Fh  events       ³
+³                       in a single sequence. If you want more than this       ³
+³                       you have to split it up into two sequences.            ³
+³                                                                              ³
+³                                                                              ³
+³       F10             Goto any stepcounter line.                             ³
+³                                                                              ³
+³                       The hexadecimal stepcounter is the column to the       ³
+³                       far left of the editing area.                          ³
+³                                                                              ³
+³                                                                              ³
+³       F11             Define new RhythmJump value.                           ³
+³                                                                              ³
+³                       Sets the number of events the cursor jumps after       ³
+³                       pressing a note key in the sequence. The RtJ box       ³
+³                       in the bottom right corner of the screen informs       ³
+³                       you of the current value.                              ³
+³                                                                              ³
+³                                                                              ³
+³       F12             Load music in EDL format.                              ³
+³                                                                              ³
+³                       Brings up a  file requester  from which  you can       ³
+³                       choose an EDL file to load. You can also use the       ³
+³                       Ctrl-F3 key.                                           ³
+³                                                                              ³
+³                                                                              ³
+³       Shift F1        Clear all tracks and sequences.                        ³
+³                                                                              ³
+³                       Leaves the instruments and SpFX tables intact. A       ³
+³                       useful function when  borrowing instruments from       ³
+³                       another song. Sequence #000 is actually  used to       ³
+³                       fill all sequences, so if you edit this sequence       ³
+³                       before clearing you can userdefine all at once.        ³
+³                                                                              ³
+³                                                                              ³
+³       Shift F2        Clear instruments and SpFX tables.                     ³
+³                                                                              ³
+³                       Leaves the tracks and sequences intact. May come       ³
+³                       in handy if you disliked all the instruments and       ³
+³                       want to start all over defining them again.            ³
+³                                                                              ³
+³                                                                              ³
+³       Shift F5        Copy any sequence into another sequence.               ³
+³                                                                              ³
+³                       As the F5 key, only it takes both a source and a       ³
+³                       destination input.                                     ³
+³                                                                              ³
+³                                                                              ³
+³       Shift F12       Save music in EDL format.                              ³
+³                                                                              ³
+³                       Brings up a  file requester  from which  you can       ³
+³                       save your song. You can also use the Ctrl-F4 key       ³
+³                       instead.                                               ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F1         Decrease the IRQ timer speed.                          ³
+³                                                                              ³
+³       Ctrl F2         Increase the IRQ timer speed.                          ³
+³                                                                              ³
+³                       The above keys changes the timer interrupt speed       ³
+³                       of the song. Be careful when using these! Better       ³
+³                       have a talk with the programmer using your music       ³
+³                       to make sure he accepts the  new value. Normally       ³
+³                       they are set to 46h (70) which matches the speed       ³
+³                       of the screen  update in 320x200 mode. This way,       ³
+³                       the music can be  used in a vertical retrace. In       ³
+³                       some situations you can make use of a fast timer       ³
+³                       interrupt to speed up the arpeggio in an instru-       ³
+³                       ment. If you only want to change  the speed of a       ³
+³                       song, use the F6/F7 keys instead. The Irq box in       ³
+³                       the bottom right corner of the screen keeps hold       ³
+³                       of the current timer interrupt speed.                  ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F3         Load music in EDL format.                              ³
+³                                                                              ³
+³                       You can also use the F12 key.                          ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F4         Save music in EDL format.                              ³
+³                                                                              ³
+³                       You can also use the Shift-F12 key.                    ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F5         Convert the music to D00 format and save it.           ³
+³                                                                              ³
+³                       This brings up a requester asking for a filename       ³
+³                       of the packed tune. After typing this, the music       ³
+³                       will be  packed and saved as a  D00 file - to be       ³
+³                       used in your own programs. The packed tune can't       ³
+³                       be loaded into the editor again, so  be sure you       ³
+³                       save your source with Shift-F12 or Ctrl-F4! Note       ³
+³                       that the  packer goes into  a 9-PASS process. It       ³
+³                       has been tested intensively with  no problems so       ³
+³                       far - however, should the packer ever lock up at       ³
+³                       any time, please  note the pass  number and mail       ³
+³                       me this number. My  address can be  found in the       ³
+³                       end of this file. Thank you!                           ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F6         Define new tune speed.                                 ³
+³                                                                              ³
+³                       Input the speed. Use F6/F7 to decrease/increase.       ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F7         Define new tune speed.                                 ³
+³                                                                              ³
+³                       Input the speed. Use F6/F7 to decrease/increase.       ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F9         Input music name in top of screen.                     ³
+³                                                                              ³
+³                       The input takes 20 characters as the name of the       ³
+³                       music. Remember to do this  before saving a tune       ³
+³                       to disk or  packing it! D00-files also  contains       ³
+³                       this string.                                           ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl F10        Input composer name in top of screen.                  ³
+³                                                                              ³
+³                       Again takes 20 characters.  Remember to press it       ³
+³                       before saving or packing the tune! The D00-files       ³
+³                       also contains this string.                             ³
+³                                                                              ³
+³                                                                              ³
+³       M               Enter instrument table.                                ³
+³                                                                              ³
+³                       Will enter the instrument table at  the position       ³
+³                       you left it at last time. If the table window is       ³
+³                       not active, it will be made active first.              ³
+³                                                                              ³
+³                                                                              ³
+³       K               Enter SpFX table.                                      ³
+³                                                                              ³
+³                       Will enter the table at the position you left it       ³
+³                       at last time. If the table window is not active,       ³
+³                       it will be made active first.                          ³
+³                                                                              ³
+³                                                                              ³
+³       L               Toggle between instrument and SpFX tables.             ³
+³                                                                              ³
+³                       Enters the other table. If you type it outside a       ³
+³                       table it will enter the other table than the one       ³
+³                       you edited last time. If the table window is not       ³
+³                       active, it will be made active first.                  ³
+³                                                                              ³
+³                                                                              ³
+³       Alt Down        Change main volume byte below the current voice.       ³
+³                                                                              ³
+³                       Beneath each voice you'll find a value which can       ³
+³                       be edited with this key combination. The volumes       ³
+³                       controls the main volume for that voice, and has       ³
+³                       priority over volume commands in the sequence.         ³
+³                                                                              ³
+³                                                                              ³
+³       Alt Up          Change logical voice byte above the voice.             ³
+³                                                                              ³
+³                       Using "Alt-Up"  you can change the value above a       ³
+³                       voice. This value is the  physical  voice number       ³
+³                       attached to the voice.  Changing the values, you       ³
+³                       can  completely rearrange voices - you  can even       ³
+³                       make the same voice appear at several places! It       ³
+³                       may come in handy when some voices has something       ³
+³                       in common, like chords or double-voice drums.          ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl            Fast forward while in FollowPlay mode.                 ³
+³                                                                              ³
+³                       Only works when in  FollowPlay mode. You  cannot       ³
+³                       use fast forward when playing with F1.                 ³
+³                                                                              ³
+³                                                                              ³
+³       Alt 1-9         Toggles voices 1-9 ON or OFF.                          ³
+³                                                                              ³
+³                       Note that the logical voice numbers above voices       ³
+³                       goes dark grey when a voice is OFF.                    ³
+³                                                                              ³
+³                                                                              ³
+³       Alt Tab         Turn all voices OFF except the edited voice.           ³
+³                                                                              ³
+³                                                                              ³
+³       ,               Turn all voices ON.                                    ³
+³                                                                              ³
+³                                                                              ³
+³       .               Turn all voices OFF.                                   ³
+³                                                                              ³
+³                                                                              ³
+³       -               Toggle current voice ON or OFF.                        ³
+³                                                                              ³
+³                                                                              ³
+³       Q2W3ER5...      Play in note column or instrument/SpFX tables.         ³
+³                                                                              ³
+³                       Use these keys to play with the instrument or to       ³
+³                       type notes in the right column of a sequence. As       ³
+³                       you type a key the instrument last edited in the       ³
+³                       main instrument table will play. Use the Ctrl-Up       ³
+³                       and Ctrl-Down keys to change the octave.               ³
+³                                                                              ³
+³                                                                              ³
+³       Spacebar        Erase sequence command or a REST in note column.       ³
+³                                                                              ³
+³                       In the sequence itself you can erase commands or       ³
+³                       notes by tapping space on them.  SPACE on a note       ³
+³                       enters a REST (---) event.                             ³
+³                                                                              ³
+³                                                                              ³
+³       X/C/V           Put a HOLD (+++) in the note column.                   ³
+³                                                                              ³
+³                       All 3 keys have the  exact same  meaning. I made       ³
+³                       this to make it easier  for you to edit blindly.       ³
+³                       As the key is pressed, a HOLD (+++) appears.           ³
+³                                                                              ³
+³                                                                              ³
+³       Z               HOLD to the previous note, REST to the next.           ³
+³                                                                              ³
+³                       A very useful command that should be used  when-       ³
+³                       ever possible instead of SPACE  and X/C/V. Press       ³
+³                       it to put HOLD (+++) up towards the note and put       ³
+³                       REST (---) down towards the next one. It ignores       ³
+³                       the presence  of old HOLD and REST. Also, it may       ³
+³                       be pressed in  the command column - which is not       ³
+³                       possible with the other HOLD/REST keys.                ³
+³                                                                              ³
+³                                                                              ³
+³       «               Toggle tienote ON or OFF.                              ³
+³                                                                              ³
+³                       On my keyboard it is the key just below  the ESC       ³
+³                       and above the TAB key. When pressed  on an event       ³
+³                       in a sequence, it toggles the note white/yellow.       ³
+³                       When white, the note is changed in the music but       ³
+³                       the effects of the instrument is NOT restarted.        ³
+³                                                                              ³
+³                                                                              ³
+³       Enter           Jumps between track editing or sequence editing.       ³
+³                                                                              ³
+³                       Also used to edit names in the instrument table.       ³
+³                                                                              ³
+³                       This is probably the most used key when  editing       ³
+³                       notes as it jumps in and out of track values. In       ³
+³                       the instrument table you can edit the name of an       ³
+³                       instrument  with this key. This name may contain       ³
+³                       up to 16 characters.                                   ³
+³                                                                              ³
+³                                                                              ³
+³       Tab             Jump to the right voice.                               ³
+³                                                                              ³
+³       Ctrl Tab        Jump to the left voice.                                ³
+³                                                                              ³
+³                       Use the above keys  to switch between voices. As       ³
+³                       you enter a new voice the voice is "blown up" to       ³
+³                       show the entire voice (track, commands & notes).       ³
+³                       The other voices  will be shrinked, so that only       ³
+³                       the notes can be seen - the most essential part!       ³
+³                       You can spot the beginning  and end of sequences       ³
+³                       by observing the ">   <" signs around the notes.       ³
+³                                                                              ³
+³                                                                              ³
+³       Q               Enter the next unused sequence in the track.           ³
+³                                                                              ³
+³                       Another useful function. When editing a song and       ³
+³                       deleting/inserting  sequences, you  may at times       ³
+³                       forget which sequences  you have  used and which       ³
+³                       you have trashed. By pressing the key on a track       ³
+³                       number, the  editor will  automatically find the       ³
+³                       first unused sequence number and enter the value       ³
+³                       for you.                                               ³
+³                                                                              ³
+³                                                                              ³
+³       ///         Cursor keys, used globally in the editor.              ³
+³                                                                              ³
+³                                                                              ³
+³       Home/End        Used globally in the editor.                           ³
+³                                                                              ³
+³                                                                              ³
+³       Delete          Delete in track or sequence mode.                      ³
+³                                                                              ³
+³                                                                              ³
+³       Insert          Insert in track or sequence mode.                      ³
+³                                                                              ³
+³                       Note that you can have no  more than 5Fh  events       ³
+³                       in a single sequence. If you want more than this       ³
+³                       you have to split it up into two sequences.            ³
+³                                                                              ³
+³                                                                              ³
+³       ESC             Exits modes, also stops the music.                     ³
+³                                                                              ³
+³                       This is also used to remove the windows with the       ³
+³                       instrument and SpFX tables.                            ³
+³                                                                              ³
+³                                                                              ³
+³       Page Up/Down    Used globally in the editor.                           ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl Up         Increase the note octave.                              ³
+³                                                                              ³
+³       Ctrl Down       Decrease the note octave.                              ³
+³                                                                              ³
+³                       The above keys changes the octave available with       ³
+³                       "Q2W3ER5..." keys. The Oc? counter in the bottom       ³
+³                       right corner  of the screen  informs you of  the       ³
+³                       current value. Also Ctrl-Right may decrease.           ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl Pg Up      Home to the absolute top.                              ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl Pg Down    Home to the absolute bottom.                           ³
+³                                                                              ³
+³                       Does not yet work in the voice editing area.           ³
+³                                                                              ³
+³                                                                              ³
+³       S               Toggle CPU rastertime ON or OFF.                       ³
+³                                                                              ³
+³                       The rastertime is shown as  a grey block in  the       ³
+³                       outscan border. May be useful for the programmer       ³
+³                       but keep in mind that the  music takes much more       ³
+³                       rastertime in the editor than when packed!             ³
+³                                                                              ³
+³                                                                              ³
+³       Ctrl Break      Exit to DOS.                                           ³
+³                                                                              ³
+³                       You can skip the palette fade with the /P switch       ³
+³                       on the commandline.                                    ³
+³                                                                              ³
+³                                                                              ³
+³       COMMANDLINE PARAMETERS                                                 ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                 ³
+³                                                                              ³
+³       Note that all switches may be preceeded with  either a slash "/"       ³
+³       or a minus "-" character. Slash is used in the examples below.         ³
+³                                                                              ³
+³       You can load an EDL file from the commandline prompt, if needed.       ³
+³                                                                              ³
+³       Usage:  EDLIB [<Switches>] [<Name of EDL file>]                        ³
+³                                                                              ³
+³                                                                              ³
+³       /?              Help page briefly describing the switches.             ³
+³                                                                              ³
+³                                                                              ³
+³       /F              Use followplay immediately.                            ³
+³                                                                              ³
+³                       Useful when loading an EDL file from the command       ³
+³                       line and you want to play it right away.               ³
+³                                                                              ³
+³                                                                              ³
+³       /P              Do not fade colors when quitting.                      ³
+³                                                                              ³
+³                       If you feel annoyed having to  wait for the fade       ³
+³                       to get finished, use this switch to skip it.           ³
+³                                                                              ³
+³                                                                              ³
+³       /C              Convert EDL to D00 (NOT READY YET).                    ³
+³                                                                              ³
+³                       Reserved for future expansion; may in later ver-       ³
+³                       sions of EdLib convert  from EDL  to D00 without       ³
+³                       having to enter the editor itself. Until this is       ³
+³                       implemented  you must  do it with Ctrl-F5 inside       ³
+³                       the editor.                                            ³
+³                                                                              ³
+³                                                                              ³
+³       /M              Use the MPU-401 interface.                             ³
+³                                                                              ³
+³                       If you have  an  external  synthesizer connected       ³
+³                       through you MPU-401 MIDI interface  you can play       ³
+³                       the AdLib instruments on it. Cursor up  and down       ³
+³                       in the instrument table to choose the instrument       ³
+³                       and change the octave with Ctrl-Up or Ctrl-Down.       ³
+³                       Now you can play this instrument on the keyboard       ³
+³                       synth, using full  polyphony and  velocity. Note       ³
+³                       that aftertouch uses a  default vibrato  setting       ³
+³                       which is independant of the bytes in the editor.       ³
+³                       You cannot use the MIDI to record music  in this       ³
+³                       version of EdLib.                                      ³
+³                                                                              ³
+³                                                                              ³
+³       /A              Ignore AdLib detection.                                ³
+³                                                                              ³
+³                       Useful at times when the detection routine might       ³
+³                       fail, even  if an  OPL2 IS present! E.g, if your       ³
+³                       computer uses both a Sound Blaster and  a Gravis       ³
+³                       Ultrasound at the same time. The timer detection       ³
+³                       does not always work in those circumstances.           ³
+³                                                                              ³
+³                                                                              ³
+³       CONTACT ADDRESS                                                        ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                        ³
+³                                                                              ³
+³       That does it for this DOC. I'm  sorry if I haven't  been nice to       ³
+³       your printer making formfeeds, table of contents and  other nice       ³
+³       stuff. But what the heck - you only want to read this once - the       ³
+³       help pages in the editor ought to do the rest. :)                      ³
+³                                                                              ³
+³       I hope you actually managed to read the DOC in spite of my awful       ³
+³       grammar! I know it turns out a smile once in a while. As long as       ³
+³       you can understand what I mean, I don't really give a damn...          ³
+³                                                                              ³
+³       If you want to contact me for some (legal only!) reason, you can       ³
+³       write to the following snail mail address:                             ³
+³                                                                              ³
+³                                                                              ³
+³               Jens-Christian Huus                                            ³
+³               Tranegaardsvej 71 a                                            ³
+³               2900 Hellerup                                                  ³
+³               Denmark                                                        ³
+³                                                                              ³
+³                                                                              ³
+³       FidoNet: 2:236/86.22 (Kilroy BBS)                                      ³
+³                                                                              ³
+³                                                                              ³
+³       THE BORING STUFF                                                       ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                       ³
+³                                                                              ³
+³       All files in the archive should be distributed in their original       ³
+³       form - it is forbidden to modify anything. The player may not be       ³
+³       used commercially in any way without permission from the author.       ³
+³                                                                              ³
+³       The names Vibrants, the SirFace System and EdLib  are trademarks       ³
+³       of Jens-Christian Huus. Other product and  company names are the       ³
+³       trademarks of their respective owners.                                 ³
+³                                                                              ³
+³       All warranties are disclaimed, including damage to your hardware       ³
+³       and/or software from use of this product.  In no event will I be       ³
+³       liable to you for any damages - including any lost profits, lost       ³
+³       savings or other incidental or consequential damages arising out       ³
+³       of your use or inability to use the  program, or any other claim       ³
+³       by any other party.                                                    ³
+³                                                                              ³
+³                                                                              ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ

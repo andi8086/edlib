@@ -1,0 +1,223 @@
+
+
+
+
+             HOW TO USE THE VIBRANTS PLAYERS IN ASSEMBLER LANGUAGE
+             ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+All Code & Data (C) Copyright 1992 Jens-Christian Huus. All Rights reserved. The
+contents of this directory is public domain, but may not be used for any commer-
+cial use whatsoever. In other words, if you want music for games - contact me!
+
+
+
+
+
+INTRODUCTION                                                           Chapter 1
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+The Play-Driver supplied in this directory was programmed to accept all kinds of
+different players developed by VIBRANTS, for a wide range of soundcards on the
+PC and compatibles. The Play-Driver itself will display a lot of useful informa-
+tion about the module currently playing, making it a joy to use - not just for
+the plain listener, but also for the programmer who wants to use the module in
+his own assembler programs.
+
+
+WHERE TO FIND THE FILES NEEDED                                         Chapter 2
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+As soon as you execute the Play-Driver with a music-filename following it, you
+will be met with a screen containing information on both the data and the player
+currently loaded. Notice the version number and the type of player. The exten-
+sion used in the music-filename also refers to the specific Card-Player needed
+for playing the module. In the directory PLAYERS you will find the player that
+was used for this module, the name containing both the right version number and
+the extension matches the music-filename's extension. This is the player you can
+use together with the module you tested!
+
+If you used a music-filename in the Play-Driver which loaded a module playing
+samples, you will need the sample block in the directory SAMPLES as well. This
+file matches the music-filename with the exception of the "D" in the extension,
+which has been exchanged with a "S" instead.
+
+Now everything you need to do is to load the two (or three, if a sample block
+is needed) blocks into your program. The player always needs to be located in
+offset 0000h in a segment, but the musicdata can be located anywhere in the
+memory. The sample block must be put at a clean offset 0000h as well. Some of
+the older players for samples also requires the sample block to be put at a
+clean segment adress, Eg. 6000:0000 or the like, because of limitations in the
+DMA controller.
+
+
+HOW TO ACCESS THE PLAYER                                               Chapter 3
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+The player is called using a DOS-like call to segment offset 0000h and features
+multivoiced sound-effects as well as music in the background. The CALL to off-
+set 0000h uses functions compatible with as many soundcard players as possible.
+Some soundcard players needs an extra register here and there, Eg. in order to
+define the location of a possible sample block, but all in all, the players uses
+the same functions. These functions will be described in this chapter.
+
+TIP: After loading the Player into an allocated segment, I personally use the
+     following way to call the player; If AX contains the segment of the Player
+     and I have label like "PLAYER dw 0,0", I always use a "MOV [PLAYER+2],AX"
+     to store the value. Then, every time I need to call the player, all I have
+     to do is to type "CALL DWORD PTR [PLAYER]". The following examples will use
+     the simpler "CALL PLAYER" though, in order to maintain a better overview.
+
+
+MAIN RESET
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-
+This is a CALL you must activate once in your initialisation code. It is vital
+that you always remember it, as it both clears the soundcard AND sets some over-
+all internal registers. When calling the MAIN RESET routine you must precede it
+with a BX value containing the segment adress of the music data the player
+should read, plus a CX value with an offset value to the data in that segment.
+
+        MOV     AH,0 (MAIN RESET)
+        MOV     BX,(Seqment adress of music data)
+        MOV     CX,(Offset in segment)
+      [ MOV     DX,(Segment adress of sample block) ]
+        CALL    PLAYER
+      [ JC      RESET_ERROR ]
+
+The combination BX:CX will as previously mentioned allow you to place the music-
+data anywhere in the normal memory area. If the player uses a sample block (Eg.
+as a Sound Blaster player), you will need to specify the segment adress of this
+block in the DX register as well.
+
+After calling the MAIN RESET routine, the carry will be set if an error occured
+during the access with the I/O ports. However, a missing soundcard can be the
+reason for this error as well. NOTE: The carry function is NOT available in the
+older AdLib players v00.10 and v01.14!
+
+
+RESET
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Sometimes it will be handy to clear and stop not only the player but also the
+entire soundcard, f.ex. when exitting to DOS. This is exactly what this function
+has been designed to do:
+
+        MOV     AH,1 (RESET)
+        CALL    PLAYER
+
+In fact, this function does exactly the same as MAIN RESET, except from setting
+the BX:CX (and DX) registers.
+
+
+START
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+After CALL'ing the MAIN RESET routine you can send the sound output number by
+loading BX with the sound number. F.ex if you want to call music number 5, which
+could be a hiscore tune, then simply write:
+
+        MOV     AH,2 (START)
+        MOV     BX,0005h
+        CALL    PLAYER
+
+Note that all call ranges starts from 00h, meaning that FIVE tunes in a player
+should be called from 00h to 04h in BX. This routine is used for calling music
+as well as sfx, and can be designed for multivoiced effects. This, however,
+depends on the internal assignment of voices for the music and sfx.
+
+
+PLAY
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-
+This is the CALL you must use in the runcode part of your program. In the Play-
+Driver you can see how many times a second the module should be called. Usually,
+the timer interrupt is used for this purpose.
+
+        MOV     AH,3 (PLAY)
+        CALL    PLAYER
+
+
+TOGGLE
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-
+While calling the player in your program it can sometimes be handy to pause the
+output, Eg. if the PAUSE button is pressed. Using the same BX value as used when
+calling START you can pause any part of the player's sound output, if playing at
+that time. Calling TOGGLE again with the same BX value will continue the sound
+from the point where you last paused it. F.ex, if you're playing a tune in the
+background with BX=2 and you're calling a descending sfx with BX=3, then...
+
+        MOV     AH,4 (TOGGLE)
+        MOV     BX,0003h
+        CALL    PLAYER
+
+...will pause the sfx but still keep the music playing. Repeating the above code
+again will continue the sfx from where you stopped it, still without affecting
+the background music. Please note that some soundcard players does not continue
+with the effects before triggering the next note on.
+
+
+MAINVOL
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-
+The main volume is the same as the volume controlled in the Play-Driver using
+the Up/Down keys. This volume function has first priority, meaning that any
+other volume commands occuring inside the player will keep beneath this volume.
+This makes it suitable for fading when changing screens in your program. The
+main volume can be set by choosing it from 00h - 3Fh in BL, with 00h being the
+loudest:
+
+        MOV     AH,5 (MAINVOL)
+        MOV     BL,10h
+        CALL    PLAYER
+
+The above code will set the main volume to 10h. Using this CALL you can fade
+all sound output up or down using your own simple BX loops, f.ex. when leaving
+the titlescreen page in a game. NOTE: When calling the RESET routine the main
+volume will always be reset to 00h (loudest).
+
+
+SCAN
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-
+This is a simple detection routine you can call to check if the soundcard needed
+is actually present. The routine returns the CARRY SET if no card was detected
+for the player to use.
+
+        MOV     AH,6 (SCAN)
+        CALL    PLAYER
+        JC      NO_CARD_PRESENT
+
+You can use this function even before using the MAIN RESET function, it does not
+need any data from other blocks. The Play-Driver always calls this function be-
+fore starting any module. NOTE: The old AdLib player v00.10 does NOT support
+this function!
+
+
+DIFFICULTIES                                                           Chapter 4
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+The music player has been programmed to make minimum use of the stack. However,
+it DOES use a few CALL's inside the program, apart from saving the DS and ES
+segment registers on stack as well. Therefore, you must be sure your stack seg-
+ment allows a few bytes extra when calling the player.
+
+Visible register usage by CALL's: AX, BX, CX, DX, DI, SI and BP.
+
+The player does NOT use the stackregisters SS and SP directly.
+
+All CALL's returns using the RETF commands, to ensure that your code segment
+value is safe. This means that you MUST call the player with a FAR label. If you
+try to call it with a NEAR label, your program will crash.
+
+
+CONTACT INFO                                                           Chapter 5
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+
+If you want to get in touch with me for some reason, either to comment on the
+players or to report a bug - or perhaps to share some knowledge in how to pro-
+gram the soundcards available for the PC, then write to:
+
+        Jens-Christian Huus
+        Tranegaardsvej 71 A
+        2900 Hellerup
+        Denmark
+
+NOTE: I am NOT interested in any kind of illegal swapping. Both the player, the
+driver and music data is the (C) Copyright of Jens-Christian Huus and may not be
+used commercially. If you want to use some music for games or demonstration pro-
+grams, you MUST get in touch with me first.
+

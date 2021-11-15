@@ -1,0 +1,59 @@
+
+
+
+
+³
+³       INSTRUCTIONS
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ
+³
+³       In the following chapters I will try to  describe all the things
+³       that you really need  to know. I will not go  into detail on how
+        to make music, enter notes and build up a tune  from scratch - I
+        leave that up to you to  figure that out. If you have previously
+        been using trackers, you should have no trouble using my editor.
+
+        During these chapters  I will discuss  the commands available in
+        the  tracks and  sequences, the instrument and SpFX tables, keys
+        available  in the entire editor - and the command line switches.
+        Other things global to the editor will be discussed here.
+
+        While editing tracks, sequences and tables  you can benefit from
+        the help window in the lower left corner of the screen. I advise
+        you to read this DOC at least once, however.
+
+        All the three-letter box values in the lower right corner of the
+        screen will be discussed in the section over keys. The space you
+        see above the "Oc?" box (octave) will be ticked  whenever a tune
+        has been modified without saving. This way, you can always check
+        if it is time to save your tune. However, this version  of EdLib
+        does not check the box if you only alter the tables. This is due
+        to technical reasons; the table  routines have  been placed in a
+        seperate module - and frankly, I was too lazy to fix it! ;)
+
+        The version v04.01 of the player is displayed in the upper right
+        corner of the screen. In the subdirectory "PLAYER" you will find
+        the file "PLAYER.BIN" which is the actual player. It is possible
+        that later  versions of the editor only  requires this player to
+        be replaced - in case of player updates only. In the upper right
+        corner  you will also find a  tune clock. Useful if you  want to
+        measure the exact length of the song.
+
+        When using the load/save requester, all EDL files will be placed
+        in a subdirectory called "SONGS". Later I may enhance the editor
+        with diretories and path input, but until then you must save and
+        load all your songs in this directory. Note that when saving the
+        song you can type the new name at the input prompt in the bottom
+        of the requester. Songs with the EDL extension has been compres-
+        sed to save disk space.
+
+
+
+
+
+
+
+
+
+
+
+

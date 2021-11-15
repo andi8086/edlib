@@ -1,0 +1,381 @@
+
+ Skriv at du ikke har noget imod at folk laver support til D00 formatet
+ i deres egne commandline players.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ How to use Player v04.00 ............................ by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³                                                                              ³
+³       INTRODUCTION                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       So you have finally managed to fumble you way  around the editor       ³
+³       and now you want to use the music in your demo or other piece of       ³
+³       programming not earning you any money (Because THAT's the deal)!       ³
+        All right, in this directory you will find the OBJ player needed
+        to link onto your own program. This DOC  will tell you about the
+        functions and variables in the player plus the file formats.
+
+        After having done your tune in the editor - saving the source to
+        disk with Shift-F12 or Ctrl-F4 - you must convert it to a format
+        with the ".D00" extension. Do this by  pressing Ctrl-F5 while in
+        the editor. The music  will be packed to a fully playable format
+        which takes up little memory (typically 2-5 Kb). Now you can use
+        this file together with "MPLAYER.OBJ" in this directory.
+
+        NOTE: You cannot load ".D00" files into EdLib. Make sure you DID
+        save that masterpiece with Shift-F12 or Ctrl-F4 before packing!
+
+
+        THE TEST PROGRAM
+        ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+        Before describing the functions in the player, have a look at my
+        example file "TEST.ASM" to see how I use the "STR_WISE.D00" file
+        by Drax. The source was assembled using Turbo Assembler v4.0 and
+        linked using Turbo Link v6.00, both from Borland. You can use my
+        makefile "-" to accomplish this, but check it out first - I have
+        used the 4DOS command "keystack 13" to  skip the annoying "Press
+        any key to continue" message before reentering my source editor.
+        I have also  used a "mode co80,50" to switch into 50 lines mode,
+        a mode I use a lot when programming.
+
+        The file "GLOBALS.INC" is included in the source. This file con-
+        tains most of the variables in  the player, but in the TEST file
+        I only use the "GLOBAL PLAYER:FAR" line to call the player. Some
+        of the other  variables will be discussed  later, as they can be
+        used to make scopes or the like in your own programs.
+
+        The execution of the "TEST.ASM" file is simple - first it checks
+        if an OPL2 chip is present using a function in the player. If it
+        isn't, an error is printed and the program is aborted. Otherwise
+        the ".D00" is loaded, the player initialized and started. I have
+        used a standard timer interrupt routine to call the AdLib player
+        as many times as it was used in the  editor (this information is
+        saved into the ".D00" file). The source  code has been commented
+        all the way, so I guess I don't have to say more than that.
+
+
+        PLAYER FUNCTIONS
+        ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+        Use the "CALL PLAYER" label prepared by "GLOBAL PLAYER:FAR" with
+        registers prepared to access all player functions. The player is
+        from my old school, so no registers are pushed I'm afraid. Do it
+        yourself. Here is a list of the functions currently available in
+        this version of the player.
+
+
+        MAIN RESET      AH      00h
+                        BX:CX   Segment:offset of ".D00" data #1
+                        ES:DI   Segment:offset of ".D00" data #2
+
+        Initializes the soundcard, clears variables and resets constants
+        as well as informing the player of the location of the tune. The
+        ES:DI pair is normally  not of any interest  to you. It was used
+        in games  such as "Lollypop" to split up musics and SFX into two
+        parts; one for general stuff and one for level-specific stuff.
+
+
+        RESET           AH      01h
+
+        Use this function whenever you want to stop the player. Eg, when
+        quitting to DOS and stuff like that. Clears all variables too.
+
+
+        START           AH      02h
+                        BX      Tune number (Usually 0000h)
+
+        Actually starts the tune. In BX more than one piece of music can
+        be triggered, something that was useful in games. However, EdLib
+        does not know how to pack more than one tune at this moment - so
+        I guess you have to tap a 0000h there, no matter what.
+
+
+        PLAY            AH      03h
+
+        This is the function that goes into the timer interrupt or maybe
+        the vertical retrace. Whatever. Just as long as you update it as
+        many times as  the 8th byte  in the ".D00" file is set to. EdLib
+        sets this byte to 70 (46h) as default.
+
+
+        TOGGLE          AH      04h
+                        BX      Tune number (Usually 0000h)
+
+        Pauses the music instantly. This feature is very useful in games
+        when the pause button is pressed. Calling it once more continues
+        the music to the best of its abilities; notes falling in quickly
+        makes the continuation faultless. But if the notes were long...
+
+
+        MAINVOL         AH      05h
+                        BL      Main volume for part one
+                        BH      Main volume for part two
+                        CL      Dividing line
+
+        This main volume is a little more complicated than a normal main
+        volume routine. Using values of 00h-3Fh  in BL or/and BH you can
+        split the main volume up into certain voice parts. Knowing  that
+        AdLib has 9 voices, a value of 04h in CL splits up the two reg's
+        into  voices 0-3 and 4-8. In  games such  as "Lollypop" this was
+        very useful when seperating main volumes for music or SFX, since
+        the SFX used voices 0-3 and the music voices 4-8. NOTE: AdLib is
+        upside down concerning level (volume) values; use 3Fh as silent.
+
+
+        SCAN            AH      06h
+
+                        CF=0    If the card was detected
+
+        Tries to detect the OPL2 chip (standard AdLib FM chip) using the
+        AdLib timer method. If it fails, the carry is set. NOTE: In some
+        occasions the detection will fail if there is both a GUS (Gravis
+        Ultrasound) and an OPL2 based soundcard in the computer at once.
+        It is recommended that you make it possible to override it. Make
+        a switch on the commandline or something like that.
+
+
+        BREAK/CONTINUE  AH      07h
+                        BL=0    Break, otherwise (if BL<>0) continue
+
+        This is not a function I can imagine you're ever going to use. I
+        made it to make it possible to  break the tune, "remember" where
+        it came and start another tune (going into a sublevel). When the
+        sublevel was over, this function would then continue on the song
+        it "remembered". Since EdLib does not allow more  than one piece
+        of music in a ".D00" file, it is not of much use to you! :(
+
+
+        REQUEST         AH      08h
+                        BX      Tune number (Usually 0000h)
+
+                        CF=1    If it is still running
+
+        Simply checks if a tune or SFX ends. Needless to say it requires
+        that you use the "FFFExxxx" endmarks in all of the tracks! It is
+        not of much use to you, but in games it was worth every penny.
+
+
+        PLAYER HEADER VARIABLES
+        ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+        From offset 0000h in the player I have put certain constants and
+        variables at places that will stay the same in every player that
+        may be developed for EdLib. These may come in handy if  creating
+        some sort of ".D00" shell which loads the player.
+
+
+        Offset          Description
+        ÄÄÄÄÄÄ          ÄÄÄÄÄÄÄÄÄÄÄ
+
+        0000h-0002h     JMP to all functions which ends with RETF
+
+        0003h-0008h     Detection bytes ('JCH',26h,02h,66h)
+
+        0009h-000ah     Current card player version (0400h)
+
+        000bh           Indicates normal OPL2 player (00h)
+
+        000ch           Number of voices supported (09h)
+
+        000dh-002ch     32 bytes card name ('AdLib     ')
+
+        002dh-002eh     Pointer to "Inst" variables
+
+        002fh           Indicates that "Inst" is WORD-based (01h)
+
+        0030h-0031h     Pointer to "Dur" variables
+
+        0032h           Indicates that "Dur" is WORD-based (01h)
+
+        0033h-0034h     Pointer to "SeqPoi" variables
+
+        0035h           Indicates that "SeqPoi" is WORD-based (01h)
+
+        0036h-0037h     Pointer to "TrackPoi" variables
+
+        0038h           Indicates that "TrackPoi" is WORD-based (01h)
+
+        0039h-003ah     Pointer to "Freq" variables
+
+        003bh           Indicates that "Freq" is WORD-based (01h)
+
+        003ch-003dh     Pointer to "Spedr" variables
+
+        003eh           Indicates that "Spedr" is BYTE-based (00h)
+
+        003fh-0040h     Pointer to "Gate" variables
+
+        0041h           Indicates that "Gate" is BYTE-based (00h)
+
+        0042h-0043h     Pointer to "Nog" variables
+
+        0044h           Indicates that "Nog" is BYTE-based (00h)
+
+        0045h-0046h     Pointer to "Note" variables
+
+        0047h           Indicates that "Note" is BYTE-based (00h)
+
+        0048h-0067h     32 bytes reserved for future expansion
+
+        0068h-0070h     ON/OFF flags for all 9 voices (00h=Off)
+
+        0071h-????h     Copyright string, and rest of player
+
+
+        Some notes about the information above may be necessary.
+
+        The JMP at position 0000h makes it  possible to turn  the player
+        into a BIN-file and just call the player from offset 0000h.
+
+        You may wonder about the detection bytes. The 'JCH' is of course
+        my initials. 26h,02h,66h is my birthdate; 26th of february 1966.
+
+        Offset 000bh-002ch was made to identify this player from players
+        written for other soundcards. I soon burried this idea.
+
+        All the variables pointers each points to nine bytes or words in
+        which you may find valuable information for shell programs. Here
+        is a deeper explanation of these variables...
+
+
+        "Inst"          9 WORDS         Current instrument played
+
+        "Dur"           9 WORDS         Realtime note duration counters
+
+        "SeqPoi"        9 WORDS         Realtime sequence position
+
+        "TrackPoi"      9 WORDS         Realtime track position
+
+        "Freq"          9 WORDS         Actual raw frequency played
+
+        "Spedr"         9 BYTES         Current speed of the tune
+
+        "Gate"          9 BYTES         Key ON/OFF flags (+++/---)
+
+        "Nog"           9 BYTES         Tienote indicator flags
+
+        "Note"          9 BYTES         Current note including transp.
+
+
+        Note that the variables offered in the header of the player will
+        also be available though the "GlOBALS.INC" file when linking. It
+        is recommended that you fetch the variables that way if you only
+        plan on LINKING with the player.
+
+        There are more variables in the "GLOBALS.INC" file, but since it
+        is beyond the scope of this DOC to describe them I will leave it
+        up to you if you want to figure them all out! ;)
+
+
+        THE ".D00" FORMAT
+        ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+        Here comes an extensive description of the ".D00" files. With it
+        you can make support for ".D00" files in your commandline player
+        if you're working on such a program.
+
+
+        Offset          Description
+        ÄÄÄÄÄÄ          ÄÄÄÄÄÄÄÄÄÄÄ
+
+        0000h-0005h     Detection bytes ('JCH',26h,02h,66h)
+
+        0006h           Block type (00h for music data)
+
+        0007h           Player version required (Usually 04h)
+
+        0008h           Timer speed for the block (Usually 46h)
+
+        0009h           Number of music and SFX (Usually 01h)
+
+        000ah           Soundcard (Usually 00h for AdLib)
+
+        000bh-002ah     32 bytes name of the music
+
+        002bh-004ah     32 bytes name of composer
+
+        004bh-006ah     32 bytes reserved for future expansion
+
+        006bh-006ch     Pointer to "Tpoin" tables
+
+        006dh-006eh     Pointer to "SeqPointer" tables
+
+        006fh-0070h     Pointer to "Instrument" tables
+
+        0071h-0072h     Pointer to "DataInfo" text
+
+        0073h-0074h     Pointer to "Special" tables (SpFX)
+
+        0075h           Endmark (FFFFh)
+
+
+        Again, some notes about the information above may be necessary.
+
+        Offset 0006h is always 00h. It was made to tell music data apart
+        from sample data. EdLib of course always sets this to 00h.
+
+        Some years ago I spread some old ".D00" music files which I made
+        in old AdLib players (v02.00 and below). Some of  this music may
+        not sound too good in player v04.00. Check if this byte contains
+        04h. If it doesn't, you better avoid loading it.
+
+        When using the AdLib player you should always check offset 0008h
+        to see how many times a second the player should be called.
+
+        EdLib always sets offset 0009h to 01h. You cannot make more than
+        one piece of music at a time in the editor.
+
+        Offset 000ah is always set to 00h in EdLib. If you encounter any
+        strange ".D00" files containing any other value you better avoid
+        loading it.
+
+        Even though the ".D00" format allows 32 bytes for both the music
+        name and the composer name, EdLib only accepts 20 characters.
+
+        The pointers to various tables is really  not of any interest to
+        you, except "DataInfo" which in old songs occasionally contained
+        additional text about the song. Tables  such as "Instrument" may
+        be useful to know in case you want to edit the ".D00" file! ;)
+
+
+        LAST WORDS
+        ÄÄÄÄÄÄÄÄÄÄ
+
+        You may wonder why it takes so much  time to play a pesky little
+        AdLib tune. After all, the player is not mixing like MOD players
+        so what the hell is going on here? Bad programming? No!! It is a
+        sad fact but true nonetheless; When outputting a value to the FM
+        chip like OPL2 I must wait 6 "IN" instructions after the reg has
+        been output, and 35 (!) "IN" instructions after the value itself
+        has been sent. If I try to decrease the  number of instructions,
+        some computers begins to play wrong; notes start falling out and
+        play false. There ARE alternatives to using the "IN" method, one
+        of the  best is to use the "timer tick"  method. But there is an
+        even better method.
+
+        One of my friends who is working on an editor for OPL3 (the four
+        operator chip on SB Pro II and SB 16 to mention a few) found out
+        that this chip has been optimized so much, that instead of 6 and
+        35 "IN's" it only requires 1 and 0 "IN's" !! I tried it on quite
+        a lot of computers, it actually works! If the OPL3 exists it may
+        play well in OPL2 mode with  a very small CPU usage. In fact, it
+        takes as little time as a native GUS player! :)
+
+        Only one problem arises however. I have not made a detection for
+        the OPL3 chip. I haven't  even  tried to, but if I find a way to
+        do it, I may very well implement it in the next player update.
+
+
+
+
+
+
+
+
+
+
+
+

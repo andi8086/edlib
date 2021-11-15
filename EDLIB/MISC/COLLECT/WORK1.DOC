@@ -1,0 +1,160 @@
+
+ Jens, l‘g ikke EDLIB.REV filen med som den er. Rens den fra v1.05!! (der
+ st†r lort i om PkWare's shit - ingen grund til at tage chancer.)
+
+ N†r du skriver den seperate doc om API til player (i demo'er), s† inklud‚r
+ info om det data i starten som afl‘ser noder osv til equalizers etc.
+ Skriv ogs† at du ikke har noget imod at folk laver support til D00 formatet
+ i deres egne commandline players.
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ EdLib v1.05á rev ?? .................... AdLib editor by Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³                                                                              ³
+³       INTRODUCTION                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       At last you can lay your hands on an editor which makes full use       ³
+³       of the OPL2 AdLib capabilities of your AdLib card or compatibles       ³
+³       such as the entire Sound Blaster series! The editor you now have       ³
+³       in your possession was in fact developed mainly in 1992-1993. In       ³
+³       1993 I enhanced it furthermore, this time mostly cosmetical only       ³
+³       but also a few userfriendly additions such as a filesystem which       ³
+³       packs the work tune on your harddisk to save space. Since 1993 I       ³
+³       hardly touched it - however, it was used a lot in games projects       ³
+³       such as LollyPop from Brain Bug (released by Rainbow Arts).            ³
+³                                                                              ³
+³       Actually it was my intention to keep the editor for ourselves in       ³
+³       order to support AdLib in games.  However, since the development       ³
+³       of the editor I have experienced a generel hostility towards the       ³
+³       old AdLib standard. People begun to actually hate FM sounds. The       ³
+³       arrival of GUS and AWE 32 made wavetable techniques very popular       ³
+³       and indeed it sounds very good, but there are some things in the       ³
+³       old FM standard that is unique. You can't fiddle with samples in       ³
+³       the same way  as you can with FM. I personally never quite liked       ³
+³       sampling, I find it downright boring. With a FM chip it  is like       ³
+³       on a C64; you have a few parameters and everything you do has to       ³
+³       be done within these parameters. These boundaries makes it funny       ³
+³       to make music, to see how far you can actually push AdLib. To do       ³
+³       sounds on FM requires expertice but if you're good at it, almost       ³
+³       any instrument can be reproduced properly, except perhaps drums.       ³
+³                                                                              ³
+³       This is the reason why I decided to release my editor. It uses a       ³
+³       system very similar to the ordinary tracker system, but has been       ³
+³       enhanced with individual sequences for each track. Each sequence       ³
+³       can  even vary in size. Because  of the natural way of designing       ³
+³       my system, I  find it vastly  superior to the tracker system. It       ³
+³       uses  much less memory and allows each sequence to be transposed       ³
+³       individually. This is the exact same system as I used on the C64       ³
+³       editor which was heavily used in that scene.                           ³
+³                                                                              ³
+³       Lovers of the old Commodore 64 with the editing system used here       ³
+³       should be able to use the editor right away. Just tap ALT-F1 and       ³
+³       a list of keys will appear. :)                                         ³
+³                                                                              ³
+³       As an extra bonus I have included a player with the instructions       ³
+³       on how to use the finished music in your own programs!                 ³
+³                                                                              ³
+³       All files in this archive is freeware - if you payed for it, you       ³
+³       have been cheated! However, I reserve the rights to maintain all       ³
+³       copyrights. Do NOT reverse engineer my code or else! :(                ³
+³                                                                              ³
+³                                                                              ³
+³       REQUIREMENTS                                                           ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄ                                                           ³
+³                                                                              ³
+³       The editor requires a PC with 80x50 text screen capabilities and       ³
+³       an AdLib card or  compatible. Anything  that is equipped with an       ³
+³       OPL2 chip or better. I wouldn't recommend using the SBOS program       ³
+³       for the GUS however - it doesn't emulate FM sounds 100% correct.       ³
+³                                                                              ³
+³       Enhanced keyboard is optional - F11 and F12 is used but has been       ³
+³       duplicated elsewhere to support all keyboards.                         ³
+³                                                                              ³
+³       If you have a MPU-401 interface (or compatible) you can use your       ³
+³       synthesizer to play with AdLib instruments through MIDI.               ³
+³                                                                              ³
+³                                                                              ³
+³       FILES                                                                  ³
+³       ÄÄÄÄÄ                                                                  ³
+³                                                                              ³
+³       The following files should be present in the archive. If they're       ³
+³       not, the archive has  been tampered  with and should be replaced       ³
+³       by a new copy.                                                         ³
+³                                                                              ³
+³                                                                              ³
+³               EDLIB.EXE        ?????          Bla bla bla                    ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³                                                                              ³
+³       FEATURES                                                               ³
+³       ÄÄÄÄÄÄÄÄ                                                               ³
+³                                                                              ³
+³       The archive contains both the  editor and loads of demo songs to       ³
+³       demonstrate the editor. Below is just some of the things you can       ³
+³       do with the editor...                                                  ³
+³                                                                              ³
+³       - Edit and play 9 voices of AdLib while viewing and editing 1024       ³
+³         instruments complete with a name for each instrument.                ³
+³                                                                              ³
+³       - Save all music and instruments in a work file of approximately       ³
+³         3 to 9 Kb size. These files will have the extension "EDL".           ³
+³                                                                              ³
+³       - Pack the music to a compressed format (around 1 - 6 Kb), which       ³
+³         is directly playable in your own programs. Extension is "D00".       ³
+³         Packed music also uses much less processor time.                     ³
+³                                                                              ³
+³       - Edit song name and composer name. This information also exists       ³
+³         in the compressed D00 format.                                        ³
+³                                                                              ³
+³       - Because EDL and D00 is not compatible, you can be sure the D00       ³
+³         cannot be ripped and edited. The editor does not load D00. You       ³
+³         may find this bad, but I actually see this as an advantage. Do       ³
+³         you like people to mess around in your source tune? ;)               ³
+³                                                                              ³
+³       - All AdLib parameters editable, with extra enhancements such as       ³
+³         hard restart, arpeggio, modulation programs and finetune.            ³
+³                                                                              ³
+³       - Both tune speed and  timer IRQ speed may be edited. The normal       ³
+³         tune speed uses a floating point  system to access more speeds       ³
+³         with a smaller granularity than normally possible.                   ³
+³                                                                              ³
+³       - Use "+++" to hold a note in sequences and "---" to release it.       ³
+³         This makes it easier to control the ADSR of an instrument.           ³
+³                                                                              ³
+³       - Play with instruments  using "QWERT..." - and if your keyboard       ³
+³         is connected via a  MPU-401 compatible MIDI interface, you can       ³
+³         even play  the AdLib instruments on it, complete with velocity       ³
+³         and aftertouch. And polyphonic too of course. I've tested this       ³
+³         on both the original  MPU-401 and the Sound Blaster 16. I only
+³         use the UART mode on the interface.
+³
+³       - Very flexible track and sequence system taking less memory and
+³         is much more efficient than the standard tracker system. Every
+³         sequence is piled on top of each other to show you exactly how
+³         the music is played.
+³
+³       - Unique tienote command makes it possible to play notes without
+³         restarting the effects set for the instruments.
+³
+³       - Full delete, insert, copy and other similar editing facilities
+³         available in both tracks and sequences.
+³
+³       - Use "FollowPlay" to see the music scroll as it is being played
+³         at the same time. You may even use fast forward in this mode.
+³
+³
+³
+³
+³
+³               Jeg kan ikke finde de fucking docs jeg skrev til C64
+³               editoren for InterActiVision p† C64 SuperScript.
+³               Fucking #&/%¯/&%(/" V!  V V V V V!
+³
+³
+
+
+

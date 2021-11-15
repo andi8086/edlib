@@ -1,0 +1,21 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ EdLib REVISION LIST ...................... Copyright (C) Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³ 20/12-1994; Version 1.05a:                                                   ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                   ³
+³                                                                              ³
+³  First public release, removed the BETA mark. Deleted all the anti-copying  ³
+³   messages - but the copyright is maintained! Previous revision update text  ³
+³   has been deleted from this file because of it being the first release.     ³
+³                                                                              ³
+³  Made sure Insert and F9 (SuperInsert) inserts REST (---) instead of HOLD   ³
+³   events (+++) which I think is more useful.                                 ³
+³                                                                              ³
+³  Added an ABOUT requester when starting the editor, with a text indicating  ³
+³   that help is available on Alt-F1.                                          ³
+³                                                                              ³
+³  Reversed the functionality of the "/M" switch. Now the switch must be      ³
+³   PRESENT for the editor to make use of the MPU-401 MIDI interface.          ³
+³                                                                              ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ

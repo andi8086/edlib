@@ -1,0 +1,108 @@
+
+
+³                                                                              ³
+³                                                                              ³
+³       SEQUENCE COMMANDS                                                      ³
+³       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                      ³
+³                                                                              ³
+³       The first column of two in the sequences may take any command of       ³
+³       four hexadecimal digits each. The commands in player v04.01 is:        ³
+³                                                                              ³
+³                                                                              ³
+³       6000            Cut/Stop the voice instantly. Instrument #000 in
+                        the instrument table is used to cut the voice.
+
+        7XYY            Vibrato - X defines the  speed (0-F), and YY the
+                        depth (00-FF) of the vibrato effect. This effect
+                        does NOT make use of the internal OPL2 vibrato.
+
+        90XX            New level - XX defines the  level (00-3F), where
+                        3F is silent. Level is another word for volume.
+
+        BXXX            Pointer to SpFX table. The SpFX table is the one
+                        you can access  with the  "K" key. Refer to this
+                        table for  more information. This  command works
+                        like an instrument, thus it overrides a CXXX. It
+                        may range from 000-7FF.
+
+        CXXX            Instrument. XXX may range from 000 to 3FF. It is
+                        good practise to  leave #000  as a "no sound" as
+                        this instrument is in fact  used when typing the
+                        cut command (6000). The table may  be entered by
+                        pressing  the "M" key. Refer  to this  table for
+                        more information.
+
+        DXXX            Slide up. XXX defines the speed of sliding.
+
+        EXXX            Slide down. XXX defines the speed of sliding. It
+                        does not  automatically "tie unto" the next note
+                        like in other music  players. You must "tie" the
+                        next note yourself with the «-key and adjust the
+                        speed of sliding  until  it is perfect. This may
+                        sound awkward at first, but this way  of sliding
+                        is much more flexible.
+
+
+        TRACK COMMANDS
+        ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+        The track consists of a DWORD in the editor, but the table is in
+        fact interpreted word for word internally.
+
+
+        8XYY????        The 8000 command defines  the transposition of a
+                        sequence. X is the  direction, 0=Up.  YY defines
+                        the number of halftones to transpose. A value of
+                        810C transposes the sequence down one octave but
+                        does not change  the on-screen appearance of the
+                        notes in the  sequence. Using the  transposition
+                        feature  properly, you can  save a LOT of  space
+                        compared to the average tracker system! The word
+                        ???? defines the sequence number itself.
+
+        FFFFXXXX        When this DWORD  is met,  the voice will restart
+                        at the position defined in XXXX. It is important
+                        to know that it counts in WORD steps. This means
+                        that if you have ten  sequences in a row  with a
+                        FFFFXXXX in the end, use FFFF0006 to wrap to the
+                        fourth sequence - like this:
+
+                                80000001      0 - 1      1st...
+
+                                80000003      2 - 3      2nd...
+
+                                80000001      4 - 5      3rd...
+
+                             Ú> 80000004      6          4th...
+                             ³
+                             ³  80070001                 5th...
+                             ³
+                             ³  80070003                 6th...
+                             ³
+                             ³  80070001                 7th...
+                             ³
+                             ³  80070005                 8th...
+                             ³
+                             ³  80000002                 9th...
+                             ³
+                             ³  80000006                 10th...
+                             ³
+                             ÀÄ FFFF0006                 Wrap...
+
+                        The player  interpretes the  wraps independantly
+                        from voice to voice. This means that neither the
+                        wrap position nor the length of tracks has to be
+                        aligned.
+
+        FFFE????        This command stops the voice  entirely. The ????
+                        WORD will be ignored. Very useful for jingles!
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,379 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ EDLIB ... (C) Copyright Jens-Christian Huus, 1992, 1993, All Rights Reserved ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ 002 - Ideas and Improvements to the main Editor:                             ³
+³                                                                              ³
+³       û = Fixed or done.                                                     ³
+³                                                                              ³
+³     (û) = Almost fixed, or one of many suggestions has been completely done. ³
+³                                                                              ³
+³      :) = Good idea, should really be done soon.                             ³
+³                                                                              ³
+³      :( = This one is on very low priority. It may even NEVER be done!       ³
+³                                                                              ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³      :(  Seperate colors possible for different commands in column 1. And   ³
+³           what about LABELS (!) with the same letter length as the normal    ³
+³           command in column 1? Always starting with a letter, it should      ³
+³           be possible to make the editor interprete it correctly. Seperate   ³
+³           color for End-of-Track and so on in the TRACK column might be a    ³
+³           good idea too.                                                     ³
+³                                                                              ³
+³       û  Default fill-up in sequence is '+++' (Hold note).                  ³
+³                                                                              ³
+³      :(  Seperate colors for each byte in sequence, too - especially when   ³
+³           a huge column 1 with lots of bytes have been selected!             ³
+³                                                                              ³
+³      :(  I'm not sure I want a "Position of step counter row"-variable...   ³
+³           After all, it should always be sited to the far left - right!?     ³
+³                                                                              ³
+³      :(  Fool-proof player's cannot be taken care of yet. For example,      ³
+³           if a player uses sequences between 000 and FFF with 8 in most      ³
+³           significant nibble as "Control ID" (I.E. 8000 - 8FFF), then the    ³
+³           current system fails to support it. Only 00-FF or 0000-FFFF are    ³
+³           recognized as legal values. Improve the fool-proof system.         ³
+³                                                                              ³
+³      :(  REST is checked before NOTE. Result: If REST has it's recognize-   ³
+³           byte in a different place than the note, the note will not be      ³
+³           visible in the sequence as long as there is a REST. Again, this    ³
+³           a question of a fool-proof system. I don't know if I want to       ³
+³           fix things like this, though. After all, there HAS to be SOME      ³
+³           rules the programmer of a player has to follow. I mean, what is    ³
+³           the idea of having a REST and a new NOTE at the same time!?        ³
+³                                                                              ³
+³       û  By Exit to DOS ("Ctrl-Break"), make an "Are you sure (Y/N) ?"      ³
+³           question. (But not while programming the editor of course!)        ³
+³           This question should not appear if the music loaded wasn't         ³
+³           changed since loading it.                                          ³
+³                                                                              ³
+³          Make a HUNT-function after commands or track numbers. If you       ³
+³           program the LABEL-thing suggested earlier in this box, consider    ³
+³           making the FIND-routine automatically accepting these too.         ³
+³                                                                              ³
+³          Set TrackMove to 0 if a new sequence is typed in the track, or     ³
+³           if the sequence is copied - or delete/insert in track happens.     ³
+³                                                                              ³
+³       û  All HexInput routine call's each remember their own WORD inputs,   ³
+³           so that the last typed value is still there when calling again.    ³
+³                                                                              ³
+³      :(  Default transpose in ADLIB player is 8000h, but remember that is   ³
+³           up to the CONFIG/SETUP file/screen to determine that.              ³
+³                                                                              ³
+³          Make max sequence entry in tracktable, after CONFIG setting. An    ³
+³           idea of how to make the Direct-to-Memory input in tracks handle    ³
+³           it is to test on actual key-test and make sure the number that     ³
+³           WOULD appear is within the limited number of sequences available.  ³
+³           If not, the key/digit will simply not be printed/interpreted.      ³
+³                                                                              ³
+³          A bug appears when inserting/deleting in the last possible seq     ³
+³           in the tracktable (within a voice); if the sequence is shown       ³
+³           with cutted end, the cursor-routine in INS/DEL fails. The in-      ³
+³           ternal position does not fail however, so this bug is minor.       ³
+³           Also, as the same routine are used around End-of-Track when        ³
+³           changing voices with "Tab", the voices are scrolled too. This      ³
+³           is note bad though! It DOES prevent one from entering one of       ³
+³           the "Black holes" at End-of-Track, and as before, the internal     ³
+³           position is maintained.                                            ³
+³                                                                              ³
+³      :(  Consider offset functions in SEQ/TRACK segments, to make the       ³
+³           system more flexible. LATER NOTE: Neither needed nor possible...   ³
+³                                                                              ³
+³          When the time has finally come where the editor is more or less    ³
+³           finished, then take a look in QCONFIG.DAT to get further ideas     ³
+³           for good keys to add; I.e. CTRL PgUp/PgDown for absolute top and   ³
+³           bottom, CTRL Home/End for cursor to top/bottom of screen, etc.     ³
+³                                                                              ³
+³       û  Great key-idea: ALT 0-9 for direct octave number changes. Oct.93:  ³
+³           Used for voice ON/OFF while using the AdLib player.                ³
+³                                                                              ³
+³          Remember to have a look in Peter's "MIDIFX" to steal some ideas.   ³
+³           I.e. his "Bar"-line system is actually quite nice.                 ³
+³                                                                              ³
+³     (û)  The load and save routines for songs in this version is very       ³
+³           limited. Later, it is desirable to have a neat "Norton"-like       ³
+³           Load/Save window implemented. Also, the error-handling should      ³
+³           not declare errors and exit to DOS, not without deallocating       ³
+³           anyway. Later, when the editor system has been cleaned up a lot,   ³
+³           why not consider saving the CONFIG/SETUP along with the rest of    ³
+³           music data to disk? It doesn't take much more room, and there      ³
+³           are some clear advantages, Eg. the adjustment of voices placed     ³
+³           on screen will be set back when loading the music again, or, the   ³
+³           voices turned OFF will remain switched OFF at reload.              ³
+³                                                                              ³
+³       û  Concerning save; Make a test to see if loaded file was changed     ³
+³           before saving - if it wasn't, there's no need to bother saving.    ³
+³                                                                              ³
+³          Good colors on 07h (Grey) are 00h (Black), 01h (Blue), 04h (Red),  ³
+³           06h (Brown), 08h (Dark grey) and perhaps 0Fh (White). All other    ³
+³           colors on Grey sucks.                                              ³
+³                                                                              ³
+³      :(  Flexibility idea: In CONFIG/SETUP, let a flag determine whether    ³
+³           a function-key question aimed at the bottom variables should be    ³
+³           input in the top of the screen (Default) or directly upon the      ³
+³           variable in the bottom box - maybe at least with a description     ³
+³           text in the top of screen (User switchable too?)... 29/4-1994:     ³
+³           Comment - the design has been changed so this is not desirable     ³
+³           anymore. All input are now sited in the middle of the screen.      ³
+³                                                                              ³
+³          The idea of having voices shrinked whenever they're not edited     ³
+³           is annoying, almost no matter what configuration is set. A way     ³
+³           to get around it could be to make the edited voice AND the left    ³
+³           and right voice be full-blown. Maybe even adjustable in the        ³
+³           CONFIG/SETUP too. Or what about userdefined VOICES that are to     ³
+³           be full-blown, not just the ones to the left and right?            ³
+³                                                                              ³
+³       û  A new number in the bottom info-box could be a hint to what the    ³
+³           lowest unused (= UNTOUCHED!) sequence number is. Maybe even a      ³
+³           new KEY to "grab" it could be nice, Eg. 80000000 => KEY, and the   ³
+³           track-number is overwritten with 80000026, if #26 is the next      ³
+³           unused sequence. Remember that the check for unused sequences are  ³
+³           made by testing all sequence numbers in all track tables. DO NOT   ³
+³           determine if the sequence is unused by looking at it's size and/or ³
+³           contents. You never know if it was used as a mere filler sequence! ³
+³                                                                              ³
+³       û  When TrackHide=1 it could be a good idea to have a background-     ³
+³           color beneath the notes whenever a new sequence is entered, to     ³
+³           tell the user that the next tracknumber is "shown" now.            ³
+³                                                                              ³
+³          When TABLES are to be programmed, it was originally intended to    ³
+³           make "Goto"-keys to make pointers in one table refer (and jump)    ³
+³           to another table, automatically putting the cursor at the speci-   ³
+³           fied position. However, as everything can be adjusted in the       ³
+³           SETUP/CONFIG (including the "Goto"-pointers), it is wise to have   ³
+³           indirect pointer-offsets for each "Goto"-key, also definable in    ³
+³           the SETUP/CONFIG, in case direct memory offsets are used in some   ³
+³           kind of an "added" way. I'd bet one million bucks JO does!         ³
+³                                                                              ³
+³       û  Concerning CTRL-BREAK, be aware that it behaves differently when   ³
+³           setting BREAK=ON in CONFIG.SYS, it then breaks IMMEDIATELY with-   ³
+³           out running your exit program first! (Major Cookie Brain!) An      ³
+³           easy solution to this problem could be if it was possible to       ³
+³           execute a BREAK=OFF while entering the editor (in ASSEMBLY!),      ³
+³           and a BREAK=ON (If it was the default!) after quitting.            ³
+³           Per 7/10-1992 a solution may have been found to overcome this      ³
+³           problem. Look in NG under "INT 23h" - just take control of that,   ³
+³           resetting it when entering DOS! In fact, it is scanned constant-   ³
+³           ly by the keyboard routine, making it a nice way to exit it all.   ³
+³           Apart from "INT 23h", see also "INT 1Bh".                          ³
+³                                                                              ³
+³       û  Move all F11-F12 keys, plus ALT-UP to another place - these keys   ³
+³           didn't work when testing the editor at Kaare's place. Mind you,    ³
+³           he sure has a weird keyboard! A better solution could also be to   ³
+³           make keyboard doubles. Not just of the mentioned keys, but of a    ³
+³           lot of functions in general. F12 for LOAD could also be ALT-L,     ³
+³           for example.                                                       ³
+³                                                                              ³
+³       û  When making the Zero-Packer to crunch the data saved on disk,      ³
+³           then modify the routines which clears and initializes the TRACK    ³
+³           and SEQ segments. Not only should they fill them with prepared     ³
+³           data, they should also ZERO them before doing it - thereby impro-  ³
+³           ving on the packer's efficiency. As it is now, there is a lot      ³
+³           of stupid garbage between the tables! However, it is not only the  ³
+³           clear routines that is to blame. Also the Insert and Delete (to    ³
+³           mention a few) in a sequence leaves a lot of garbage. Modify the   ³
+³           routines that handles a sequence to automatically ZERO'ing the     ³
+³           unused data up to the preset boundary. In other words, no byte     ³
+³           after the sequence endmark should be anything else than ZERO!      ³
+³           If the SEQ segment is ZERO'ed before use, it may not be necessary  ³
+³           to make a ZERO-all-after-sequence routine. Maybe it is enough to   ³
+³           make sure Insert/Delete cleans up after themselves. If this is     ³
+³           achieved in a working way, the Copy-Sequence routines ought to     ³
+³           behave themselves automatically too, as they always copy the       ³
+³           entire sequence space allocated. The above modifications can wait  ³
+³           until work on the Zero-Packer (ByteRunner) has begun. See also     ³
+³           next idea item.                                                    ³
+³                                                                              ³
+³          9/6-1993: Here's a good way to save WITHOUT packing YET still      ³
+³           being able to make it compact; Save in small bits like PROPLAYS    ³
+³           loads - A typical loop routine could search a sequence for the     ³
+³           endmark, save the sequence (And ONLY the main sequence) then do    ³
+³           the next. The same applies to track and data. A header could hold  ³
+³           number of saved sequences, ID text and stuff like that.            ³
+³                                                                              ³
+³          Detect endmark in tracktable, and use it to suppress the printed   ³
+³           appearance of the sequence number beside it. Maybe even a special  ³
+³           color for it could be nice! There is a catch though. If the seq    ³
+³           beside the endmark is suppressed, it might not be possible to      ³
+³           use the endmark in the middle of a tune (for testing purposes),    ³
+³           as the system would get out of synchronization.                    ³
+³                                                                              ³
+³          There should be TWO different BLANK values for the tracktable,     ³
+³           One default for clearing the entire tune with Shift-F1 (Eg. the    ³
+³           endmark FFFF0000), and one for inserting in the tracktable (Eg.    ³
+³           a zero transpose with sequence #0; 80000000).                      ³
+³                                                                              ³
+³      :)  Here is an easy one; Make a toggle-key for switching between the   ³
+³           european H-note and the american B-note. Of course, it should be   ³
+³           firsthand definable in the CONFIG/SETUP, which also means that     ³
+³           any change while composing will follow the tune when saving it.    ³
+³                                                                              ³
+³       û  You MUST find a better name than just "Multi-Editor" - Bwadr!      ³
+³           23/5-1993: Have found a good one. As this editor probably won't    ³
+³           be used for anything else than AdLib (Because I have other editor  ³
+³           projects greater than this coming up), it will be called "EdLib".  ³
+³           The MIDI editor to be made with Jesper should have been called     ³
+³           "Vim" but Jesper think it sounds too much like "Vimp".             ³
+³                                                                              ³
+³       û  Tab/Ctrl-Tab doesn't home the cursor on the line, when shifted     ³
+³           to the wanted voice. If this is annoying, change it. 17/10-1993:   ³
+³           Nice compromise: If in column 2, stay in column 2 when changing    ³
+³           voices, if however you are anywhere in column 1, HOME to the       ³
+³           start of column 1 when changing voices. The same goes for tracks.  ³
+³                                                                              ³
+³          The thing with maximum physical voices possible on screen (Eg.     ³
+³           5 out of full 9 in AdLib) should be something the editor calcu-    ³
+³           lates by itself, not something the user should define in the       ³
+³           CONFIG/SETUP.                                                      ³
+³                                                                              ³
+³       û  Make a fast forward button, which even works in follow-play mode.  ³
+³           Perhaps simply by executing speed 1 (fastest) until the fast       ³
+³           forward button is released!                                        ³
+³                                                                              ³
+³      :(  Bad bug: If the special area in the start of every track table     ³
+³           doesn't divide up nicely into "TrackJump", then the ClearTrack-    ³
+³           Seg routine fails in aligning it properly. This special area is    ³
+³           also known as "TrackSkip". Fix it when debugging the editor for    ³
+³           greater compatibility.                                             ³
+³                                                                              ³
+³     (û)  Concerning table editing/configuration's, make it possible to      ³
+³           somehow plot lines both horizontally and vertically, to make it    ³
+³           possible to divide all tables into smaller "boxes". 29/4-1994:     ³
+³           Comment - new design has been expanded with window routines.       ³
+³                                                                              ³
+³       û  Another bad bug: If executing ED without loading any data (and     ³
+³           especially instrument data!), the instrument segment will have     ³
+³           illegal pointer values in the start of the segment, simply because ³
+³           they weren't defined as default in the editor. This means that you ³
+³           can't hear any sounds at all when composing. Only by loading an    ³
+³           existing tune and then clearing it will make you hear the sounds.  ³
+³           17/10-1993: Corrected simply by loading the "DATA.BIN" file.       ³
+³                                                                              ³
+³          20/5-1993: An easy way to overcome the complicated configuration   ³
+³           could be to define it in a seperate textfile (INI-style) with all  ³
+³           kind of variables. This would be easy to read from the editor.     ³
+³                                                                              ³
+³          13/8-1993: The state of voice flags ON/OFF and other musicfile     ³
+³           relevant stuff should maybe be saved in the music file itself, and ³
+³           and not in the CFG/INI file.                                       ³
+³                                                                              ³
+³       û  13/8-1993: Since the EdLib editor will probably not be used for    ³
+³           anything else than 9-Voice AdLib music, consider using ALT 1-9     ³
+³           keys for voices ON/OFF.                                            ³
+³                                                                              ³
+³          17/10-1993: When the cursor passes endmarks in the tracktable      ³
+³           during scrolling (FFFE/FFFF), pause the flow slightly to make the  ³
+³           user aware of the fact that endmarks has been met.                 ³
+³                                                                              ³
+³       û  17/10-1993: It WOULD be nice to have some instrument names too. It ³
+³           would require a standard input routine though. Not bad, as I need  ³
+³           it anyway for the top window music name and composer input strings.³
+³           Maybe the input routine from the file handler can be used. However,³
+³           the instrument names is not without complications - where should   ³
+³           they be stored, both in memory and on screen? 8/11-1993: The block ³
+³           containing instruments could be halfed from max 07FFh entries to   ³
+³           03FFh entries. Then the other space could be used for names, with  ³
+³           16 bytes for each name. Storing on screen is a problem however...  ³
+³           23/1-1994: Done some weeks ago.                                    ³
+³                                                                              ³
+³       û  17/10-1993: Make SOUND mode while typing the QWERTY-keys. Useful in³
+³           the instrument table. You may have to enhance the INTERFACE program³
+³           and the player for this to work. 23/1-1993: Done some months ago.  ³
+³                                                                              ³
+³          8/11-1993: A command line switch like /C or something could be used³
+³           if only converting from EDL to D00 format is wanted. Currently the ³
+³           prompt filename is already supported, so that shouldn't be too hard³
+³           to do. Later, a /S switch could mean "convert to source data" for  ³
+³           use in ASM listings - useful when making game music. 16/11-1993:   ³
+³           The latter might be put into a seperate EXE-file which simply takes³
+³           a D00 of any kind and magically transforms it into a source code.  ³
+³                                                                              ³
+³          15/11-1993: The D00 converter in EdLib should convert the track    ³
+³           transposes around the wrapmark in such a way, that the transpose is³
+³           maintained even if the last transpose value was the same. This way,³
+³           no wrapping bugs should occur like in SPINT19. Hint: The C64 packer³
+³           actually took care of this!                                        ³
+³                                                                              ³
+³          17/11-1993: What about a v20.G4 (C64) to EDL converter!? Wouldn't  ³
+³           that be a great thing! Of course a lot of things are hard to con-  ³
+³           vert properly but the notes, slides and simple stuff like that     ³
+³           should be possible.                                                ³
+³                                                                              ³
+³       û  29/4-1994: Reverse the meaning of the "/M" switch. If you have a   ³
+³           MIDI-interface (MPU-401) then this switch can be used. Currently,  ³
+³           the editor crashes if no switch is given on a machine with no MIDI ³
+³           interface.                                                         ³
+³                                                                              ³
+³          X-Tracker from D-Lusion has some nice ideas. Here are the best:    ³
+³                                                                              ³
+³                Alt-Space toggles mute voices (X1XX11 = XXXXXX and back).    ³
+³                                                                              ³
+³                Block save and load.                                         ³
+³                                                                              ³
+³                It is possible to TAB between voices under FollowPlay.       ³
+³                                                                              ³
+³                The file format has room for date and time.                  ³
+³                                                                              ³
+³                Global track in side (own column) for speed, main VOL etc.   ³
+³                                                                              ³
+³                Debug command stops music at certain points.                 ³
+³                                                                              ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ Suggestions from BETA testers:                                               ³
+³                                                                              ³
+³                                                                              ³
+³ Thomas "Drax" Mogensen                                                       ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                       ³
+³                                                                              ³
+³      :)  Fast forward in F1 mode (normal play) is missing.                  ³
+³                                                                              ³
+³      :)  Typing notes in a sequence shouldn't cut the music.                ³
+³                                                                              ³
+³          Track copy commands.                                               ³
+³                                                                              ³
+³      :)  Removing the instrument window with ESC cuts the music!?           ³
+³                                                                              ³
+³      :)  Alt 1-9 (disable voices) doesn't work in table mode.               ³
+³                                                                              ³
+³ Peter J›rgensen                                                              ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                              ³
+³                                                                              ³
+³          Peter J›rgensen pointed out that the MPU-401 mode doesn't use the  ³
+³           keyoff function properly. Apparently it only works on the SB16.    ³
+³           However, I have tested it on Laxity's Roland MPU-401, and it works ³
+³           perfectly there!?                                                  ³
+³                                                                              ³
+³      :(  Same Peter would also like a "fetching" slide command instead of   ³
+³           a "shoot-and-grap" slide as I have now. The routine should hit the ³
+³           next note perfectly no matter what speed is typed.                 ³
+³                                                                              ³
+³ Morten Sigaard Kristensen                                                    ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                    ³
+³                                                                              ³
+³      :)  Morten suggested a function like "PushVoice" and "PopVoice", the   ³
+³           purpose of these is to remember the funny voice ON/OFF settings    ³
+³           before using the ALT-TAB (Only the current voice is ON) key.       ³
+³           29/4-1994: Comment - a similar function appears in the X-Tracker   ³
+³           editor by D-Lusion. Pressing Alt-Space in this editor toggles SOME ³
+³           voices OFF or ALL ON.                                              ³
+³                                                                              ³
+³      :)  Another idea from Morten; Macro-like keys for remembering com-     ³
+³           mands used very often, like a specific vibrato command.            ³
+³                                                                              ³
+³      :)  The load/save menu is too simple. Enhance it with directories and  ³
+³           drive selections.                                                  ³
+³                                                                              ³
+³ Torben "Metal" Hansen                                                        ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                        ³
+³                                                                              ³
+³      :)  Torben also think the load/save menu could do with some directory  ³
+³           and drive selectors.                                               ³
+³                                                                              ³
+³ Erik Pojar                                                                   ³
+³ ÄÄÄÄÄÄÄÄÄÄ                                                                   ³
+³                                                                              ³
+³          Erik thinks the instrument tables are much too difficult to edit   ³
+³           when compared to the otherwise slick editor system. It should have ³
+³           been mouse controlled, or at least with an easier user interface.  ³
+³                                                                              ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ

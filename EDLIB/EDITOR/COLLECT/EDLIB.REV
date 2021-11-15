@@ -1,0 +1,308 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ EdLib REVISION LIST ...................... Copyright (C) Jens-Christian Huus ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                                                              ³
+³ 22/1-1994; Version 1.04á:                                                    ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                    ³
+³                                                                              ³
+³  Finally implemented full name support in the instrument table together     ³
+³   with the possibility of editing them. The text will be saved with the song ³
+³   in a previously unused area of the song format. This means that you can    ³
+³   actually load your old songs - add instrument names to them - and then     ³
+³   save the same song again. The size of the instrument table has been halfed ³
+³   to 3FF instead of 7FF (This is the "unused area" taken) - but I doubt if   ³
+³   you will ever need this amount of instruments anyway! ;) To demonstrate    ³
+³   how the name support could be used I added names to "PHASE6.EDL". Load it  ³
+³   and see how I used this new facility.                                      ³
+³                                                                              ³
+³  Improved the input routines into ignoring certain irrelevant keys such as  ³
+³   UP, DOWN, TAB and other similar keys. Also made sure the input routine in  ³
+³   the file handler ignores them.                                             ³
+³                                                                              ³
+³  Enhanced the TABLE routine into accepting different colors when actually   ³
+³   editing names in a table. This was used to divide the instrument table     ³
+³   into colored areas, making it easier to see the operator areas.            ³
+³                                                                              ³
+³  Added the switch "/a" to bypass the AdLib detection, as it seems to fail   ³
+³   on systems with both a GUS and SB installed at once.                       ³
+³                                                                              ³
+³  This may be the last version update as I have decided to begin developing  ³
+³   the MIDI based editor. The system used in the EdLib editor is not flexible ³
+³   enough to support a large number of sound cards. :(                        ³
+³                                                                              ³
+³ 12/12-1993; Version 1.03á:                                                   ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                   ³
+³                                                                              ³
+³  Reversed the revision list entries, now the newest version updates appears ³
+³   in the top of this file - as is common practice! ;)                        ³
+³                                                                              ³
+³  Added a palette fade effect to the editor when you quit to DOS. It can be  ³
+³   disabled with the "/p" switch if you find it annoying.                     ³
+³                                                                              ³
+³  All positions in both instrument and SpFX tables are now maintained. This  ³
+³   makes editing instruments far easier - it was necessary in order to work   ³
+³   with the new keyboard play mode too. More about this later.                ³
+³                                                                              ³
+³  Disabled the Print Screen key. I discovered that hitting this key actually ³
+³   made the editor crash! :(                                                  ³
+³                                                                              ³
+³  New "INTERFAC.BIN" update, with functions to cover the keyboard play modes ³
+³   in the player (more on this later). One of the changes meant that the      ³
+³   TIMER IRQ had to run continously in order to work with this mode. Hence,   ³
+³   the timer in the top right corner now runs constantly, only resetting when ³
+³   pressing the F1 or F3 keys.                                                ³
+³                                                                              ³
+³  Full keyboard play mode now implemented. Using the "Q2W3ER5..." keys you   ³
+³   can play with the current instrument, if the cursor is placed in the note  ³
+³   column of the sequence. In the instrument or SpFX tables these keys works  ³
+³   too, except the ones covering hexadecimal numbers. This was made to make   ³
+³   sure you can edit the instruments while testing it on "QW" or "R" to "P".  ³
+³   Octave changes also affects the sound. Cursoring up and down in the tables ³
+³   changes the sound logically - if you enter the SpFX table, the sounds will ³
+³   be true SpFX sounds playing. If exitting a table with ESCAPE, the sound    ³
+³   played in the note column will be the last one played in the table. Note   ³
+³   that these keys automatically stops F1 play mode. If you accidently get    ³
+³   sounds "stuck", you can break them with the F2 key.                        ³
+³                                                                              ³
+³  Because of the above keyboard play, a new player update was added too,     ³
+³   fully supporting the new keyboard play functions. The player ticks to      ³
+³   version v04.01 - however, packing a song to D00 format still only needs    ³
+³   the previous v04.00 since the changes ONLY were relevant to the editor.    ³
+³                                                                              ³
+³  Added support for synths connected to a MPU-401 interface (or compatible). ³
+³   Using the same technique as the normal keyboard play mode, it plays the    ³
+³   current instrument or SpFX. Cursoring up and down in these tables changes  ³
+³   the current sound. Octave changes affects the MIDI mode too. The use of a  ³
+³   MPU-401 interface is automatically detected and utilized, but may be       ³
+³   disabled with the "/M" switch if causing problems. The MIDI mode makes it  ³
+³   possible to tests sounds anywhere in the editor using full polyfonic note  ³
+³   play with aftertouch and velocity. The MPU-401 interface is set to UART    ³
+³   mode thereby covering the MPU-401 interface on the Sound Blaster 16 too.   ³
+³   The vibrato value activated when using aftertouch may be available for     ³
+³   editing in a later version of the editor. Note that you can stop notes     ³
+³   hanging by pressing the F2 key. MIDI play mode also stops F1 play mode.    ³
+³                                                                              ³
+³  Help pages updated to cover the changes in this version.                   ³
+³                                                                              ³
+³ 3/12-1993; Version 1.02á:                                                    ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                    ³
+³                                                                              ³
+³  Removed the FollowFirst system which originally was meant to synchronize   ³
+³   the FollowPlay perfectly. However, the "improvement" (made in v1.01á) was  ³
+³   CPU clock dependant; it went totally bananas on other machines!            ³
+³                                                                              ³
+³  Made sure the D00 converter window is moved when the patch window is open. ³
+³                                                                              ³
+³  Added input filename string to the D00 converter (CTRL-F5), also made sure ³
+³   that ENTER on this string aborts the converter completely.                 ³
+³                                                                              ³
+³  Made some IF/ELSE/ENDIF stuff in the source code of the editor, making it  ³
+³   very easy for me to produce a DEMO version on the fly. This DEMO version   ³
+³   differs from the normal version in that it cannot save or convert songs.   ³
+³   The HELP page on ALT-F1 will tell you if you have a DEMO version - if you  ³
+³   try to use these functions anyway the editor kindly tells you to get lost. ³
+³                                                                              ³
+³ 19/11-1993; Version 1.01á:                                                   ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ                                                   ³
+³                                                                              ³
+³  Improved the voice ON/OFF handling. Now the ON colors are restored after   ³
+³   loading a song or clearing the instruments.                                ³
+³                                                                              ³
+³  Installed a time clock. This clock behaves intelligently around the timer  ³
+³   IRQ speed to make sure it always counts in true seconds. Note that it does ³
+³   not try to reset itself when the music wraps.                              ³
+³                                                                              ³
+³  Changed the voice numbers above voices into 001-009 instead of 000-008, to ³
+³   match better with ALT 1-9, which turns the voices ON or OFF.               ³
+³                                                                              ³
+³  Added PageUp/PageDown in the file requester.                               ³
+³                                                                              ³
+³  Cosmetic changes, added an EdLib "logo" and split up the window into two,  ³
+³   changed some text in the key info text.                                    ³
+³                                                                              ³
+³  Moved the blinking attribute removal INT call, means nothing to you.       ³
+³                                                                              ³
+³  Completely redesigned the entire file requester, added Amnesia/Cure which  ³
+³   remembers and restores most of the screen. Still not satisfied - the file  ³
+³   window is too simple. Maybe later I will add a directory path input or     ³
+³   something like that to satisfy some of the cries I received lately.        ³
+³                                                                              ³
+³  Bug fix - made sure increase speed doesn't exceed 0040h.                   ³
+³                                                                              ³
+³  Added switch and prompt filename routines. Type "EDLIB /?" at the DOS      ³
+³   prompt to get a list of switches. Currently, you can load an EDL file at   ³
+³   the prompt - and if you specify the "/f" switch, it will play immediately  ³
+³   with FollowPlay as soon as it has loaded into the editor. More switches    ³
+³   may be added throughout later updates of the editor.                       ³
+³                                                                              ³
+³  Changed the LOAD/SAVE messages into having the same colors as the other    ³
+³   mid-window messages.                                                       ³
+³                                                                              ³
+³  Perhaps the greatest enhancement to this version is the implementation of  ³
+³   the EDL to D00 format converter on CTRL-F5. Simply load an EDL file with   ³
+³   F12 as usual, define the composer and music name if not already defined    ³
+³   in the top (more on this later) and press CTRL-F5. Seconds later you will  ³
+³   have a file called "MUSIC.D00" on your harddisk ready to be played with    ³
+³   the Play-Driver. The converter automatically stores the timer IRQ value,   ³
+³   tune speed and many other settings made to the specific piece of music.    ³
+³   The converter is a little more complicated than just kicking together the  ³
+³   tracks, sequences and data. It also runs through a very complicated sub-   ³
+³   routine which examines all instrument pointers to see which ones are       ³
+³   actually in use. This saves a lot of memory. You may be very sloppy with   ³
+³   the instruments (not the SpFX tabel though!), even use instruments at odd  ³
+³   numbers with lots of space in between - the converter still manages to     ³
+³   reduce the maximum number of instruments to the ones actually used - and   ³
+³   then placing them on top of each other sequentially. Because of the        ³
+³   complexity of this routine I cannot guarantee that it works 100% under all ³
+³   possible circumstances. Therefore, I added a "PASS" counter running from   ³
+³   1 to 9 while converting - normally this goes much too fast for you to see  ³
+³   it, but if it ever locks up I can pinpoint the location of the bug far     ³
+³   easier because of these pass numbers.                                      ³
+³                                                                              ³
+³  Removed the old HELP pages on SHIFT-F8/F9 and added a better one on the    ³
+³   ALT-F1 key, which may scroll up or down. The scroll area remembers the     ³
+³   last position. If you quit out with ESC, you may return to the scrolling   ³
+³   again later by pressing ALT-F1 again.                                      ³
+³                                                                              ³
+³  Added key 'Q' which enters the next unused sequence in the track. It only  ³
+³   works this way in the track. The routine itself simply runs through all    ³
+³   tracks searching for the first unused sequence.                            ³
+³                                                                              ³
+³  Made sure the cursor homes when using TAB/CTRL-TAB in the command column   ³
+³   while in sequences. If the cursor is placed in the note column it will     ³
+³   stay there when jumping from voice to voice.                               ³
+³                                                                              ³
+³  Improved the FollowPlay tracing a lot, now it should keep EXACTLY the same ³
+³   pace as the music. Try it with extremely low tune speeds.                  ³
+³                                                                              ³
+³  Added music player version and hardware initials to the upper right corner ³
+³   of the screen. Might come in useful some day. :)                           ³
+³                                                                              ³
+³  Made a nice input string routine which is used by the composer and music   ³
+³   name routines.                                                             ³
+³                                                                              ³
+³  Added composer name and music name definition on CTRL-F9 and CTRL-F10. It  ³
+³   will be the same text that appears in the Play-Driver after converting the ³
+³   music to D00 format. Note that the strings may both only be 20 characters  ³
+³   wide, even though the D00 format actually supports 32 characters.          ³
+³                                                                              ³
+³ 08/10-1993; Version 1.00à (Changes from the first "MULTI EDITOR"):           ³
+³ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ           ³
+³                                                                              ³
+³  Changed the name and version number into a nicer format. :)                ³
+³                                                                              ³
+³  Inserted an automatic BREAK=OFF to avoid the clumsy exit. Note: The BREAK  ³
+³   state is NOT restored at exit but kept OFF.                                ³
+³                                                                              ³
+³  New window requesters for mid screen messages added.                       ³
+³                                                                              ³
+³  Changed all top screen messages into mid screen window messages.           ³
+³                                                                              ³
+³  Now checking if the song is altered since load or new - if it is, a check  ³
+³   is marked in the lower right corner of the screen. Also, any exit or load  ³
+³   from then has to be confirmed with an "Are you sure?" question. However, I ³
+³   could not easily make the check while in instrument tables, so if you made ³
+³   any changes here only you must be sure to save your song.                  ³
+³                                                                              ³
+³  Removed lines in instrument and help text modes.                           ³
+³                                                                              ³
+³  Greatly improved the LOAD and SAVE routines! Now an IMPLODE library from   ³
+³   PKware(tm) is used together with single file handling, combined with a     ³
+³   nice file requester with name input and much more. The music will now be   ³
+³   automatically compressed when saving. No more fiddling with BAT-files!     ³
+³                                                                              ³
+³  Improved the file error handling. At any error, a nice requester appears   ³
+³   declaring the error type, giving you a chance to correct the error and try ³
+³   saving or loading again.                                                   ³
+³                                                                              ³
+³  NOEXEC exchanged with LOAD, an internal change that means nothing to you.  ³
+³                                                                              ³
+³  Corrected a serious bug which initiated a segment that wasn't allocated.   ³
+³                                                                              ³
+³  A temporary file is created by the load and save routines. This file is    ³
+³   195 Kb in size and is named "TEMP.EDL" - make sure your directory with the ³
+³   editor always has at least this amount of free bytes on the disk. Made     ³
+³   sure the file is deleted when completing the loading or saving.            ³
+³                                                                              ³
+³  Removed the printing of internal variables.                                ³
+³                                                                              ³
+³  Added ALT 1-9 for voices ON/OFF.                                           ³
+³                                                                              ³
+³  Disabled the test sequences and tracks.                                    ³
+³                                                                              ³
+³  Editor now loads "DATA.BIN" otherwise the editor is useless if not loading ³
+³   an old music file first.                                                   ³
+³                                                                              ³
+³  Removed increase octave when going right in sequence against boundary.     ³
+³                                                                              ³
+³  Made a check for existing file when saving, which prompts the user if it's ³
+³   okay to overwrite it.                                                      ³
+³                                                                              ³
+³  Readjusted SPACE for REST (---) only and X/C/V for HOLD (+++) only. Also   ³
+³   made extra code to make sure the 'C' key can be used for both hexadecimal  ³
+³   input AND as a HOLD key in column 2.                                       ³
+³                                                                              ³
+³  Altered the raster time so that it can be toggled ON/OFF with the "S"-key. ³
+³   The raster time is initially set to OFF.                                   ³
+³                                                                              ³
+³  Shined up the look of the main editor quite a bit - added TrackMidSpace    ³
+³   and border line routines, among many other details.                        ³
+³                                                                              ³
+³  Implemented marks for indicating start of sequences in all tracks that are ³
+³   not fully visible. These marks has the same colors as the track words.     ³
+³                                                                              ³
+³  All voices are now switched ON after loading a new tune.                   ³
+³                                                                              ³
+³  Implemented timer IRQ speed change - also made sure this value is saved    ³
+³   along with the song. The value can be no smaller than 19 times per second. ³
+³   The timer IRQ can be adjusted with Ctrl-F1/F2 and is shown in a variable   ³
+³   in the bottom right area of the screen. 46h is 70 in decimal and is the    ³
+³   normal speed. Do NOT change this speed without consulting the programmer   ³
+³   using the music you are writing!                                           ³
+³                                                                              ³
+³  While in followplay mode the CTRL key now alters the timer IRQ in realtime ³
+³   to give a good fast forward function. All other keys stops followplay as   ³
+³   usual.                                                                     ³
+³                                                                              ³
+³  Moved the voice volumens from the right table to the lower editing line.   ³
+³   They can later be fetched with the "ALT DOWN" key.                         ³
+³                                                                              ³
+³  Instrument 0000h (C000h) is now untouched by the clear command, as it is   ³
+³   used to define the behaviour of the cut command (6000h).                   ³
+³                                                                              ³
+³  Fixed a minor bug in UpdateTables.                                         ³
+³                                                                              ³
+³  Implemented a completely new player v04.00 which differs in using a new    ³
+³   speed system, a SpFX table for creating arpeggio and levelpuls as well as  ³
+³   hard restart, fine tune and many other things. The player is downwards     ³
+³   compatible with the old editor player songs.                               ³
+³                                                                              ³
+³  Now the editor automatically converts the speed into the newer format as   ³
+³   required by player v04.00, if the tune was made in the old player.         ³
+³                                                                              ³
+³  Rearranged keys "K" for "L", "L" has been rewritten to TOGGLE between the  ³
+³   two tables in player v04.00.                                               ³
+³                                                                              ³
+³  Removed voice flags in bottom of screen and made sure the colors in the    ³
+³   voice numbers above voices is used for this purpose instead.               ³
+³                                                                              ³
+³  Spend a LOT of time creating help pages in the bottom left requester. Also ³
+³   modified the table routines to make use of it - now all bytes in the SpFX  ³
+³   and instrument tables are explained in this area. The HELP routine to show ³
+³   text is not 100% finished. When toggling between tables and the tune, it   ³
+³   does not update properly. This will be fixed in a later version.           ³
+³                                                                              ³
+³  New palette colors. However, setting colors is a tough task! I have now    ³
+³   fiddled with it for hours, and I am STILL not satisfied with all colors. I ³
+³   guess I have to consult a graphician for some suggestions.                 ³
+³                                                                              ³
+³  Redefined a number of characters to support neat outlined characters like  ³
+³   in Norton Utilities (tm). You won't get a mouse cursor though! ;)          ³
+³                                                                              ³
+³  Duplicated the F12/Shift-F12 keys to Ctrl-F3/F4 keys to make sure it can   ³
+³   load songs on nonstandard keyboards.                                       ³
+³                                                                              ³
+³  The speed keys now makes sure the tune speed keeps within 00h-40h. The new ³
+³   player cannot go beyond these values.                                      ³
+³                                                                              ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
